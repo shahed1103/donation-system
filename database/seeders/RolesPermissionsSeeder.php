@@ -1,0 +1,151 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Models\User;
+use App\Models\Wallet;
+use Illuminate\Support\Facades\Hash;
+use App\Models\HotelAdmin;
+use App\Models\FlightAdmin;
+
+class RolesPermissionsSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //create roles
+        // $hotelAdminRole = Role::create(['name' => 'hotelAdmin']);
+        // $flightAdminRole = Role::create(['name' => 'flightAdmin']);
+         $superAdminRole = Role::create(['name' => 'superAdmin']);
+        $clientRole = Role::create(['name' => 'client']);
+
+        //define permissions
+
+        $permissions = ['hotelReservationChartTable','flightReservationChartTable' , 'addAirway' ,'editAirwayInfo',
+         'addFlight'  , 'addNewService', 'addAirwayServices','showAllServices' , 'editService', 'addFlightTime' ,
+         'addHotel' , 'addRoom' ,'showAllFacilites' ,'showAllFeatures' ,'addNewFacility','addHotelFacilites' ,
+         'addHotelPhotos' , 'addRoomPhotos', 'showAllHotelPhotos' , 'showAllHotelRooms', 'showAllHotelWithItPhotosAndRooms' ,
+         'editHotelInfo' , 'editFacility' ,'deleteHotelPhoto','deleteAllHotelPhotos','editHotelRoom','showHotel' , 'showAllTripPassengers',
+         'showHotelReservation','deleteRoom','showHotelReviews','showAllHotelHome','hotelShowAdmin','hotelLastForYear',
+         'showAllFlightHome','showFlightReservation','deleteFlightTime','deleteFlight','lastForYear','flightShowAdmin', 'addFlightPassenger' ,
+         'editFlightTime','showFlightReviews' , 'editFlight' ,'showAllMyFlight' , 'showAllFlightsReviews' , 'showAllFlightWithItTime' ,
+         'showAirwayIfo' , 'showHotelIfo' , 'showAllMyHotel' , 'showAllAttractionMobile' , 'showDetailsForOneAttraction' , 'showAllMainAdminHome' ,
+         'addAttractionToFavorite','addAttractionReview' ,'showMainActivities','returnMainTotalEncom','returnTotalEncom', 'searchToAttraction' , 'showActivities',
+         'returnFlightsFinancial' , 'returnHotelsFinancial' , 'returnTripsFinancial' , 'deleteAllRoom' , 'deleteAllFlight' , 'addTripToFavorite',
+         'showAllTrips' , 'showTripDetails' , 'showMobAllTrips' , 'showMobTripDetails','addPassenger' , 'reservTrip' , 'addHotelReview' , 'reservRoom' ,
+         'addHotelToFavorite' , 'searchForHotelRoom' , 'showHotelDetails' , 'showRoomDetails' , 'showMobHotelReviews' , 'addFlightReview' , 'deleteHotelFromFavorite',
+         'showMobFlightReviews' , 'topHotels' , 'topAttractions' , 'searchForAirwayFlight' ,'topFlights' , 'showAttractionReviews' , 'showFavoriteAttraction',
+        'createWallet' , 'updateProfile' ,'showPro' , 'deleteReservTrip' , 'deleteHotelReserv' , 'reservFlight' ,'deleteProfile' ,'deleteTripFromFavorite'
+        , 'showMyReservation' ,'deleteReservFlight' , 'updateReservTrip' , 'showReservTripDetails' , 'showReservHotelDetails' , 'deleteAttractionFromFavorite'
+        ,'updateReservFlight' ,'showReservFlightDetails' , 'showFlightDetails' , 'showFavoriteTrip' , 'updateHotelReserv' , 'showFavoriteHotel' , 'lineChart' ,
+    'updateTripPassenger' , 'showFlightPassenger' , 'updateFlightPassenger' , 'showTripPassenger' , 'deleteFlightPassenger' , 'deleteTripPassenger' , 'showAllFlightPassengers'];
+
+        foreach($permissions as $permissionName){
+            Permission::findOrCreate($permissionName , 'web');
+        }
+
+      //assign permissions to roles
+
+        // $hotelAdminRole->givePermissionTo(['hotelReservationChartTable','addHotel' , 'showAllMyHotel' ,
+        //  'addRoom' , 'showAllFacilites' ,'showAllFeatures','addNewFacility','addHotelFacilites','addHotelPhotos' ,
+        //  'addRoomPhotos' ,'showAllHotelPhotos' , 'showAllHotelRooms', 'editHotelInfo' , 'editFacility' ,'deleteHotelPhoto',
+        //  'showHotelIfo' , 'showAllHotelWithItPhotosAndRooms','showHotelReservation','deleteRoom','showHotelReviews','showAllHotelHome',
+        //  'hotelShowAdmin','hotelLastForYear','deleteAllHotelPhotos','editHotelRoom','returnTotalEncom','showHotel' ,
+        //  'showActivities' , 'deleteAllRoom' , 'lineChart']);
+
+        // $flightAdminRole->givePermissionTo(['flightReservationChartTable','addAirway' ,'editAirwayInfo','addNewService',
+        //  'addAirwayServices','showAllServices','addFlight' , 'editService' , 'addFlightTime' ,'editFlightTime','editFlight', 'showAllMyFlight',
+        //  'showAllFlightHome','showFlightReservation','deleteFlightTime','deleteFlight','lastForYear','flightShowAdmin','showFlightReviews' ,
+        //  'showAllFlightsReviews' , 'deleteAllFlight','showAirwayIfo', 'showAllFlightWithItTime' , 'showActivities' , 'lineChart']);
+
+        $clientRole->syncPermissions('showAllAttractionMobile' , 'showDetailsForOneAttraction' , 'addAttractionReview' , 'addAttractionToFavorite' , 'searchToAttraction' ,
+         'showActivities' , 'addTripToFavorite' , 'showMobAllTrips' , 'showMobTripDetails' , 'addPassenger' , 'reservTrip' , 'addHotelReview' , 'reservRoom' , 'addHotelToFavorite' , 'showAllTripPassengers' ,
+         'searchForHotelRoom' , 'showHotelDetails' , 'showRoomDetails' , 'showMobHotelReviews' , 'addFlightReview' , 'showMobFlightReviews' , 'topHotels' , 'topAttractions' , 'deleteHotelFromFavorite' ,
+         'searchForAirwayFlight' , 'topFlights' , 'showAttractionReviews' , 'showFavoriteAttraction' , 'createWallet' , 'updateProfile' , 'showPro' , 'deleteReservTrip' ,'deleteHotelReserv' ,
+        'reservFlight'  ,'deleteProfile' , 'showMyReservation' , 'showFavoriteTrip' , 'deleteReservFlight' , 'showReservHotelDetails' , 'deleteTripFromFavorite' , 'deleteAttractionFromFavorite'
+        ,'updateReservFlight' ,'showReservFlightDetails' , 'showFlightDetails' , 'updateReservTrip' , 'showReservTripDetails' , 'updateHotelReserv'  , 'showFavoriteHotel' , 'addFlightPassenger' ,
+    'updateTripPassenger' , 'showFlightPassenger' , 'updateFlightPassenger' , 'showTripPassenger' , 'deleteFlightPassenger' , 'deleteTripPassenger' , 'showAllFlightPassengers');
+
+        $superAdminRole->syncPermissions($permissions);
+
+
+      //create users and assign roles
+
+//clients
+    $clientUser = User::factory()->create([
+        'role_id' => $clientRole->id,
+        'gender_id' => '1',
+        'phone' => '0954411753',
+        'nationality_id' => '1',
+        'age' => '20',
+        'name' => 'Client',
+        'email' => 'client@example.com',
+        'password' => bcrypt('password')
+    ]);
+
+    $clientUser->assignRole($clientRole);
+
+    //assign permissions with the role to the user
+    $permissions = $clientRole->permissions()->pluck('name')->toArray();
+    $clientUser->givePermissionTo ($permissions);
+
+
+    $clientUser2 = User::factory()->create([
+        'role_id' => $clientRole->id,
+        'gender_id' => '2',
+        'phone' => '09544117593',
+        'nationality_id' => '1',
+        'age' => '20',
+        'name' => 'Client2',
+        'email' => 'client2@example.com',
+        'password' => bcrypt('password')
+    ]);
+
+    $clientUser2->assignRole($clientRole);
+
+    //assign permissions with the role to the user
+    $permissions = $clientRole->permissions()->pluck('name')->toArray();
+    $clientUser2->givePermissionTo ($permissions);
+
+
+    $name = ['shahed' , 'dana' , 'rama' , 'yumna' , 'rania' , 'lana' , 'rayan' , 'mohammed' , 'marwa' , 'sawsan'];
+    $nationality_id = ['1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '3' , '1'];
+    $age = ['20' , '30' , '25' , '19' , '21' , '35' , '29' , '18' , '29' , '37'];
+    $email = ['shahed@gamil.com' , 'dana@gamil.com' , 'rama@gamil.com' , 'yumna@gamil.com' , 'rania@gamil.com' , 'lana@gamil.com' , 'rayan@gamil.com' , 'mohammed@gamil.com' , 'marwa@gamil.com' , 'sawsan@gamil.com'];
+    $phone = ['0977665542' , '09777865542' , '09790665542' , '09887665542' , '09776655491' , '0977654235' , '0966554229' , '0977655218' , '0929665542' , '0973765542'];
+    $gender_id = ['1' , '1' , '1' ,'1' ,'1' , '1' , '2' , '2' , '1' , '1'];
+    $passwordWOH = ['123456789shahed' , '123456789dana' , '123456789rama' , '123456789yumna' , '123456789rania' , '123456789lana' , '123456789rayan' , '123456789mohammed' , '123456789marwa' , '123456789sawsan'];
+
+// foreach ($passwordWOH as $passwordWOH) {
+// $password [] = Hash::make($passwordWOH);
+// }
+
+   for ($i=0; $i < 10 ; $i++) {
+
+    $clientUser = User::create([
+           'role_id' => $clientRole->id,
+           'name' =>  $name[$i],
+           'nationality_id' => $nationality_id[$i],
+           'age' =>$age[$i],
+           'email' =>  $email[$i],
+           'phone' =>  $phone[$i],
+           'gender_id' => $gender_id[$i],
+           'password' => $passwordWOH[$i]
+       ]);
+
+       $clientUser->assignRole($clientRole);
+
+       //assign permissions with the role to the user
+       $permissions = $clientRole->permissions()->pluck('name')->toArray();
+       $clientUser->givePermissionTo ($permissions);
+
+    }
+
+  }
+}
