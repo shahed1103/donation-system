@@ -58,8 +58,14 @@ Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
 
 Route::controller(AssociationCompaignsController::class)->group(function(){
 
+    //classification id 
 Route::get('viewAssociationsCompaingsActive/{id}' , 'viewAssociationsCompaingsActive')
     ->name('user.viewAssociationsCompaingsActive');
+
+    //association id
+Route::get('viewAssociationCompaingsClosed/{id}' , 'viewAssociationCompaingsClosed')
+    ->name('user.viewAssociationCompaingsClosed');
+    
 });
 
 Route::controller(SuperAdminController::class)->group(function(){
