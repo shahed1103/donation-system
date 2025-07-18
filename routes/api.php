@@ -59,8 +59,6 @@ Route::middleware('auth:sanctum')->get('viewMyIndiviCompa', [IndividualCompaigns
 Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     ->name('user.viewIndiviCompa');
 
-Route::middleware('auth:sanctum')->get('viewMyCompleteIndiviCompa', [IndividualCompaignsController::class, 'viewMyCompleteIndiviCompa'])->name('user.viewMyCompleteIndiviCompa');
-
 });
 
 

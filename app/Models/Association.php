@@ -17,5 +17,9 @@ class Association extends Model
         'description'
     ];
 
+    public function associationCampaigns()
+    {
+        return $this->belongsToMany(AssociationCampaign::class, 'shared_association_campaigns', 'association_id', 'association_campaign_id');
+    }
 
 }

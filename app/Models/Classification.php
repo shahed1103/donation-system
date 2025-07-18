@@ -19,4 +19,9 @@ class Classification extends Model
     {
         return $this->hasMany(IndCompaigns::class);
     }
+
+    public function associationCampaigns()
+    {
+        return $this->hasMany(AssociationCampaign::class);
+    }
 }
