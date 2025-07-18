@@ -59,7 +59,6 @@ Route::middleware('auth:sanctum')->post('createIndiviCompa', [IndividualCompaign
 Route::middleware('auth:sanctum')->get('viewMyIndiviCompa', [IndividualCompaignsController::class, 'viewMyIndiviCompa'])->name('user.viewMyIndiviCompa');
 Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     ->name('user.viewIndiviCompa');
-
 });
 
 Route::controller(AssociationCompaignsController::class)->group(function(){
@@ -70,6 +69,8 @@ Route::get('viewAssociationsCompaingsActive/{id}' , 'viewAssociationsCompaingsAc
 
 Route::controller(SuperAdminController::class)->group(function(){
 Route::middleware('auth:sanctum')->get('countAssociations', [SuperAdminController::class, 'countAssociations'])->name('super_admin.countAssociations');
+Route::middleware('auth:sanctum')->get('lastNewUsers', [SuperAdminController::class, 'lastNewUsers'])->name('super_admin.lastNewUsers');
+Route::middleware('auth:sanctum')->get('getUserCountsLastFiveYears', [SuperAdminController::class, 'getUserCountsLastFiveYears'])->name('super_admin.getUserCountsLastFiveYears');
 
 });
 
@@ -77,3 +78,4 @@ Route::middleware('auth:sanctum')->get('countAssociations', [SuperAdminControlle
 //     Route::get('countAssociations' , 'countAssociations')
 //           ->name('super_admin.countAssociations');
 // });
+

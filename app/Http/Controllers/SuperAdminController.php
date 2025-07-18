@@ -38,5 +38,27 @@ public function countAssociations(): JsonResponse {
     }
 }
 
+public function lastNewUsers(): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->lastNewUsers();
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 
+public function getUserCountsLastFiveYears(): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->getUserCountsLastFiveYears();
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 }
