@@ -47,6 +47,7 @@ Route::middleware('auth:sanctum')->get('logout', [AuthController::class, 'logout
 });
 
 
+
 Route::controller(IndividualCompaignsController::class)->group(function(){
 
 Route::get('getClassification' , 'getClassification')
@@ -59,3 +60,10 @@ Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
 Route::middleware('auth:sanctum')->get('viewMyCompleteIndiviCompa', [IndividualCompaignsController::class, 'viewMyCompleteIndiviCompa'])->name('user.viewMyCompleteIndiviCompa');
 
 });
+
+
+Route::controller(SuperAdminController::class)->group(function(){
+Route::middleware('auth:sanctum')->get('countAssociations', [SuperAdminController::class, 'countAssociations'])->name('admin.countAssociations');
+
+});
+
