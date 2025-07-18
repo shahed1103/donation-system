@@ -29,15 +29,19 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             ClassificationSeeder::class,
-        ]);   
+        ]);
         $this->call([
             IndividualCompaignsSeeder::class,
-        ]);  
-        
+        ]);
+
         $this->call([
             DonationsSeeder::class,
-        ]);  
-        
-        
+        ]);
+
+          $this->call([
+            AssociationSeeder::class,
+        ]);
+
+
     }
 }

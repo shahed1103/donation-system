@@ -7,10 +7,8 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
-use App\Models\Wallet;
+
 use Illuminate\Support\Facades\Hash;
-use App\Models\HotelAdmin;
-use App\Models\FlightAdmin;
 
 class RolesPermissionsSeeder extends Seeder
 {
@@ -20,57 +18,20 @@ class RolesPermissionsSeeder extends Seeder
     public function run(): void
     {
         //create roles
-        // $hotelAdminRole = Role::create(['name' => 'hotelAdmin']);
-        // $flightAdminRole = Role::create(['name' => 'flightAdmin']);
+
          $superAdminRole = Role::create(['name' => 'superAdmin']);
         $clientRole = Role::create(['name' => 'client']);
 
         //define permissions
 
-        $permissions = ['hotelReservationChartTable','flightReservationChartTable' , 'addAirway' ,'editAirwayInfo',
-         'addFlight'  , 'addNewService', 'addAirwayServices','showAllServices' , 'editService', 'addFlightTime' ,
-         'addHotel' , 'addRoom' ,'showAllFacilites' ,'showAllFeatures' ,'addNewFacility','addHotelFacilites' ,
-         'addHotelPhotos' , 'addRoomPhotos', 'showAllHotelPhotos' , 'showAllHotelRooms', 'showAllHotelWithItPhotosAndRooms' ,
-         'editHotelInfo' , 'editFacility' ,'deleteHotelPhoto','deleteAllHotelPhotos','editHotelRoom','showHotel' , 'showAllTripPassengers',
-         'showHotelReservation','deleteRoom','showHotelReviews','showAllHotelHome','hotelShowAdmin','hotelLastForYear',
-         'showAllFlightHome','showFlightReservation','deleteFlightTime','deleteFlight','lastForYear','flightShowAdmin', 'addFlightPassenger' ,
-         'editFlightTime','showFlightReviews' , 'editFlight' ,'showAllMyFlight' , 'showAllFlightsReviews' , 'showAllFlightWithItTime' ,
-         'showAirwayIfo' , 'showHotelIfo' , 'showAllMyHotel' , 'showAllAttractionMobile' , 'showDetailsForOneAttraction' , 'showAllMainAdminHome' ,
-         'addAttractionToFavorite','addAttractionReview' ,'showMainActivities','returnMainTotalEncom','returnTotalEncom', 'searchToAttraction' , 'showActivities',
-         'returnFlightsFinancial' , 'returnHotelsFinancial' , 'returnTripsFinancial' , 'deleteAllRoom' , 'deleteAllFlight' , 'addTripToFavorite',
-         'showAllTrips' , 'showTripDetails' , 'showMobAllTrips' , 'showMobTripDetails','addPassenger' , 'reservTrip' , 'addHotelReview' , 'reservRoom' ,
-         'addHotelToFavorite' , 'searchForHotelRoom' , 'showHotelDetails' , 'showRoomDetails' , 'showMobHotelReviews' , 'addFlightReview' , 'deleteHotelFromFavorite',
-         'showMobFlightReviews' , 'topHotels' , 'topAttractions' , 'searchForAirwayFlight' ,'topFlights' , 'showAttractionReviews' , 'showFavoriteAttraction',
-        'createWallet' , 'updateProfile' ,'showPro' , 'deleteReservTrip' , 'deleteHotelReserv' , 'reservFlight' ,'deleteProfile' ,'deleteTripFromFavorite'
-        , 'showMyReservation' ,'deleteReservFlight' , 'updateReservTrip' , 'showReservTripDetails' , 'showReservHotelDetails' , 'deleteAttractionFromFavorite'
-        ,'updateReservFlight' ,'showReservFlightDetails' , 'showFlightDetails' , 'showFavoriteTrip' , 'updateHotelReserv' , 'showFavoriteHotel' , 'lineChart' ,
-    'updateTripPassenger' , 'showFlightPassenger' , 'updateFlightPassenger' , 'showTripPassenger' , 'deleteFlightPassenger' , 'deleteTripPassenger' , 'showAllFlightPassengers'];
+        $permissions = ['countAssociations'];
 
         foreach($permissions as $permissionName){
             Permission::findOrCreate($permissionName , 'web');
         }
 
-      //assign permissions to roles
 
-        // $hotelAdminRole->givePermissionTo(['hotelReservationChartTable','addHotel' , 'showAllMyHotel' ,
-        //  'addRoom' , 'showAllFacilites' ,'showAllFeatures','addNewFacility','addHotelFacilites','addHotelPhotos' ,
-        //  'addRoomPhotos' ,'showAllHotelPhotos' , 'showAllHotelRooms', 'editHotelInfo' , 'editFacility' ,'deleteHotelPhoto',
-        //  'showHotelIfo' , 'showAllHotelWithItPhotosAndRooms','showHotelReservation','deleteRoom','showHotelReviews','showAllHotelHome',
-        //  'hotelShowAdmin','hotelLastForYear','deleteAllHotelPhotos','editHotelRoom','returnTotalEncom','showHotel' ,
-        //  'showActivities' , 'deleteAllRoom' , 'lineChart']);
-
-        // $flightAdminRole->givePermissionTo(['flightReservationChartTable','addAirway' ,'editAirwayInfo','addNewService',
-        //  'addAirwayServices','showAllServices','addFlight' , 'editService' , 'addFlightTime' ,'editFlightTime','editFlight', 'showAllMyFlight',
-        //  'showAllFlightHome','showFlightReservation','deleteFlightTime','deleteFlight','lastForYear','flightShowAdmin','showFlightReviews' ,
-        //  'showAllFlightsReviews' , 'deleteAllFlight','showAirwayIfo', 'showAllFlightWithItTime' , 'showActivities' , 'lineChart']);
-
-        $clientRole->syncPermissions('showAllAttractionMobile' , 'showDetailsForOneAttraction' , 'addAttractionReview' , 'addAttractionToFavorite' , 'searchToAttraction' ,
-         'showActivities' , 'addTripToFavorite' , 'showMobAllTrips' , 'showMobTripDetails' , 'addPassenger' , 'reservTrip' , 'addHotelReview' , 'reservRoom' , 'addHotelToFavorite' , 'showAllTripPassengers' ,
-         'searchForHotelRoom' , 'showHotelDetails' , 'showRoomDetails' , 'showMobHotelReviews' , 'addFlightReview' , 'showMobFlightReviews' , 'topHotels' , 'topAttractions' , 'deleteHotelFromFavorite' ,
-         'searchForAirwayFlight' , 'topFlights' , 'showAttractionReviews' , 'showFavoriteAttraction' , 'createWallet' , 'updateProfile' , 'showPro' , 'deleteReservTrip' ,'deleteHotelReserv' ,
-        'reservFlight'  ,'deleteProfile' , 'showMyReservation' , 'showFavoriteTrip' , 'deleteReservFlight' , 'showReservHotelDetails' , 'deleteTripFromFavorite' , 'deleteAttractionFromFavorite'
-        ,'updateReservFlight' ,'showReservFlightDetails' , 'showFlightDetails' , 'updateReservTrip' , 'showReservTripDetails' , 'updateHotelReserv'  , 'showFavoriteHotel' , 'addFlightPassenger' ,
-    'updateTripPassenger' , 'showFlightPassenger' , 'updateFlightPassenger' , 'showTripPassenger' , 'deleteFlightPassenger' , 'deleteTripPassenger' , 'showAllFlightPassengers');
+        $clientRole->syncPermissions();
 
         $superAdminRole->syncPermissions($permissions);
 
