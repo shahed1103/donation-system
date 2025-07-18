@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AssociationCompaignsController;
 use App\Http\Controllers\IndividualCompaignsController;
-
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Requests\Auth\UserSignupRequest;
 use App\Http\Requests\Auth\UserSigninRequest;
@@ -63,8 +62,14 @@ Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
 
 Route::controller(AssociationCompaignsController::class)->group(function(){
 
+    //classification id 
 Route::get('viewAssociationsCompaingsActive/{id}' , 'viewAssociationsCompaingsActive')
     ->name('user.viewAssociationsCompaingsActive');
+
+    //association id
+Route::get('viewAssociationCompaingsClosed/{id}' , 'viewAssociationCompaingsClosed')
+    ->name('user.viewAssociationCompaingsClosed');
+    
 });
 
 Route::controller(SuperAdminController::class)->group(function(){
