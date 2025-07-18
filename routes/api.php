@@ -60,6 +60,11 @@ Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     ->name('user.viewIndiviCompa');
 });
 
+Route::controller(AssociationCompaignsController::class)->group(function(){
+
+Route::get('viewAssociationsCompaingsActive/{id}' , 'viewAssociationsCompaingsActive')
+    ->name('user.viewAssociationsCompaingsActive');
+});
 
 Route::controller(SuperAdminController::class)->group(function(){
 Route::middleware('auth:sanctum')->get('countAssociations', [SuperAdminController::class, 'countAssociations'])->name('super_admin.countAssociations');

@@ -113,7 +113,7 @@ class IndividualCompaignsService
 // view individual compaings active 
      public function viewIndiviCompa($id): array{
         $campaigns = IndCompaigns::where('classification_id' , $id)->get();
-         $compaingAll = [];
+        $compaingAll = [];
         foreach ($campaigns as $compaign) {
                 $classification_name = Classification::find($compaign->classification_id)->classification_name;
                 $campaign_status_type = CampaignStatus::find($compaign->campaign_status_id)->status_type;

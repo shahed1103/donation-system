@@ -13,7 +13,7 @@ class CampaignStatusSeeder extends Seeder
      */
     public function run(): void
     {
-                        $status = ['Active' , 'Closed' , 'Complete'];
+        $status = ['Active' , 'Closed' , 'Complete'];
 
         for ($i=0; $i < 3 ; $i++) {
             CampaignStatus::query()->create([
