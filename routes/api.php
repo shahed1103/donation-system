@@ -5,14 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AssociationCompaignsController;
 use App\Http\Controllers\IndividualCompaignsController;
-
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Requests\Auth\UserSignupRequest;
 use App\Http\Requests\Auth\UserSigninRequest;
-
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -72,11 +67,12 @@ Route::middleware('auth:sanctum')->get('countAssociations', [SuperAdminControlle
 Route::middleware('auth:sanctum')->get('lastNewUsers', [SuperAdminController::class, 'lastNewUsers'])->name('super_admin.lastNewUsers');
 Route::middleware('auth:sanctum')->get('getUserCountsLastFiveYears', [SuperAdminController::class, 'getUserCountsLastFiveYears'])->name('super_admin.getUserCountsLastFiveYears');
 Route::middleware('auth:sanctum')->get('getTotalCampaignsCount', [SuperAdminController::class, 'getTotalCampaignsCount'])->name('super_admin.getTotalCampaignsCount');
+Route::middleware('auth:sanctum')->get('getUserCountsByRole', [SuperAdminController::class, 'getUserCountsByRole'])->name('super_admin.getUserCountsByRole');
 
 });
 
 Route::controller(SuperAdminController::class)->group(function(){
-    Route::get('getTotalCampaignsCount' , 'getTotalCampaignsCount')
-          ->name('super_admin.getTotalCampaignsCount');
+    Route::get('getUserCountsByRole' , 'getUserCountsByRole')
+          ->name('super_admin.getUserCountsByRole');
 });
 

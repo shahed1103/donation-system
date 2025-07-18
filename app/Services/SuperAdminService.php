@@ -4,10 +4,8 @@ namespace App\Services;
 
 use App\Models\Association;
 use App\Models\User;
-
 use App\Models\IndCompaigns;
 use App\Models\AssociationCampaign;
-
 use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Session;
@@ -118,4 +116,35 @@ public function getTotalCampaignsCount(): array
         ];
     }
 }
+
+public function getUserCountsByRole(): array
+{
+    try {
+        $volunteerRoleId = Role::where('name', 'Volunteer')->value('id');
+        $donorRoleId = Role::where('name', 'Donor')->value('id');
+
+        $volunteerCount = User::where('role_id', $volunteerRoleId)->count();
+        $donorCount = User::where('role_id', $donorRoleId)->count();
+
+        return [
+            'status' => 0,
+            'data' => [
+                'volunteers' => $volunteerCount,
+                'donors' => $donorCount,
+                'total' => $volunteerCount + $donorCount
+            ],
+            'message' => 'User counts by role retrieved successfully',
+            'errors' => []
+        ];
+    } catch (\Throwable $e) {
+        return [
+            'status' => 1,
+            'data' => [],
+            'message' => 'Error fetching user counts by role',
+            'errors' => [$e->getMessage()]
+        ];
+    }
+}
+
+
 }
