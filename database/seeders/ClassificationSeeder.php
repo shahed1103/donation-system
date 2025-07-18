@@ -13,7 +13,7 @@ class ClassificationSeeder extends Seeder
      */
     public function run(): void
     {
-                                $classifications = ['healthy' , 'Educational' , 'cleanliness' , 'environmental'];
+       $classifications = ['healthy' , 'Educational' , 'cleanliness' , 'environmental'];
 
         for ($i=0; $i < 4 ; $i++) {
             Classification::query()->create([

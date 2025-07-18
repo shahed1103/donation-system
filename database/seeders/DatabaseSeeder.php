@@ -35,7 +35,16 @@ class DatabaseSeeder extends Seeder
         ]);  
         
         $this->call([
-            DonationsSeeder::class,
+            AssociationCampaignsSeeder::class,
+        ]); 
+        $this->call([
+            AssociationsSeeder::class,
+        ]);         
+        $this->call([
+            DonationAssociationCampaignsSeeder::class,
+        ]);         
+        $this->call([
+            SharedAssociationCampaignsSeeder::class,
         ]);  
         
         

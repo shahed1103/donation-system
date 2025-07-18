@@ -71,4 +71,10 @@ class User extends Authenticatable
 }
 
 
+    public function donationAssociationCampaigns()
+{
+    return $this->hasMany(DonationAssociationCampaign::class);
+}
+
+
 }
