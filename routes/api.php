@@ -63,8 +63,13 @@ Route::get('viewAssociationsCompaingsActive/{id}' , 'viewAssociationsCompaingsAc
     ->name('user.viewAssociationsCompaingsActive');
 
     //association id
-Route::get('viewAssociationCompaingsClosed/{id}' , 'viewAssociationCompaingsClosed')
-    ->name('user.viewAssociationCompaingsClosed');
+Route::get('viewAssociationCompaingsComplete/{id}' , 'viewAssociationCompaingsComplete')
+    ->name('user.viewAssociationCompaingsComplete');
+
+    //association id
+Route::get('showAssociationDetails/{id}' , 'showAssociationDetails')
+    ->name('user.showAssociationDetails');
+    
     
 });
 

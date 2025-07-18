@@ -21,7 +21,6 @@ class AssociationCompaignsController extends Controller
         $this->associationCompaignsService = $associationCompaignsService;
     }
 
-
     // view associations compaings active
     public function viewAssociationsCompaingsActive($id): JsonResponse {
         $data = [] ;
@@ -36,12 +35,26 @@ class AssociationCompaignsController extends Controller
         }
     }
 
-    // view association compaings closed for spicific association
-    public function viewAssociationCompaingsClosed($id): JsonResponse {
+    // view association compaings complete for spicific association
+    public function viewAssociationCompaingsComplete($id): JsonResponse {
         $data = [] ;
         try{
-            $data = $this->associationCompaignsService->viewAssociationCompaingsClosed($id);
+            $data = $this->associationCompaignsService->viewAssociationCompaingsComplete($id);
            return Response::Success($data['campaign'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+    //Get specific association details
+    public function showAssociationDetails($id): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->associationCompaignsService->showAssociationDetails($id);
+           return Response::Success($data['association'], $data['message']);
         }
         catch(Throwable $th){
             $message = $th->getMessage();

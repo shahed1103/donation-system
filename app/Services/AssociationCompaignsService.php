@@ -59,8 +59,8 @@ class AssociationCompaignsService
          ];
       }
       
-      // Get all closed campaigns for a specific association
-      public function viewAssociationCompaingsClosed($id): array
+      // Get all complete campaigns for a specific association
+      public function viewAssociationCompaingsComplete($id): array
       {
          $campaignIds = SharedAssociationCampaign::where('association_id', $id)
             ->pluck('association_campaign_id');
@@ -90,5 +90,40 @@ class AssociationCompaignsService
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
       }
+
+      //Get specific association details
+      public function showAssociationDetails($id): array
+      {
+         $association = Association::findOrFail($id);
+
+         $campaignIds = SharedAssociationCampaign::where('association_id', $id)
+            ->pluck('association_campaign_id');
+
+         $totalCampaigns = $campaignIds->count();
+
+         $totalDonations = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
+            ->sum('amount');
+
+         $completedCampaigns = $this->viewAssociationCompaingsComplete($id);
+
+         $associationDet = [];
+
+          $associationDet[] = [
+            'association_name' => $association->name,
+            'association_description' => $association->description,
+            'total_donations' => $totalDonations,
+            'total_campaigns' => $totalCampaigns,
+            'completed_campaigns' => $completedCampaigns
+            ];
+            $message = 'association details are retrived sucessfully';
+
+         return ['association' => $associationDet , 'message' => $message];
+      }
+
+
+
+      // Get association campaign details 
+
+
 
 }
