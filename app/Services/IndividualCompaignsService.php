@@ -21,6 +21,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
+use Carbon\Carbon;
 
 class IndividualCompaignsService
 {
@@ -79,12 +80,14 @@ class IndividualCompaignsService
         'donation_amount' => 0,
         'acceptance_status_id'=>  ['id' => $compaign->acceptance_status_id, 'acceptance_status_type' => $acceptance_status_type],
         'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
-        'compaigns_time' =>  $compaign->compaigns_time,
+        'compaigns_time_to_end' =>  "$compaign->compaigns_time Day",
         ];
              
             }
-        if($campaign_status_type === "Active"){
+        if($campaign_status_type === "Active" || $campaign_status_type === "Complete"){
              $campaign_ids = Donation::where('campaign_id' , $compaign->id)->get();
+
+
         $total  = 0;
              foreach ($campaign_ids as $campaign_id) {
                 $total += $campaign_id->amount;
@@ -96,7 +99,8 @@ class IndividualCompaignsService
         'donation_amount' => $total,
         'acceptance_status_id'=>  ['id' => $compaign->acceptance_status_id, 'acceptance_status_type' => $acceptance_status_type],
         'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
-        'compaigns_time' =>  $compaign->compaigns_time,
+        // 'compaigns_time' =>  $compaign->compaigns_time,
+        'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%M Months %D Day %H Hours')
         ];
         }
         }
@@ -127,7 +131,8 @@ class IndividualCompaignsService
         'amount_required' =>  $compaign->amount_required,
         'donation_amount' => $total,
         'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
-        'compaigns_time' =>  $compaign->compaigns_time,
+        // 'compaigns_time' =>  $compaign->compaigns_time,
+        'compaigns_time_to_end' => $compaign->compaigns_end_time - $compaign->compaigns_start_time,
         ];
         }
 
@@ -150,37 +155,4 @@ class IndividualCompaignsService
         return ['classifications' =>  $classifications_name , 'message' => $message];
      }
 
-    //view my complete individual compaings 
-         public function viewMyCompleteIndiviCompa(): array{
-         $user= Auth::user()->id;
-
-        $campaigns = IndCompaigns::where('user_id' , $user)->get();
-        $compaingAll = [];
-        foreach ($campaigns as $compaign) {
-                $classification_name = Classification::find($compaign->classification_id)->classification_name;
-                $acceptance_status_type = AcceptanceStatus::find($compaign->acceptance_status_id)->status_type;
-                $campaign_status_type = CampaignStatus::find($compaign->campaign_status_id)->status_type;
-
-        if($campaign_status_type === "Complete"){
-             $campaign_ids = Donation::where('campaign_id' , $compaign->id)->get();
-        $total  = 0;
-             foreach ($campaign_ids as $campaign_id) {
-                $total += $campaign_id->amount;
-             }
-            $compaingAll[] = 
-        [ 
-        'title' =>  $compaign->title,
-        'amount_required' =>  $compaign->amount_required,
-        'donation_amount' => $total,
-        'acceptance_status_id'=>  ['id' => $compaign->acceptance_status_id, 'acceptance_status_type' => $acceptance_status_type],
-        'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
-        'compaigns_time' =>  $compaign->compaigns_time,
-        ];
-        }
-        }
-
-        $message = 'Your complete campaign retrived sucessfully';
-
-        return ['campaign' =>  $compaingAll , 'message' => $message];
-     }
 }

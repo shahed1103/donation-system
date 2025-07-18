@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\IndCompaigns;
+use Carbon\Carbon;
 
 class IndividualCompaignsSeeder extends Seeder
 {
@@ -57,8 +58,18 @@ class IndividualCompaignsSeeder extends Seeder
         $classification_ids = [1, 2, 3, 4 , 1, 2, 3, 4 , 1, 2, 3]; // healthy, Educational, cleanliness, environmental
         $acceptance_status_ids = [1, 2, 3 , 2 , 1, 2, 3 , 2 , 1, 2, 3]; // Under review, Approved, Rejected
         $campaign_status_ids = [2, 1, 2 , 3 , 2, 1, 2 , 3 , 2, 1, 2 ]; // Active, Closed, Complete
+        $compaigns_start_time = [];
+        $compaigns_end_time = [];
 
         for ($i = 0; $i < 11; $i++) {
+        $startTime = null;
+        $endTime = null;
+
+        if ($acceptance_status_ids[$i] == 2) {
+            $startTime = Carbon::now();
+            $endTime = (clone $startTime)->addDays(rand(7, 30));
+        }
+
             IndCompaigns::query()->create([
                 'title' => $titles[$i],
                 'description' => $descriptions[$i],
@@ -68,6 +79,8 @@ class IndividualCompaignsSeeder extends Seeder
                 'user_id' => rand(1, 5), 
                 'acceptance_status_id' => $acceptance_status_ids[$i],
                 'campaign_status_id' => $campaign_status_ids[$i],
+                'compaigns_start_time' => $startTime,
+                'compaigns_end_time' => $endTime,
                 'compaigns_time' => rand(7, 30),
             ]);
         }

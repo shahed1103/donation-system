@@ -76,17 +76,4 @@ class IndividualCompaignsController extends Controller
         }
     }
 
-        // view my complete individual compaings active + closed
-    public function viewMyCompleteIndiviCompa(): JsonResponse {
-        $data = [] ;
-        try{
-            $data = $this->individualCompaignsService->viewMyCompleteIndiviCompa();
-           return Response::Success($data['campaign'], $data['message']);
-        }
-        catch(Throwable $th){
-            $message = $th->getMessage();
-            $errors [] = $message;
-            return Response::Error($data , $message , $errors);
-        }
-    }
 }
