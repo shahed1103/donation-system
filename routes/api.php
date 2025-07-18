@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndividualCompaignsController;
-use App\Http\Controllers\AssociationCompaignsController;
+use App\Http\Controllers\SuperAdminController;
 
 use App\Http\Requests\Auth\UserSignupRequest;
 use App\Http\Requests\Auth\UserSigninRequest;
@@ -68,7 +68,11 @@ Route::get('viewAssociationsCompaingsActive/{id}' , 'viewAssociationsCompaingsAc
 });
 
 Route::controller(SuperAdminController::class)->group(function(){
-Route::middleware('auth:sanctum')->get('countAssociations', [SuperAdminController::class, 'countAssociations'])->name('admin.countAssociations');
+Route::middleware('auth:sanctum')->get('countAssociations', [SuperAdminController::class, 'countAssociations'])->name('super_admin.countAssociations');
 
 });
 
+// Route::controller(SuperAdminController::class)->group(function(){
+//     Route::get('countAssociations' , 'countAssociations')
+//           ->name('super_admin.countAssociations');
+// });

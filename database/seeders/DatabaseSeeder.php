@@ -29,11 +29,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             ClassificationSeeder::class,
-        ]);   
+        ]);
         $this->call([
             IndividualCompaignsSeeder::class,
-        ]);  
-        
+        ]);
+
         $this->call([
             AssociationCampaignsSeeder::class,
         ]); 
@@ -48,5 +48,13 @@ class DatabaseSeeder extends Seeder
         ]);  
         
         
+            DonationsSeeder::class,
+        ]);
+
+          $this->call([
+            AssociationSeeder::class,
+        ]);
+
+
     }
 }

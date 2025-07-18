@@ -3,7 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\AssociationService;
+use App\Services\SuperAdminService;
+use Storage;
+use App\Http\Responses\response;
+use App\Services\IndividualCompaignsService;
+use App\Http\Requests\IndividualCompaings\CreateIndividualCompaingsRequest;
+use Illuminate\Http\JsonResponse;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Throwable;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 
 class SuperAdminController extends Controller
@@ -11,16 +20,16 @@ class SuperAdminController extends Controller
 
 protected AssociationService $associationService;
 
-public function __construct(AssociationService $associationService)
+public function __construct(SuperAdminService $superAdminService)
 {
-    $this->associationService = $associationService;
+    $this->superAdminService = $superAdminService;
 }
 
 
 public function countAssociations(): JsonResponse {
     $data = [];
     try {
-        $data = $this->associationService->countAssociations();
+        $data = $this->superAdminService->countAssociations();
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
