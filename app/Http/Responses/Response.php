@@ -32,15 +32,15 @@ class Response{
         ], $code);
     }
 
-    // public static function ErrorX($data , $message , $errors , $code): JsonResponse{
-    //     return response()->json([
-    //         'status' => 0,
-    //         'data' => $data,
-    //         'errors' => $errors,
-    //         'message' => $message,
+    public static function ErrorX($data , $message , $errors , $code = 500): JsonResponse{
+        return response()->json([
+            'status' => 0,
+            'data' => $data,
+            'errors' => $errors,
+            'message' => $message,
 
-    //     ] , $code);
-    // }
+        ] , $code);
+    }
 
     public static function Validation($data , $message , $errors , $code=422): JsonResponse{
         return response()->json([

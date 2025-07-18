@@ -18,5 +18,26 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesPermissionsSeeder::class,
             ]);
+
+        $this->call([
+            AcceptanceStatusSeeder::class,
+        ]);
+
+        $this->call([
+            CampaignStatusSeeder::class,
+        ]);
+
+        $this->call([
+            ClassificationSeeder::class,
+        ]);   
+        $this->call([
+            IndividualCompaignsSeeder::class,
+        ]);  
+        
+        $this->call([
+            DonationsSeeder::class,
+        ]);  
+        
+        
     }
 }

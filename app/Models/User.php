@@ -60,5 +60,15 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function indCampaigns()
+    {
+        return $this->hasMany(IndCompaigns::class);
+    }
+
+    public function donations()
+{
+    return $this->hasMany(Donation::class);
+}
+
 
 }

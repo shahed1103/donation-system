@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\IndividualCompaignsController;
+
 use App\Http\Requests\Auth\UserSignupRequest;
 use App\Http\Requests\Auth\UserSigninRequest;
 
@@ -44,3 +46,12 @@ Route::post('userResetPassword' , 'userResetPassword')
 Route::middleware('auth:sanctum')->get('logout', [AuthController::class, 'logout'])->name('user.logout');
 });
 
+
+Route::controller(IndividualCompaignsController::class)->group(function(){
+
+
+Route::middleware('auth:sanctum')->post('createIndiviCompa', [IndividualCompaignsController::class, 'createIndiviCompa'])->name('user.createIndiviCompa');
+Route::middleware('auth:sanctum')->get('viewMyIndiviCompa', [IndividualCompaignsController::class, 'viewMyIndiviCompa'])->name('user.viewMyIndiviCompa');
+Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
+    ->name('user.viewIndiviCompa');
+});

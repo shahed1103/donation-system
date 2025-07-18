@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reset_code_passwords', function (Blueprint $table) {
-            $table->string('email')->index();
-            $table->string('code');
+        Schema::create('acceptance_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->string('status_type');
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reset_code_passwords');
+        Schema::dropIfExists('acceptance_statuses');
     }
 };

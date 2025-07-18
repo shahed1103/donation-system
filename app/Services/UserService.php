@@ -62,7 +62,6 @@ class UserService
 
      if (!is_null($user)){
         if(!Auth::attempt($request->only(['email' , 'password']))){
-
         throw new Exception("User email & password does not with our record.", 401 );
         }
 
@@ -78,7 +77,10 @@ class UserService
         throw new Exception("User not found.",  404);
      }
 
-     return ['user' => $user , 'message' => $message , 'code' => $code];}
+     return ['user' => $user , 'message' => $message , 'code' => $code];
+    }
+
+
 
     public function logout(): array{
         $user = Auth::user();
