@@ -70,11 +70,12 @@ Route::controller(SuperAdminController::class)->group(function(){
 Route::middleware('auth:sanctum')->get('countAssociations', [SuperAdminController::class, 'countAssociations'])->name('super_admin.countAssociations');
 Route::middleware('auth:sanctum')->get('lastNewUsers', [SuperAdminController::class, 'lastNewUsers'])->name('super_admin.lastNewUsers');
 Route::middleware('auth:sanctum')->get('getUserCountsLastFiveYears', [SuperAdminController::class, 'getUserCountsLastFiveYears'])->name('super_admin.getUserCountsLastFiveYears');
+Route::middleware('auth:sanctum')->get('getTotalCampaignsCount', [SuperAdminController::class, 'getTotalCampaignsCount'])->name('super_admin.getTotalCampaignsCount');
 
 });
 
-// Route::controller(SuperAdminController::class)->group(function(){
-//     Route::get('countAssociations' , 'countAssociations')
-//           ->name('super_admin.countAssociations');
-// });
+Route::controller(SuperAdminController::class)->group(function(){
+    Route::get('getTotalCampaignsCount' , 'getTotalCampaignsCount')
+          ->name('super_admin.getTotalCampaignsCount');
+});
 
