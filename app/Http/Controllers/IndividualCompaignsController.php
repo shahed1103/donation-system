@@ -62,5 +62,31 @@ class IndividualCompaignsController extends Controller
             return Response::Error($data , $message , $errors);
         }
     }
-    //view all comp end
+    //view all classifications
+    public function getClassification(): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->individualCompaignsService->getClassification();
+           return Response::Success($data['classifications'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+        // view my complete individual compaings active + closed
+    public function viewMyCompleteIndiviCompa(): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->individualCompaignsService->viewMyCompleteIndiviCompa();
+           return Response::Success($data['campaign'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
 }

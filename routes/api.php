@@ -49,9 +49,13 @@ Route::middleware('auth:sanctum')->get('logout', [AuthController::class, 'logout
 
 Route::controller(IndividualCompaignsController::class)->group(function(){
 
+Route::get('getClassification' , 'getClassification')
+->name('all.getClassification');
 
 Route::middleware('auth:sanctum')->post('createIndiviCompa', [IndividualCompaignsController::class, 'createIndiviCompa'])->name('user.createIndiviCompa');
 Route::middleware('auth:sanctum')->get('viewMyIndiviCompa', [IndividualCompaignsController::class, 'viewMyIndiviCompa'])->name('user.viewMyIndiviCompa');
 Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     ->name('user.viewIndiviCompa');
+Route::middleware('auth:sanctum')->get('viewMyCompleteIndiviCompa', [IndividualCompaignsController::class, 'viewMyCompleteIndiviCompa'])->name('user.viewMyCompleteIndiviCompa');
+
 });

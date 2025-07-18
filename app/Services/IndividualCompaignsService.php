@@ -138,16 +138,49 @@ class IndividualCompaignsService
         return ['campaign' =>   $compaingAll , 'message' => $message];
      }
 
-    //       public function getCities(){
-    //     $cities = City::all();
-    //     foreach ($cities as $city) {
-    //         $cities_name [] = ['id' => $city->id  , 'city_name' => $city->city_name];
-    //     }
-    //     $all['cities'] = $cities_name;
-    //     $message = 'all cities are retrived successfully';
-    //     return Response::Success($all, $message);
-    //  }
-//view individual compaings complete
+     // view all classifications  
+    public function getClassification(){
+        $classifications = Classification::all();
+        foreach ($classifications as $classification) {
+            $classifications_name [] = ['id' => $classification->id  , 'classification_name' => $classification->classification_name];
+        }
+       // $all['classifications'] = $classifications_name;
+        $message = 'all classifications are retrived successfully';
 
+        return ['classifications' =>  $classifications_name , 'message' => $message];
+     }
 
+    //view my complete individual compaings 
+         public function viewMyCompleteIndiviCompa(): array{
+         $user= Auth::user()->id;
+
+        $campaigns = IndCompaigns::where('user_id' , $user)->get();
+        $compaingAll = [];
+        foreach ($campaigns as $compaign) {
+                $classification_name = Classification::find($compaign->classification_id)->classification_name;
+                $acceptance_status_type = AcceptanceStatus::find($compaign->acceptance_status_id)->status_type;
+                $campaign_status_type = CampaignStatus::find($compaign->campaign_status_id)->status_type;
+
+        if($campaign_status_type === "Complete"){
+             $campaign_ids = Donation::where('campaign_id' , $compaign->id)->get();
+        $total  = 0;
+             foreach ($campaign_ids as $campaign_id) {
+                $total += $campaign_id->amount;
+             }
+            $compaingAll[] = 
+        [ 
+        'title' =>  $compaign->title,
+        'amount_required' =>  $compaign->amount_required,
+        'donation_amount' => $total,
+        'acceptance_status_id'=>  ['id' => $compaign->acceptance_status_id, 'acceptance_status_type' => $acceptance_status_type],
+        'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
+        'compaigns_time' =>  $compaign->compaigns_time,
+        ];
+        }
+        }
+
+        $message = 'Your complete campaign retrived sucessfully';
+
+        return ['campaign' =>  $compaingAll , 'message' => $message];
+     }
 }
