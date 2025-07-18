@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             SharedAssociationCampaignsSeeder::class,
         ]);  
         
-        
+        $this->call([
             DonationsSeeder::class,
         ]);
 
