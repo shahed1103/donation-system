@@ -70,6 +70,9 @@ Route::get('viewAssociationCompaingsComplete/{id}' , 'viewAssociationCompaingsCo
 Route::get('showAssociationDetails/{id}' , 'showAssociationDetails')
     ->name('user.showAssociationDetails');
     
+    //association campaign id
+Route::get('showCampaignDetails/{campaignId}' , 'showCampaignDetails')
+    ->name('user.showCampaignDetails');
     
 });
 

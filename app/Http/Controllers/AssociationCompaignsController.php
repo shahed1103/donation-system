@@ -63,4 +63,18 @@ class AssociationCompaignsController extends Controller
         }
     }
 
+    // Get association campaign details 
+    public function showCampaignDetails($campaignId): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->associationCompaignsService->showCampaignDetails($campaignId);
+           return Response::Success($data['campaign'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
 }

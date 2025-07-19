@@ -49,7 +49,7 @@ class AssociationCompaignsService
                   'donation_amount' => $totalDonations,
                   'campaign_status_id' => [
                      'id' => $campaign->campaign_status_id,
-                     'campaign_status_type' => $campaign->campaignStatus->status_type ?? 'Unknown'
+                     'campaign_status_type' => $campaign->campaignStatus->status_type 
                   ],
                   'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ];
@@ -123,7 +123,50 @@ class AssociationCompaignsService
 
 
       // Get association campaign details 
+      public function showCampaignDetails($campaignId)
+      {
+         $campaign = AssociationCampaign::with(['associations', 'campaignStatus', 'classification', 'donationAssociationCampaigns']) 
+                              ->findOrFail($campaignId);
 
+         $totalDonations = $campaign->donationAssociationCampaigns->sum('amount');
 
+         $lastDonation = $campaign->donationAssociationCampaigns->sortByDesc('created_at')->first();
+
+         $compaingDet = [];
+         $compaingDet[] = [
+            'title' => $campaign->title,
+            'description' => $campaign->description,
+            'amount_required' => $campaign->amount_required,
+            'donation_amount' => $totalDonations,
+            'location' => $campaign->location ,
+            'campaign_status' => [
+                  'id' => $campaign->campaign_status_id,
+                  'type' => $campaign->campaignStatus->status_type 
+            ],
+            'classification' => [
+                  'id' => $campaign->classification_id,
+                  'type' => $campaign->classification->classification_name 
+            ],
+            'campaign_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'campaign_end_time' => $campaign->compaigns_end_time,
+            'last_donation_time' => $lastDonation->created_at->format('Y-m-d'),
+            //////////////////
+            'associations' => $campaign->associations
+               ->unique('id') 
+               ->values()    
+               ->map(function ($association) {
+                  return [
+                        'id' => $association->id,
+                        'name' => $association->name,
+                  ];
+               }),
+            //////////////////
+         ];
+
+         $message = 'association campaign details are retrived sucessfully';
+
+         return ['campaign' => $compaingDet , 'message' => $message];
+      }
+  
 
 }
