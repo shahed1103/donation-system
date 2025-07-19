@@ -167,6 +167,4 @@ class AssociationCompaignsService
 
          return ['campaign' => $compaingDet , 'message' => $message];
       }
-  
-
 }

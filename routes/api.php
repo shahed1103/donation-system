@@ -54,6 +54,10 @@ Route::middleware('auth:sanctum')->post('createIndiviCompa', [IndividualCompaign
 Route::middleware('auth:sanctum')->get('viewMyIndiviCompa', [IndividualCompaignsController::class, 'viewMyIndiviCompa'])->name('user.viewMyIndiviCompa');
 Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     ->name('user.viewIndiviCompa');
+    //individual campaign id
+Route::get('showIndiviCampaignDetails/{campaignId}' , 'showIndiviCampaignDetails')
+    ->name('user.showIndiviCampaignDetails');
+    
 });
 
 Route::controller(AssociationCompaignsController::class)->group(function(){
@@ -73,6 +77,9 @@ Route::get('showAssociationDetails/{id}' , 'showAssociationDetails')
     //association campaign id
 Route::get('showCampaignDetails/{campaignId}' , 'showCampaignDetails')
     ->name('user.showCampaignDetails');
+    
+// Route::post('searchCampaigns' , 'searchCampaigns')
+//     ->name('user.searchCampaigns');
     
 });
 

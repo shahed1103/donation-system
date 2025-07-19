@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Model\User;
+use App\Models\User;
 
 
 class IndCompaigns extends Model
@@ -47,8 +47,9 @@ class IndCompaigns extends Model
     }
 
     public function donations()
-{
-    return $this->hasMany(Donation::class);
-}
+    {
+        return $this->hasMany(Donation::class, 'campaign_id'); 
+    }
+
 
 }

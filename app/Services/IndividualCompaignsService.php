@@ -3,12 +3,12 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App\Models\IndCompaigns;
 use App\Models\Classification;
 use App\Models\AcceptanceStatus;
 use App\Models\CampaignStatus;
 use App\Models\Donation;
+use App\Models\User;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Session;
 use Exception;
@@ -61,7 +61,7 @@ class IndividualCompaignsService
         return ['campaign' =>  $campaign_dett , 'message' => $message];
     }
 
-// view my individual compaings active + closed
+// view my individual compaings active + complete + closed
      public function viewMyIndiviCompa(): array{
          $user= Auth::user()->id;
 
@@ -132,7 +132,7 @@ class IndividualCompaignsService
         'donation_amount' => $total,
         'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
         // 'compaigns_time' =>  $compaign->compaigns_time,
-        'compaigns_time_to_end' => $compaign->compaigns_end_time - $compaign->compaigns_start_time,
+        'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
         ];
         }
 
@@ -154,5 +154,43 @@ class IndividualCompaignsService
 
         return ['classifications' =>  $classifications_name , 'message' => $message];
      }
+
+      // Get individual campaign details 
+    public function showIndiviCampaignDetails($campaignId){
+    $compaign = IndCompaigns::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
+
+    $total = $compaign->donations->sum('amount');
+
+    $lastDonation = $compaign->donations->sortByDesc('created_at')->first();
+
+         $compaingDet = [];
+         $compaingDet[] = [
+            'title' => $compaign->title,
+            'amount_required' => $compaign->amount_required,
+            'donation_amount' => $total,
+            'campaign_status' => [
+                  'id' => $compaign->campaign_status_id,
+                  'type' => $compaign->campaignStatus->status_type 
+            ],
+            'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'description' => $compaign->description,
+            'campaign_end_time' => $compaign->compaigns_end_time,
+            'last_donation_time' => $lastDonation->created_at->format('Y-m-d'),
+            'location' => $compaign->location,
+            'classification' => [
+                  'id' => $compaign->classification_id,
+                  'type' => $compaign->classification->classification_name 
+            ],
+            'user' => [
+                'name' => $compaign->user->name,
+                'email' => $compaign->user->email,
+            ]
+    ];
+
+        $message = 'individual campaign details are retrived sucessfully';
+
+         return ['campaign' => $compaingDet , 'message' => $message];
+}
+
 
 }
