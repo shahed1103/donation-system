@@ -58,14 +58,14 @@ Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
 
 Route::controller(AssociationCompaignsController::class)->group(function(){
 
-    //classification id 
+    //classification id
 Route::get('viewAssociationsCompaingsActive/{id}' , 'viewAssociationsCompaingsActive')
     ->name('user.viewAssociationsCompaingsActive');
 
     //association id
 Route::get('viewAssociationCompaingsClosed/{id}' , 'viewAssociationCompaingsClosed')
     ->name('user.viewAssociationCompaingsClosed');
-    
+
 });
 
 Route::controller(SuperAdminController::class)->group(function(){
@@ -77,8 +77,8 @@ Route::middleware('auth:sanctum')->get('getUserCountsByRole', [SuperAdminControl
 
 });
 
-Route::controller(SuperAdminController::class)->group(function(){
-    Route::get('getUserCountsByRole' , 'getUserCountsByRole')
-          ->name('super_admin.getUserCountsByRole');
-});
+// Route::controller(SuperAdminController::class)->group(function(){
+//     Route::get('getUserCountsByRole' , 'getUserCountsByRole')
+//           ->name('super_admin.getUserCountsByRole');
+// });
 
