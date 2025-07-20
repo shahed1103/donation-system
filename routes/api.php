@@ -87,13 +87,21 @@ Route::controller(SuperAdminController::class)->group(function(){
 Route::middleware('auth:sanctum')->get('countAssociations', [SuperAdminController::class, 'countAssociations'])->name('super_admin.countAssociations');
 Route::middleware('auth:sanctum')->get('lastNewUsers', [SuperAdminController::class, 'lastNewUsers'])->name('super_admin.lastNewUsers');
 Route::middleware('auth:sanctum')->get('getUserCountsLastFiveYears', [SuperAdminController::class, 'getUserCountsLastFiveYears'])->name('super_admin.getUserCountsLastFiveYears');
-Route::middleware('auth:sanctum')->get('getTotalCampaignsCount', [SuperAdminController::class, 'getTotalCampaignsCount'])->name('super_admin.getTotalCampaignsCount');
-Route::middleware('auth:sanctum')->get('getUserCountsByRole', [SuperAdminController::class, 'getUserCountsByRole'])->name('super_admin.getUserCountsByRole');
+Route::middleware('auth:sanctum')->get('getTotalCampaignsCountByYear/{year}', [SuperAdminController::class, 'getTotalCampaignsCount'])->name('super_admin.getTotalCampaignsCount');
+Route::middleware('auth:sanctum')->get('getUserCountsByRoleByYear/{year}', [SuperAdminController::class, 'getUserCountsByRoleByYear'])->name('super_admin.getUserCountsByRoleByYear');
+Route::middleware('auth:sanctum')->get('usersCountByYear/{year}', [SuperAdminController::class, 'usersCountByYear'])->name('super_admin.usersCountByYear');
+Route::middleware('auth:sanctum')->get('totalDonationsByYear/{year}', [SuperAdminController::class, 'totalDonationsByYear'])->name('super_admin.totalDonationsByYear');
+Route::middleware('auth:sanctum')->get('getCityDonationPercentagesByYear/{year}', [SuperAdminController::class, 'getCityDonationPercentagesByYear'])->name('super_admin.getCityDonationPercentagesByYear');
+Route::middleware('auth:sanctum')->get('getMonthlyDonationsByYear/{year}', [SuperAdminController::class, 'getMonthlyDonationsByYear'])->name('super_admin.getMonthlyDonationsByYear');
+Route::middleware('auth:sanctum')->get('getEndedCampaignsCountByYear/{year}', [SuperAdminController::class, 'getEndedCampaignsCountByYear'])->name('super_admin.getEndedCampaignsCountByYear');
+
+
+
 
 });
 
-// Route::controller(SuperAdminController::class)->group(function(){
-//     Route::get('getUserCountsByRole' , 'getUserCountsByRole')
-//           ->name('super_admin.getUserCountsByRole');
-// });
+Route::controller(SuperAdminController::class)->group(function(){
+    Route::get('getEndedCampaignsCountByYear/{year}' , 'getEndedCampaignsCountByYear')
+          ->name('super_admin.getEndedCampaignsCountByYear');
+});
 

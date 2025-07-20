@@ -15,6 +15,7 @@ class RolesPermissionsSeeder extends Seeder
         $superAdminRole = Role::create(['name' => 'superAdmin']);
         $volunteerRole = Role::create(['name' => 'Volunteer']);
         $donorRole = Role::create(['name' => 'Donor']);
+        $adminRole = Role::create(['name' => 'Admin']);
 
         // 2. Create permissions
         $permissions = [
@@ -32,13 +33,15 @@ class RolesPermissionsSeeder extends Seeder
         $volunteerRole->syncPermissions($permissions);
         $donorRole->syncPermissions($permissions);
         $superAdminRole->syncPermissions($permissions);
+        $adminRole->syncPermissions($permissions);
+
 
         // 4. Create users for each role
         $donorUser = User::factory()->create([
             'role_id' => $donorRole->id,
             'gender_id' => 1,
             'phone' => '0954411753',
-            'nationality_id' => 1,
+            'city_id' => 1,
             'age' => '20',
             'name' => 'Donor',
             'email' => 'Donor@example.com',
@@ -51,7 +54,7 @@ class RolesPermissionsSeeder extends Seeder
             'role_id' => $volunteerRole->id,
             'gender_id' => 2,
             'phone' => '09544117593',
-            'nationality_id' => 1,
+            'city_id' => 1,
             'age' => '20',
             'name' => 'Volunteer',
             'email' => 'Volunteer@example.com',
@@ -59,6 +62,20 @@ class RolesPermissionsSeeder extends Seeder
         ]);
 
         $volunteerUser->assignRole($volunteerRole);
+
+       $admin = User::factory()->create([
+            'role_id' => $adminRole->id,
+            'gender_id' => 2,
+            'phone' => '09544117593',
+            'city_id' => 1,
+            'age' => '20',
+            'name' => 'admin',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password')
+        ]);
+
+        $admin->assignRole($adminRole);
+
 
         // 5. Create additional Donor users
         $names = ['shahed', 'dana', 'rama', 'yumna', 'rania', 'lana', 'rayan', 'mohammed', 'marwa', 'sawsan'];
@@ -77,7 +94,7 @@ class RolesPermissionsSeeder extends Seeder
             $user = User::create([
                 'role_id' => $donorRole->id,
                 'name' => $names[$i],
-                'nationality_id' => $nationalities[$i],
+                'city_id' => $nationalities[$i],
                 'age' => $ages[$i],
                 'email' => $emails[$i],
                 'phone' => $phones[$i],

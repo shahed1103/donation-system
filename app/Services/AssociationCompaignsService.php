@@ -4,7 +4,7 @@
 namespace App\Services;
 
 use App\Models\User;
-use App\Models\IndCompaigns;
+use App\Models\IndCompaign;
 use App\Models\Classification;
 use App\Models\Association;
 use App\Models\CampaignStatus;
@@ -49,7 +49,7 @@ class AssociationCompaignsService
                   'donation_amount' => $totalDonations,
                   'campaign_status_id' => [
                      'id' => $campaign->campaign_status_id,
-                     'campaign_status_type' => $campaign->campaignStatus->status_type 
+                     'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
                   'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ];
@@ -58,7 +58,7 @@ class AssociationCompaignsService
          return ['associations Campaigns' => $compaingAll, 'message' => $message,
          ];
       }
-      
+
       // Get all complete campaigns for a specific association
       public function viewAssociationCompaingsComplete($id): array
       {
@@ -122,10 +122,10 @@ class AssociationCompaignsService
 
 
 
-      // Get association campaign details 
+      // Get association campaign details
       public function showCampaignDetails($campaignId)
       {
-         $campaign = AssociationCampaign::with(['associations', 'campaignStatus', 'classification', 'donationAssociationCampaigns']) 
+         $campaign = AssociationCampaign::with(['associations', 'campaignStatus', 'classification', 'donationAssociationCampaigns'])
                               ->findOrFail($campaignId);
 
          $totalDonations = $campaign->donationAssociationCampaigns->sum('amount');
@@ -141,19 +141,19 @@ class AssociationCompaignsService
             'location' => $campaign->location ,
             'campaign_status' => [
                   'id' => $campaign->campaign_status_id,
-                  'type' => $campaign->campaignStatus->status_type 
+                  'type' => $campaign->campaignStatus->status_type
             ],
             'classification' => [
                   'id' => $campaign->classification_id,
-                  'type' => $campaign->classification->classification_name 
+                  'type' => $campaign->classification->classification_name
             ],
             'campaign_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             'campaign_end_time' => $campaign->compaigns_end_time,
             'last_donation_time' => $lastDonation->created_at->format('Y-m-d'),
             //////////////////
             'associations' => $campaign->associations
-               ->unique('id') 
-               ->values()    
+               ->unique('id')
+               ->values()
                ->map(function ($association) {
                   return [
                         'id' => $association->id,

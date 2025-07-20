@@ -36,17 +36,17 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             AssociationCampaignsSeeder::class,
-        ]); 
+        ]);
         $this->call([
             AssociationsSeeder::class,
-        ]);         
+        ]);
         $this->call([
             DonationAssociationCampaignsSeeder::class,
-        ]);         
+        ]);
         $this->call([
             SharedAssociationCampaignsSeeder::class,
-        ]);  
-        
+        ]);
+
         $this->call([
             DonationsSeeder::class,
         ]);
@@ -55,6 +55,7 @@ class DatabaseSeeder extends Seeder
             AssociationSeeder::class,
         ]);
 
-
+        $this->call([
+            CitySeeder::class]);
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 
 
-class IndCompaigns extends Model
+class IndCompaign extends Model
 {
         use HasFactory;
 
@@ -48,7 +48,7 @@ class IndCompaigns extends Model
 
     public function donations()
     {
-        return $this->hasMany(Donation::class, 'campaign_id'); 
+        return $this->hasMany(Donation::class, 'campaign_id');
     }
 
 

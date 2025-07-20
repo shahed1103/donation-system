@@ -3,7 +3,7 @@
 
 namespace App\Services;
 
-use App\Models\IndCompaigns;
+use App\Models\IndCompaign;
 use App\Models\Classification;
 use App\Models\AcceptanceStatus;
 use App\Models\CampaignStatus;
@@ -27,10 +27,12 @@ class IndividualCompaignsService
 {
 
     public function createIndiviCompa($request): array{
-    
+
         $user= Auth::user()->id;
 
-        $campaign = IndCompaigns::create([
+        $campaign = IndCompaign
+
+        ::create([
                 'title' =>  $request['title'],
                 'description' => $request['description'],
                 'classification_id' => $request['classification_id'],
@@ -65,7 +67,7 @@ class IndividualCompaignsService
      public function viewMyIndiviCompa(): array{
          $user= Auth::user()->id;
 
-        $campaigns = IndCompaigns::where('user_id' , $user)->get();
+        $campaigns = IndCompaign::where('user_id' , $user)->get();
         $compaingAll = [];
         foreach ($campaigns as $compaign) {
                 $classification_name = Classification::find($compaign->classification_id)->classification_name;
@@ -73,8 +75,8 @@ class IndividualCompaignsService
                 $campaign_status_type = CampaignStatus::find($compaign->campaign_status_id)->status_type;
             if($campaign_status_type === "Closed"){
 
-            $compaingAll[] = 
-        [ 
+            $compaingAll[] =
+        [
         'title' =>  $compaign->title,
         'amount_required' =>  $compaign->amount_required,
         'donation_amount' => 0,
@@ -82,7 +84,7 @@ class IndividualCompaignsService
         'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
         'compaigns_time_to_end' =>  "$compaign->compaigns_time Day",
         ];
-             
+
             }
         if($campaign_status_type === "Active" || $campaign_status_type === "Complete"){
              $campaign_ids = Donation::where('campaign_id' , $compaign->id)->get();
@@ -92,8 +94,8 @@ class IndividualCompaignsService
              foreach ($campaign_ids as $campaign_id) {
                 $total += $campaign_id->amount;
              }
-            $compaingAll[] = 
-        [ 
+            $compaingAll[] =
+        [
         'title' =>  $compaign->title,
         'amount_required' =>  $compaign->amount_required,
         'donation_amount' => $total,
@@ -110,9 +112,9 @@ class IndividualCompaignsService
         return ['campaign' =>  $compaingAll , 'message' => $message];
      }
 
-// view individual compaings active 
+// view individual compaings active
      public function viewIndiviCompa($id): array{
-        $campaigns = IndCompaigns::where('classification_id' , $id)->get();
+        $campaigns = IndCompaign::where('classification_id' , $id)->get();
         $compaingAll = [];
         foreach ($campaigns as $compaign) {
                 $classification_name = Classification::find($compaign->classification_id)->classification_name;
@@ -125,8 +127,8 @@ class IndividualCompaignsService
                 $total += $campaign_id->amount;
              }
 
-        $compaingAll [] = 
-        [ 
+        $compaingAll [] =
+        [
         'title' =>  $compaign->title,
         'amount_required' =>  $compaign->amount_required,
         'donation_amount' => $total,
@@ -143,7 +145,7 @@ class IndividualCompaignsService
         return ['campaign' =>   $compaingAll , 'message' => $message];
      }
 
-     // view all classifications  
+     // view all classifications
     public function getClassification(){
         $classifications = Classification::all();
         foreach ($classifications as $classification) {
@@ -155,9 +157,9 @@ class IndividualCompaignsService
         return ['classifications' =>  $classifications_name , 'message' => $message];
      }
 
-      // Get individual campaign details 
+      // Get individual campaign details
     public function showIndiviCampaignDetails($campaignId){
-    $compaign = IndCompaigns::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
+    $compaign = IndCompaign::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
 
     $total = $compaign->donations->sum('amount');
 
@@ -170,7 +172,7 @@ class IndividualCompaignsService
             'donation_amount' => $total,
             'campaign_status' => [
                   'id' => $compaign->campaign_status_id,
-                  'type' => $compaign->campaignStatus->status_type 
+                  'type' => $compaign->campaignStatus->status_type
             ],
             'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             'description' => $compaign->description,
@@ -179,7 +181,7 @@ class IndividualCompaignsService
             'location' => $compaign->location,
             'classification' => [
                   'id' => $compaign->classification_id,
-                  'type' => $compaign->classification->classification_name 
+                  'type' => $compaign->classification->classification_name
             ],
             'user' => [
                 'name' => $compaign->user->name,

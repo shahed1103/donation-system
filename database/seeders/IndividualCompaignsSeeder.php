@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\IndCompaigns;
+use App\Models\IndCompaign;
 use Carbon\Carbon;
 
 class IndividualCompaignsSeeder extends Seeder
@@ -70,13 +70,13 @@ class IndividualCompaignsSeeder extends Seeder
             $endTime = (clone $startTime)->addDays(rand(7, 30));
         }
 
-            IndCompaigns::query()->create([
+            IndCompaign::query()->create([
                 'title' => $titles[$i],
                 'description' => $descriptions[$i],
-                'classification_id' => $classification_ids[$i], 
+                'classification_id' => $classification_ids[$i],
                 'location' => $locations[$i],
                 'amount_required' => rand(500, 10000),
-                'user_id' => rand(1, 5), 
+                'user_id' => rand(1, 5),
                 'acceptance_status_id' => $acceptance_status_ids[$i],
                 'campaign_status_id' => $campaign_status_ids[$i],
                 'compaigns_start_time' => $startTime,

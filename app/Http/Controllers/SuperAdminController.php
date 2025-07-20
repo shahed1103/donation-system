@@ -62,10 +62,10 @@ public function getUserCountsLastFiveYears(): JsonResponse {
     }
 }
 
-public function getTotalCampaignsCount(): JsonResponse {
+public function getTotalCampaignsCountByYear($year): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminService->getTotalCampaignsCount();
+        $data = $this->superAdminService->getTotalCampaignsCount($year);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -74,10 +74,10 @@ public function getTotalCampaignsCount(): JsonResponse {
     }
 }
 
-public function getUserCountsByRole(): JsonResponse {
+public function getUserCountsByRoleByYear($year): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminService->getUserCountsByRole();
+        $data = $this->superAdminService->getUserCountsByRoleByYear($year);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -85,4 +85,68 @@ public function getUserCountsByRole(): JsonResponse {
         return Response::Error($data, $message, $errors);
     }
 }
+
+
+public function usersCountByYear($year): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->usersCountByYear($year);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function totalDonationsByYear($year): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->totalDonationsByYear($year);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function getCityDonationPercentagesByYear($year): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->getCityDonationPercentagesByYear($year);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function getMonthlyDonationsByYear($year): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->getMonthlyDonationsByYear($year);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function getEndedCampaignsCountByYear($year): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->getEndedCampaignsCountByYear($year);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+
+
 }

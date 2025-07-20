@@ -76,5 +76,8 @@ class User extends Authenticatable
     return $this->hasMany(DonationAssociationCampaign::class);
 }
 
-
+public function city()
+{
+    return $this->belongsTo(City::class);
+}
 }
