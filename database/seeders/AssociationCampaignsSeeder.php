@@ -34,7 +34,7 @@ class AssociationCampaignsSeeder extends Seeder
         $amounts = [5000, 3000, 2000, 4000];
 
         $classificationIds = [1, 1, 3, 4]; 
-        $statusIds = [1, 2, 3 , 1]; 
+        $statusIds = [1, 2, 1 , 1]; 
 
         for ($i = 0; $i < 4; $i++) {
             AssociationCampaign::create([

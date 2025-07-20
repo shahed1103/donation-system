@@ -54,6 +54,10 @@ Route::middleware('auth:sanctum')->post('createIndiviCompa', [IndividualCompaign
 Route::middleware('auth:sanctum')->get('viewMyIndiviCompa', [IndividualCompaignsController::class, 'viewMyIndiviCompa'])->name('user.viewMyIndiviCompa');
 Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     ->name('user.viewIndiviCompa');
+    //individual campaign id
+Route::get('showIndiviCampaignDetails/{campaignId}' , 'showIndiviCampaignDetails')
+    ->name('user.showIndiviCampaignDetails');
+
 });
 
 Route::controller(AssociationCompaignsController::class)->group(function(){
@@ -63,8 +67,19 @@ Route::get('viewAssociationsCompaingsActive/{id}' , 'viewAssociationsCompaingsAc
     ->name('user.viewAssociationsCompaingsActive');
 
     //association id
-Route::get('viewAssociationCompaingsClosed/{id}' , 'viewAssociationCompaingsClosed')
-    ->name('user.viewAssociationCompaingsClosed');
+Route::get('viewAssociationCompaingsComplete/{id}' , 'viewAssociationCompaingsComplete')
+    ->name('user.viewAssociationCompaingsComplete');
+
+    //association id
+Route::get('showAssociationDetails/{id}' , 'showAssociationDetails')
+    ->name('user.showAssociationDetails');
+
+    //association campaign id
+Route::get('showCampaignDetails/{campaignId}' , 'showCampaignDetails')
+    ->name('user.showCampaignDetails');
+
+// Route::post('searchCampaigns' , 'searchCampaigns')
+//     ->name('user.searchCampaigns');
 
 });
 

@@ -76,4 +76,18 @@ class IndividualCompaignsController extends Controller
         }
     }
 
+    // Get individual campaign details 
+    public function showIndiviCampaignDetails($campaignId){
+                $data = [] ;
+        try{
+            $data = $this->individualCompaignsService->showIndiviCampaignDetails($campaignId);
+           return Response::Success($data['campaign'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
 }
