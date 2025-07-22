@@ -30,9 +30,7 @@ class IndividualCompaignsService
 
         $user= Auth::user()->id;
 
-        $campaign = IndCompaign
-
-        ::create([
+        $campaign = IndCompaign::create([
                 'title' =>  $request['title'],
                 'description' => $request['description'],
                 'classification_id' => $request['classification_id'],
@@ -77,6 +75,7 @@ class IndividualCompaignsService
 
             $compaingAll[] =
         [
+        'id' =>  $compaign->id,
         'title' =>  $compaign->title,
         'amount_required' =>  $compaign->amount_required,
         'donation_amount' => 0,
@@ -96,6 +95,7 @@ class IndividualCompaignsService
              }
             $compaingAll[] =
         [
+        'id' =>  $compaign->id,
         'title' =>  $compaign->title,
         'amount_required' =>  $compaign->amount_required,
         'donation_amount' => $total,
@@ -129,6 +129,7 @@ class IndividualCompaignsService
 
         $compaingAll [] =
         [
+        'id' =>  $compaign->id,
         'title' =>  $compaign->title,
         'amount_required' =>  $compaign->amount_required,
         'donation_amount' => $total,

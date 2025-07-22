@@ -44,6 +44,7 @@ class AssociationCompaignsService
                   ->sum('amount');
 
             $compaingAll[] = [
+                  'id' =>  $campaign->id,
                   'title' => $campaign->title,
                   'amount_required' => $campaign->amount_required,
                   'donation_amount' => $totalDonations,
@@ -77,6 +78,7 @@ class AssociationCompaignsService
                   ->sum('amount');
 
             $compaingAll[] = [
+                  'id' =>  $campaign->id,
                   'title' => $campaign->title,
                   'amount_required' => $campaign->amount_required,
                   'donation_amount' => $totalDonations,

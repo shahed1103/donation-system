@@ -50,6 +50,10 @@ class RolesPermissionsSeeder extends Seeder
 
         $donorUser->assignRole($donorRole);
 
+        //assign permissions with the role to the user
+        $permissions = $donorRole->permissions()->pluck('name')->toArray();
+        $donorUser->givePermissionTo ($permissions);
+
         $volunteerUser = User::factory()->create([
             'role_id' => $volunteerRole->id,
             'gender_id' => 2,
@@ -63,6 +67,10 @@ class RolesPermissionsSeeder extends Seeder
 
         $volunteerUser->assignRole($volunteerRole);
 
+        //assign permissions with the role to the user
+        $permissions = $volunteerRole->permissions()->pluck('name')->toArray();
+        $volunteerUser->givePermissionTo ($permissions);
+
        $admin = User::factory()->create([
             'role_id' => $adminRole->id,
             'gender_id' => 2,
@@ -75,6 +83,10 @@ class RolesPermissionsSeeder extends Seeder
         ]);
 
         $admin->assignRole($adminRole);
+
+        //assign permissions with the role to the user
+        $permissions = $adminRole->permissions()->pluck('name')->toArray();
+        $admin->givePermissionTo ($permissions);
 
 
         // 5. Create additional Donor users
@@ -103,6 +115,10 @@ class RolesPermissionsSeeder extends Seeder
             ]);
 
             $user->assignRole($donorRole);
+
+            //assign permissions with the role to the user
+            $permissions = $donorRole->permissions()->pluck('name')->toArray();
+            $user->givePermissionTo ($permissions);
         }
     }
 }
