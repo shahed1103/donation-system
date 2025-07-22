@@ -45,6 +45,7 @@ class IndividualCompaignsService
        $classification_name = Classification::find($request['classification_id'])->classification_name;
        $acceptance_status_type = AcceptanceStatus::find($campaign->acceptance_status_id)->status_type;
        $campaign_status_type = CampaignStatus::find($campaign->campaign_status_id)->status_type;
+
        $campaign_dett = [
         'title' =>  $request['title'],
         'description' => $request['description'],
@@ -54,7 +55,7 @@ class IndividualCompaignsService
         'acceptance_status_id'=>  ['id' => $campaign->acceptance_status_id, 'acceptance_status_type' => $acceptance_status_type],
         'campaign_status_id'=>  ['id' => $campaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
         'compaigns_time' =>  $request['compaigns_time'],
-];
+       ];
 
         $message = 'Your campaign created sucessfully';
 
@@ -177,8 +178,10 @@ class IndividualCompaignsService
             ],
             'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             'description' => $compaign->description,
+            'campaign_start_time' => $compaign->compaigns_start_time,
             'campaign_end_time' => $compaign->compaigns_end_time,
-            'last_donation_time' => $lastDonation->created_at->format('Y-m-d'),
+            'last_donation_time' => $lastDonation ? $lastDonation->created_at->format('Y-m-d') : 'no Donations yet',
+            // 'last_donation_time' => $lastDonation->created_at->format('Y-m-d'),
             'location' => $compaign->location,
             'classification' => [
                   'id' => $compaign->classification_id,
@@ -186,7 +189,7 @@ class IndividualCompaignsService
             ],
             'user' => [
                 'name' => $compaign->user->name,
-                'email' => $compaign->user->email,
+                // 'photo' => $compaign->user->photo,
             ]
     ];
 
