@@ -58,8 +58,7 @@ class IndividualCompaignsSeeder extends Seeder
         $classification_ids = [1, 2, 3, 4 , 1, 2, 3, 4 , 1, 2, 3]; // healthy, Educational, cleanliness, environmental
         $acceptance_status_ids = [1, 2, 3 , 2 , 1, 2, 3 , 2 , 1, 2, 3]; // Under review, Approved, Rejected
         $campaign_status_ids = [2, 1, 2 , 3 , 2, 1, 2 , 3 , 2, 1, 2 ]; // Active, Closed, Complete
-        $compaigns_start_time = [];
-        $compaigns_end_time = [];
+        $emergency_level = [1,2,2,5,3,2,3,5,4,1,4];
 
         for ($i = 0; $i < 11; $i++) {
         $startTime = null;
@@ -82,6 +81,9 @@ class IndividualCompaignsSeeder extends Seeder
                 'compaigns_start_time' => $startTime,
                 'compaigns_end_time' => $endTime,
                 'compaigns_time' => rand(7, 30),
+                'emergency_level' => $emergency_level[$i],
+
+                
             ]);
         }
     }

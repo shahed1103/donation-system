@@ -15,7 +15,8 @@ class AssociationCampaign extends Model
         'amount_required',
         'campaign_status_id',
         'compaigns_start_time',
-        'compaigns_end_time'
+        'compaigns_end_time',
+        'emergency_level'
     ];
 
         public function campaignStatus(){

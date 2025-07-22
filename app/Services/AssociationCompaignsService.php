@@ -159,7 +159,7 @@ class AssociationCompaignsService
             'campaign_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             'campaign_start_time' => $campaign->compaigns_start_time,
             'campaign_end_time' => $campaign->compaigns_end_time,
-            'last_donation_time' => $lastDonation ? $lastDonation->created_at->format('Y-m-d') : 'no Donations yet',
+            'last_donation_time' => $lastDonation ? $lastDonation->created_at->diffForHumans() : 'no Donations yet',
             'totalDonors' => $totalDonors,
             //////////////////
             'associations' => $campaign->associations

@@ -180,8 +180,7 @@ class IndividualCompaignsService
             'description' => $compaign->description,
             'campaign_start_time' => $compaign->compaigns_start_time,
             'campaign_end_time' => $compaign->compaigns_end_time,
-            'last_donation_time' => $lastDonation ? $lastDonation->created_at->format('Y-m-d') : 'no Donations yet',
-            // 'last_donation_time' => $lastDonation->created_at->format('Y-m-d'),
+            'last_donation_time' => $lastDonation ? $lastDonation->created_at->diffForHumans() : 'no Donations yet',
             'location' => $compaign->location,
             'classification' => [
                   'id' => $compaign->classification_id,

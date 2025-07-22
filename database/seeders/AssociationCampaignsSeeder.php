@@ -32,6 +32,7 @@ class AssociationCampaignsSeeder extends Seeder
         ];
 
         $amounts = [5000, 3000, 2000, 4000];
+        $emergency_level = [1,2,2,5];
 
         $classificationIds = [1, 1, 3, 4]; 
         $statusIds = [1, 2, 1 , 1]; 
@@ -44,6 +45,7 @@ class AssociationCampaignsSeeder extends Seeder
                 'location' => $locations[$i],
                 'amount_required' => $amounts[$i],
                 'campaign_status_id' => $statusIds[$i],
+                'emergency_level' => $emergency_level[$i],
                 'compaigns_start_time' => Carbon::now()->subDays(rand(1, 10)),
                 'compaigns_end_time' => Carbon::now()->addDays(rand(10, 30)),
             ]);

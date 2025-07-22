@@ -24,6 +24,7 @@ return new class extends Migration
 
             $table->date('compaigns_start_time');
             $table->date('compaigns_end_time');
+            $table->tinyInteger('emergency_level');
             // $table->integer('compaigns_time');
             $table->timestamps();
 

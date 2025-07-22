@@ -23,7 +23,8 @@ class IndCompaign extends Model
         'user_id',
         'acceptance_status_id',
         'campaign_status_id',
-        'compaigns_time'
+        'compaigns_time',
+        'emergency_level'
     ];
 
     public function user(){
