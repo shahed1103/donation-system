@@ -134,6 +134,13 @@ class AssociationCompaignsService
 
          $lastDonation = $campaign->donationAssociationCampaigns->sortByDesc('created_at')->first();
 
+         $totalDonors = $campaign->donationAssociationCampaigns()
+                                 ->distinct('user_id')
+                                 ->count('user_id');
+         $totalDonors = $campaign->donationAssociationCampaigns()
+                        ->distinct('user_id')
+                        ->count('user_id');
+
          $compaingDet = [];
          $compaingDet[] = [
             'title' => $campaign->title,
@@ -153,6 +160,7 @@ class AssociationCompaignsService
             'campaign_start_time' => $campaign->compaigns_start_time,
             'campaign_end_time' => $campaign->compaigns_end_time,
             'last_donation_time' => $lastDonation ? $lastDonation->created_at->format('Y-m-d') : 'no Donations yet',
+            'totalDonors' => $totalDonors,
             //////////////////
             'associations' => $campaign->associations
                ->unique('id')
