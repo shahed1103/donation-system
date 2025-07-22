@@ -27,7 +27,7 @@ class UserService
 {
 
     public function register($request): array{
-        $clientRole = Role::query()->firstWhere('name', 'client')->id;
+        $clientRole = Role::query()->firstWhere('name', 'Donor')->id;
 
               $user = User::query()->create([
      'role_id' =>  $clientRole,
@@ -35,12 +35,13 @@ class UserService
      'email' => $request['email'],
      'password' => Hash::make($request['password']),
     //  'gender_id' => $request['gender_id'] ?? 0,
-     'phone' => $request['phone'] ?? 0,
+    //  'phone' => $request['phone'] ?? 0,
+     'phone' => $request['phone'] ,
     //  'nationality_id' => $request['nationality_id'] ?? 0,
     //  'age' => $request['age'] ?? 0 ,
         ]);
 
-        $clientRole = Role::query()->where('name', 'client')->first();
+        $clientRole = Role::query()->where('name', 'Donor')->first();
         $user->assignRole($clientRole);
 
         $permissions = $clientRole->permissions()->pluck('name')->toArray();
