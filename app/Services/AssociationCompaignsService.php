@@ -15,6 +15,7 @@ use App\Models\AssociationCampaign;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Session;
 use Exception;
+use Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -47,6 +48,7 @@ class AssociationCompaignsService
             $compaingAll[] = [
                   'id' =>  $campaign->id,
                   'title' => $campaign->title,
+                  'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
                   'donation_amount' => $totalDonations,
                   'campaign_status_id' => [
@@ -81,6 +83,7 @@ class AssociationCompaignsService
             $compaingAll[] = [
                   'id' =>  $campaign->id,
                   'title' => $campaign->title,
+                  'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
                   'donation_amount' => $totalDonations,
                   'campaign_status_id' => [
@@ -149,6 +152,7 @@ class AssociationCompaignsService
             'amount_required' => $campaign->amount_required,
             'donation_amount' => $totalDonations,
             'location' => $campaign->location ,
+            'photo' => url(Storage::url($campaign->photo)),
             'campaign_status' => [
                   'id' => $campaign->campaign_status_id,
                   'type' => $campaign->campaignStatus->status_type

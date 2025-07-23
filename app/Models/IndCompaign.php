@@ -36,7 +36,7 @@ class IndCompaign extends Model
         return $this->belongsTo(Classification::class);
     }
 
-    public function indCompaigns_photo(){
+    public function indCompaignsPhoto(){
         return $this->belongsTo(IndCompaigns_photo::class);
     }
 

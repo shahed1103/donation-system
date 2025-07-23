@@ -41,9 +41,8 @@ class IndividualCompaignsService
                 'user_id' => $user,
                 'photo_id' => rand(1, 4),
                 'compaigns_time' =>  $request['compaigns_time'],
-            //    'acceptance_status_id'=>  $request['acceptance_status_id'],
-            //    'campaign_status_id'=>  $request['campaign_status_id'],
        ]);
+
        $campaign->refresh();
        $classification_name = Classification::find($request['classification_id'])->classification_name;
        $acceptance_status_type = AcceptanceStatus::find($campaign->acceptance_status_id)->status_type;
@@ -110,12 +109,11 @@ class IndividualCompaignsService
         [
         'id' =>  $compaign->id,
         'title' =>  $compaign->title,
-        'photo_id' => ['id' =>$compaign->photo_id ],// , 'photo' =>$fullPath],
+        'photo_id' => ['id' =>$compaign->photo_id , 'photo' =>$fullPath],
         'amount_required' =>  $compaign->amount_required,
         'donation_amount' => $total,
         'acceptance_status_id'=>  ['id' => $compaign->acceptance_status_id, 'acceptance_status_type' => $acceptance_status_type],
         'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
-        // 'compaigns_time' =>  $compaign->compaigns_time,
         'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%M Months %D Day %H Hours')
         ];
         }
@@ -133,6 +131,9 @@ class IndividualCompaignsService
         foreach ($campaigns as $compaign) {
                 $classification_name = Classification::find($compaign->classification_id)->classification_name;
                 $campaign_status_type = CampaignStatus::find($compaign->campaign_status_id)->status_type;
+                $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
+
+                $fullPath = url(Storage::url($photo));
 
         if($campaign_status_type === "Active"){
              $campaign_ids = Donation::where('campaign_id' , $compaign->id)->get();
@@ -148,7 +149,7 @@ class IndividualCompaignsService
         'amount_required' =>  $compaign->amount_required,
         'donation_amount' => $total,
         'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
-        // 'compaigns_time' =>  $compaign->compaigns_time,
+        'photo_id' => ['id' =>$compaign->photo_id , 'photo' =>$fullPath],
         'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
         ];
         }
@@ -166,7 +167,6 @@ class IndividualCompaignsService
         foreach ($classifications as $classification) {
             $classifications_name [] = ['id' => $classification->id  , 'classification_name' => $classification->classification_name];
         }
-       // $all['classifications'] = $classifications_name;
         $message = 'all classifications are retrived successfully';
 
         return ['classifications' =>  $classifications_name , 'message' => $message];
@@ -178,6 +178,9 @@ class IndividualCompaignsService
 
     $total = $compaign->donations->sum('amount');
 
+    $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
+    $fullPath = url(Storage::url($photo));
+
     $lastDonation = $compaign->donations->sortByDesc('created_at')->first();
 
          $compaingDet = [];
@@ -188,6 +191,10 @@ class IndividualCompaignsService
             'campaign_status' => [
                   'id' => $compaign->campaign_status_id,
                   'type' => $compaign->campaignStatus->status_type
+            ],
+            'photo_id' => [
+                  'id' =>$compaign->photo_id ,
+                  'photo' => $fullPath
             ],
             'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             'description' => $compaign->description,

@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Session;
 use Exception;
+use Storage;
 use Illuminate\Support\Facades\DB;
 use App\Models\Association;
 use App\Models\User;
@@ -15,6 +16,7 @@ use App\Models\Donation;
 use App\Models\IndCompaign;
 use App\Models\Classification;
 use App\Models\AssociationCampaign;
+use App\Models\IndCompaigns_photo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -49,6 +51,7 @@ class MobileHomeService
                     'title' => $activeCampaign->title,
                     'amount_required' => $activeCampaign->amount_required,
                     'donation_amount' => $totalDonations,
+                    'photo' => url(Storage::url($activeCampaign->photo)),
                     'campaign_status_id' => [
                         'id' => $activeCampaign->campaign_status_id,
                         'campaign_status_type' => $activeCampaign->campaignStatus->status_type
@@ -81,6 +84,7 @@ class MobileHomeService
                     'title' => $assocCampaignsByClas->title,
                     'amount_required' => $assocCampaignsByClas->amount_required,
                     'donation_amount' => $totalDonations,
+                    'photo' => url(Storage::url($assocCampaignsByClas->photo)),
                     'campaign_status_id' => [
                         'id' => $assocCampaignsByClas->campaign_status_id,
                         'campaign_status_type' => $assocCampaignsByClas->campaignStatus->status_type
@@ -96,6 +100,10 @@ class MobileHomeService
             foreach ($individualCampaigns as $individualCampaign) {
             $totalDonations = Donation::where('campaign_id', $individualCampaign->id)
                                                         ->sum('amount');
+
+            $photo = IndCompaigns_photo::find($individualCampaign->photo_id)->photo;
+            $fullPath = url(Storage::url($photo));   
+
             $campaigns [] = [
                     'id' =>  $individualCampaign->id,
                     'title' => $individualCampaign->title,
@@ -104,6 +112,10 @@ class MobileHomeService
                     'campaign_status_id' => [
                         'id' => $individualCampaign->campaign_status_id,
                         'campaign_status_type' => $individualCampaign->campaignStatus->status_type
+                    ],
+                    'photo_id' => [
+                        'id' =>$individualCampaign->photo_id ,
+                        'photo' => $fullPath
                     ],
                     'compaigns_time_to_end' => Carbon::now()->diff($individualCampaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
                 ];
@@ -125,10 +137,6 @@ class MobileHomeService
 
     } 
 }
-
-
-//       $hotelPhoto [] = ['photo' => url(Storage::url($hotelPhotos->photo))];
-//    use Storage;
 
 
  
