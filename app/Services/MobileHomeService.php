@@ -133,8 +133,56 @@ class MobileHomeService
     }
 
     // view emergency compaings active
-    public function emergencyCompaings(){
+    public function emergencyCompaings(): array {
+     $associationCamignsEme = AssociationCampaign::where('campaign_status_id' , 1)
+                                                    ->orderBy('emergency_level', 'desc')
+                                                    ->get();
 
+     $individualCamignsEme = IndCompaign::where('campaign_status_id' , 1)
+                                        ->orderBy('emergency_level', 'desc')
+                                        ->get();
+
+    $campaigns = [];
+    foreach ($associationCamignsEme as $associationCamignsEm) {
+        $totalDonations = DonationAssociationCampaign::where('association_campaign_id', $associationCamignsEm->id)
+                                                        ->sum('amount');
+            $campaigns [] = [
+            'id' => $associationCamignsEm->id,
+            'title' => $associationCamignsEm->title,
+            'location' => $associationCamignsEm->location,
+            'donation_amount' => $totalDonations,
+            'photo' => url(Storage::url($associationCamignsEm->photo)),
+            'emergency_level' => $associationCamignsEm->emergency_level,
+        ];
+    }
+
+    foreach ($individualCamignsEme as $individualCamignsEm) {
+        $totalDonations = Donation::where('campaign_id', $individualCamignsEm->id)
+                                    ->sum('amount');
+        $photo = IndCompaigns_photo::find($individualCamignsEm->photo_id)->photo;
+        $fullPath = url(Storage::url($photo));
+
+            $campaigns [] = [
+            'id' => $individualCamignsEm->id,
+            'title' => $individualCamignsEm->title,
+            'location' => $individualCamignsEm->location,
+            'donation_amount' => $totalDonations,
+            'photo' => ['id' =>$individualCamignsEm->photo_id ,'photo' => $fullPath],
+            'emergency_level' => $individualCamignsEm->emergency_level,
+        ];
+    }
+
+        usort($campaigns, function ($a, $b) {
+        return $b['emergency_level'] <=> $a['emergency_level'];
+    });
+
+        foreach ($campaigns as &$campaign) {
+        unset($campaign['emergency_level']);
+    }
+
+    $message = 'emergency compaings are retrived sucessfully' ;
+
+    return ['emergency compaings' => $campaigns , 'message' => $message];
     } 
 }
 

@@ -82,6 +82,9 @@ Route::get('showCampaignDetails/{campaignId}' , 'showCampaignDetails')
 Route::controller(MobileHomeController::class)->group(function(){
     Route::post('searchCampaigns' , 'searchCampaigns')
         ->name('user.searchCampaigns');
+
+    Route::get('emergencyCompaings' , 'emergencyCompaings')
+        ->name('user.emergencyCompaings');
 });
 
 

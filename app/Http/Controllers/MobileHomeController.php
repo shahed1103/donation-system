@@ -40,7 +40,7 @@ class MobileHomeController extends Controller
         $data = [] ;
         try{
             $data = $this->mobileHomeService->emergencyCompaings();
-           return Response::Success($data['associations Campaigns'], $data['message']);
+           return Response::Success($data['emergency compaings'], $data['message']);
         }
         catch(Throwable $th){
             $message = $th->getMessage();
