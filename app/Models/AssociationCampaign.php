@@ -28,7 +28,7 @@ class AssociationCampaign extends Model
 
         public function associations()
     {
-        return $this->belongsToMany(Association::class, 'shared_association_campaigns', 'association_campaign_id' , 'association_id');
+        return $this->belongsToMany(Association::class, 'shared_association_campaigns');
     }
 
         public function donationAssociationCampaigns()

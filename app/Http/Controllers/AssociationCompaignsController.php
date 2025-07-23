@@ -89,5 +89,4 @@ class AssociationCompaignsController extends Controller
             return Response::Error($data , $message , $errors);
         }
     }
-// searchCampaigns(Request $request)
 }

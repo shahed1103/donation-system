@@ -78,8 +78,8 @@ Route::get('showAssociationDetails/{id}' , 'showAssociationDetails')
 Route::get('showCampaignDetails/{campaignId}' , 'showCampaignDetails')
     ->name('user.showCampaignDetails');
 
-// Route::post('searchCampaigns' , 'searchCampaigns')
-//     ->name('user.searchCampaigns');
+Route::post('searchCampaigns' , 'searchCampaigns')
+    ->name('user.searchCampaigns');
 
 });
 

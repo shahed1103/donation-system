@@ -9,6 +9,7 @@ use App\Models\Classification;
 use App\Models\Association;
 use App\Models\CampaignStatus;
 use App\Models\DonationAssociationCampaign;
+use App\Models\Donation;
 use App\Models\SharedAssociationCampaign;
 use App\Models\AssociationCampaign;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -86,7 +87,7 @@ class AssociationCompaignsService
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ];
          }
             $message = 'Your campaign retrived sucessfully';
@@ -178,4 +179,85 @@ class AssociationCompaignsService
 
          return ['campaign' => $compaingDet , 'message' => $message];
       }
+
+
+      //search campigns
+public function searchCampaigns(Request $request)
+{
+    $campaigns = [];
+
+    if($request->has('association_name')){
+    $associations = Association::where('name', 'like', '%' . $request['association_name'] . '%')->get();
+
+    foreach ($associations as $association) {
+        $activeCampaigns = $association->associationCampaigns()
+                                       ->where('campaign_status_id', 1)
+                                       ->get();
+        $campaigns = $activeCampaigns;
+    }
+
+         $message = 'this association campaigns are retrived sucessfully';
+
+         return ['campaign' => $campaigns , 'message' => $message];
+   }
+
+   if($request->has('classification_name')){
+    $classification = Classification::where('classification_name', 'like', '%' . $request['classification_name'] . '%')->first();
+
+    if ($classification) {
+        $assocCampaignsByClass = AssociationCampaign::where('classification_id', $classification->id)
+                                                      ->where('campaign_status_id', 1)
+                                                      ->get();
+
+
+
+        foreach ($assocCampaignsByClass as $assocCampaignsByClas) {
+        $totalDonations = DonationAssociationCampaign::where('association_campaign_id', $assocCampaignsByClas->id)
+                                                      ->sum('amount');
+        $campaigns [] = [
+                  'id' =>  $assocCampaignsByClas->id,
+                  'title' => $assocCampaignsByClas->title,
+                  'amount_required' => $assocCampaignsByClas->amount_required,
+                  'donation_amount' => $totalDonations,
+                  'campaign_status_id' => [
+                     'id' => $assocCampaignsByClas->campaign_status_id,
+                     'campaign_status_type' => $assocCampaignsByClas->campaignStatus->status_type
+                  ],
+                  'compaigns_time_to_end' => Carbon::now()->diff($assocCampaignsByClas->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+               ];
+            }
+      //   $assocCampaignsByClass;
+
+        $individualCampaigns = IndCompaign::where('classification_id', $classification->id)
+                                                   ->where('campaign_status_id', 1)
+                                                   ->get();
+
+        foreach ($individualCampaigns as $individualCampaign) {
+         $totalDonations = Donation::where('campaign_id', $individualCampaign->id)
+                                                      ->sum('amount');
+        $campaigns [] = [
+                  'id' =>  $individualCampaign->id,
+                  'title' => $individualCampaign->title,
+                  'amount_required' => $individualCampaign->amount_required,
+                  'donation_amount' => $totalDonations,
+                  'campaign_status_id' => [
+                     'id' => $individualCampaign->campaign_status_id,
+                     'campaign_status_type' => $individualCampaign->campaignStatus->status_type
+                  ],
+                  'compaigns_time_to_end' => Carbon::now()->diff($individualCampaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+               ];
+            }
+    }
+             $message = 'campaigns with this classification are retrived sucessfully';
+
+         return ['campaign' => $campaigns , 'message' => $message];
+   }
+
+         $message = 'there is no campigns' ;
+
+         return ['campaign' => $campaigns , 'message' => $message];
+
+}
+
+
 }
