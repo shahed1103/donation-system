@@ -57,5 +57,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CitySeeder::class]);
+
+        $this->call([
+            IndividualCompaignsPhotosSeeder::class]);
+            
     }
 }

@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\AssociationCampaign;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class AssociationCampaignsSeeder extends Seeder
 {
@@ -27,6 +29,35 @@ class AssociationCampaignsSeeder extends Seeder
             'Planting trees to improve air quality and environment.',
         ];
 
+        $photos = [
+                    '1.jpg',
+                    '2.jpg',
+                    '3.jpg',
+                    '4.jpg',
+                ];
+
+        $fullPaths = [];
+
+        $sourceDir = public_path('uploads/seeder_photos/');
+        $targetDir = 'uploads/assocCampignsphotos/';
+
+        foreach ($photos as $photo) {
+            $sourcePath = $sourceDir . $photo;
+            $targetPath = $targetDir . $photo;
+
+            if (File::exists($sourcePath)) {
+                Storage::disk('public')->put($targetPath, File::get($sourcePath));
+
+                // $fullPath = url(Storage::url($targetPath));
+                $fullPath =  $targetPath;
+
+                $fullPaths[] = $fullPath;
+            } else {
+                $fullPaths[] = null;
+            }
+        }
+
+
         $locations = [
             'Riyadh', 'Jeddah', 'Dammam', 'Mecca',
         ];
@@ -45,6 +76,7 @@ class AssociationCampaignsSeeder extends Seeder
                 'location' => $locations[$i],
                 'amount_required' => $amounts[$i],
                 'campaign_status_id' => $statusIds[$i],
+                'photo' => $fullPaths[$i],
                 'emergency_level' => $emergency_level[$i],
                 'compaigns_start_time' => Carbon::now()->subDays(rand(1, 10)),
                 'compaigns_end_time' => Carbon::now()->addDays(rand(10, 30)),

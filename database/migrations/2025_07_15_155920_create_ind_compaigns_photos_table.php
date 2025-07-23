@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ind_compaigns_photos', function (Blueprint $table) {
             $table->id();
+            $table->string('photo');
             $table->timestamps();
         });
     }

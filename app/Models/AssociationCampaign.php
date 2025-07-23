@@ -16,6 +16,7 @@ class AssociationCampaign extends Model
         'campaign_status_id',
         'compaigns_start_time',
         'compaigns_end_time',
+        'photo',
         'emergency_level'
     ];
 

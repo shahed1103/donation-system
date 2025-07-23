@@ -19,11 +19,12 @@ class IndCompaign extends Model
         'classification_id',
         'location',
         'amount_required',
-        //'photo_id',
+        'photo_id',
         'user_id',
         'acceptance_status_id',
         'campaign_status_id',
         'compaigns_time',
+        'photo',
         'emergency_level'
     ];
 
@@ -35,9 +36,9 @@ class IndCompaign extends Model
         return $this->belongsTo(Classification::class);
     }
 
-    // public function indCompaigns_photo(){
-    //     return $this->belongsTo(IndCompaigns_photo::class);
-    // }
+    public function indCompaigns_photo(){
+        return $this->belongsTo(IndCompaigns_photo::class);
+    }
 
         public function campaignStatus(){
         return $this->belongsTo(CampaignStatus::class);

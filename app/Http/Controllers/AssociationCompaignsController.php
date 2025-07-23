@@ -77,16 +77,4 @@ class AssociationCompaignsController extends Controller
         }
     }
 
-        public function searchCampaigns(Request $request): JsonResponse {
-        $data = [] ;
-        try{
-            $data = $this->associationCompaignsService->searchCampaigns( $request);
-           return Response::Success($data['campaign'], $data['message']);
-        }
-        catch(Throwable $th){
-            $message = $th->getMessage();
-            $errors [] = $message;
-            return Response::Error($data , $message , $errors);
-        }
-    }
 }
