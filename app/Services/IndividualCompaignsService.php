@@ -183,6 +183,11 @@ class IndividualCompaignsService
 
     $lastDonation = $compaign->donations->sortByDesc('created_at')->first();
 
+    $targetPath = 'uploads/det/defualtProfilePhoto.png';
+    $userPhoto = $compaign->user->photo
+             ? url(Storage::url($compaign->user->photo)) 
+             : url(Storage::url($targetPath)) ; 
+
          $compaingDet = [];
          $compaingDet[] = [
             'title' => $compaign->title,
@@ -208,7 +213,7 @@ class IndividualCompaignsService
             ],
             'user' => [
                 'name' => $compaign->user->name,
-                // 'photo' => $compaign->user->photo,
+                'photo' => $userPhoto,
             ]
     ];
 

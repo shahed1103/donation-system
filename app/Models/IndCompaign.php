@@ -50,7 +50,7 @@ class IndCompaign extends Model
 
     public function donations()
     {
-        return $this->hasMany(Donation::class);
+        return $this->hasMany(Donation::class, 'campaign_id');
     }
 
 
