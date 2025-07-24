@@ -29,8 +29,7 @@ class UserSignupRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'name' => 'required|string|min:3',
             'password' => 'required|confirmed|min:8',
-            'gender_id' => 'nullable|integer',
-            'phone' => 'nullable|string|max:20'
+            'phone' => 'required|string|max:20'
         ];
     }
 
