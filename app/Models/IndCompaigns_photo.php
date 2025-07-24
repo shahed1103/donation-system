@@ -17,7 +17,7 @@ class IndCompaigns_photo extends Model
     
         public function indCampaigns()
     {
-        return $this->hasMany(IndCompaigns::class);
+        return $this->hasMany(IndCompaign::class);
     }
 
 }

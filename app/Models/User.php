@@ -60,7 +60,7 @@ use HasApiTokens, HasFactory, Notifiable , HasRoles;
 
     public function indCampaigns()
     {
-        return $this->hasMany(IndCompaigns::class);
+        return $this->hasMany(IndCompaign::class);
     }
 
     public function donations()

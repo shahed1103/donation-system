@@ -91,6 +91,8 @@ Route::controller(MobileHomeController::class)->group(function(){
 
 Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('miniIfo', [PersonalAccountController::class, 'miniIfo'])->name('user.miniIfo');
+    Route::middleware('auth:sanctum')->get('mydonations', [PersonalAccountController::class, 'mydonations'])->name('user.mydonations');
+    
 });
 
 

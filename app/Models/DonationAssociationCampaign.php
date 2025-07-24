@@ -16,6 +16,6 @@ class DonationAssociationCampaign extends Model
 
         public function associationCompaigns()
     {
-        return $this->belongsTo(AssociationCompaign::class);
+        return $this->belongsTo(AssociationCampaign::class , 'association_campaign_id');
     }
 }

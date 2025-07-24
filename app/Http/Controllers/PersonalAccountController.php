@@ -33,4 +33,17 @@ class PersonalAccountController extends Controller
         }
     }
 
+    public function mydonations(): JsonResponse{
+        $data =[];
+        try{
+           $data = $this->personalAccountService->mydonations();
+           return Response::Success($data['my donations'] , $data['message']);
+        }
+
+        catch(Throwable $th){
+           $message = $th->getMessage();
+           $errors [] = $message;
+           return Response::Error($data , $message , $errors);
+        }
+    }
 }
