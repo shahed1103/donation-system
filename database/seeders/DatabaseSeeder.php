@@ -60,6 +60,23 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             IndividualCompaignsPhotosSeeder::class]);
+
+        $this->call([
+            AvailabilityTypeSeeder::class]);
+
+        $this->call([
+            VolunteerProfileSeeder::class]);        
             
+        $this->call([
+            TaskStatusSeeder::class]); 
+
+        $this->call([
+            VolunteerTasksSeeder::class]);
+
+        $this->call([
+            AssociationCampaignTaskSeeder::class]);
+
+        $this->call([
+            TaskVolunteerProfileSeeder::class]);
     }
 }

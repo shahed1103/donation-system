@@ -64,18 +64,24 @@ use HasApiTokens, HasFactory, Notifiable , HasRoles;
     }
 
     public function donations()
-{
+    {
     return $this->hasMany(Donation::class);
-}
+    }
 
 
     public function donationAssociationCampaigns()
-{
+    {
     return $this->hasMany(DonationAssociationCampaign::class);
-}
+    }
 
-public function city()
-{
-    return $this->belongsTo(City::class);
-}
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function volunteerProfile()
+    {
+    return $this->hasOne(VolunteerProfile::class);
+    }
+
 }
