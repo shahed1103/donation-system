@@ -95,7 +95,9 @@ Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('myVoluntings', [PersonalAccountController::class, 'myVoluntings'])->name('user.myVoluntings');
     Route::middleware('auth:sanctum')->get('mostDonationFor', [PersonalAccountController::class, 'mostDonationFor'])->name('user.mostDonationFor');    
     Route::middleware('auth:sanctum')->get('mySummryAchievements', [PersonalAccountController::class, 'mySummryAchievements'])->name('user.mySummryAchievements');    
-    Route::middleware('auth:sanctum')->post('createVoluntingProfile', [PersonalAccountController::class, 'createVoluntingProfile'])->name('user.createVoluntingProfile');    
+    Route::middleware('auth:sanctum')->post('createVoluntingProfile', [PersonalAccountController::class, 'createVoluntingProfile'])->name('user.createVoluntingProfile');
+    Route::middleware('auth:sanctum')->post('updateVoluntingProfile', [PersonalAccountController::class, 'updateVoluntingProfile'])->name('user.updateVoluntingProfile');    
+    
 });
 
 

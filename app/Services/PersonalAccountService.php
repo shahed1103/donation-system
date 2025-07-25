@@ -236,7 +236,36 @@ class PersonalAccountService
         $message = 'Your volunting profile created sucessfully';
 
         return ['volunting profile' =>  $voluntingProfile_dett , 'message' => $message];
+    }
 
+    // update Volunting Profile
+    public function updateVoluntingProfile($request): array{
+       $userId = Auth::user()->id;
+      $voluntingProfile = VolunteerProfile::where('user_id' , $userId)->first();
+echo $voluntingProfile->availability_type_id;
+       $voluntingProfile->update([
+                'availability_type_id' =>  $request['availability_type_id'] ?? $voluntingProfile->availability_type_id,
+                'skills' => $request['skills'] ?? $voluntingProfile->skills,
+                'availability_hours' => $request['availability_hours'] ?? $voluntingProfile->availability_hours,
+                'preferred_tasks' => $request['preferred_tasks'] ?? $voluntingProfile->preferred_tasks,
+                'academic_major' =>  $request['academic_major'] ?? $voluntingProfile->academic_major,
+                'previous_volunteer_work' =>  $request['previous_volunteer_work'] ?? $voluntingProfile->previous_volunteer_work,
+       ]);
+
+       $availability_type = AvailabilityType::find($voluntingProfile->availability_type_id)->name;
+
+       $voluntingProfile_dett = [
+        'availability_type_id' =>  ['id' => $request['availability_type_id'] , 'availability_type' => $availability_type],
+        'skills' => $request['skills'],
+        'availability_hours' => $request['availability_hours'],
+        'preferred_tasks' => $request['preferred_tasks'],
+        'academic_major' =>  $request['academic_major'],
+        'previous_volunteer_work' =>  $request['previous_volunteer_work'],
+       ];
+
+        $message = 'Your volunting profile updated sucessfully';
+
+        return ['volunting profile' =>  $voluntingProfile_dett , 'message' => $message];
     }
     }
 

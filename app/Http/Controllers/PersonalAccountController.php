@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use App\Http\Requests\VoluntingProfile\CreateVoluntingProfileRequest;
+use App\Http\Requests\VoluntingProfile\UpdateVoluntingProfileRequest;
 
 
 class PersonalAccountController extends Controller
@@ -110,4 +111,20 @@ class PersonalAccountController extends Controller
             return Response::ErrorX($data , $message , $errors , $code );
         }
     }    
+
+    // Update Volunting Profile
+    public function updateVoluntingProfile(UpdateVoluntingProfileRequest $request): JsonResponse{
+        $data =[];
+        try{
+           $data = $this->personalAccountService->updateVoluntingProfile($request);
+           return Response::Success($data['volunting profile'] , $data['message']);
+        }
+
+        catch(Throwable $th){
+           $message = $th->getMessage();
+           $errors [] = $message;
+           return Response::Error($data , $message , $errors );
+        }
+    } 
+    
 }
