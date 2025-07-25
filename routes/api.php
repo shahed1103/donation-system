@@ -6,6 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AssociationCompaignsController;
 use App\Http\Controllers\IndividualCompaignsController;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\SuperAdminCompaignsController;
+
+
 use App\Http\Controllers\PersonalAccountController;
 // use App\Http\Requests\Auth\UserSignupRequest;
 // use App\Http\Requests\Auth\UserSigninRequest;
@@ -132,10 +135,10 @@ Route::middleware('auth:sanctum')->get('deleteLeader/{id}', [SuperAdminControlle
 
 
 Route::controller(SuperAdminCompaignsController::class)->group(function(){
-Route::middleware('auth:sanctum')->get('getAssociations', [SuperAdminController::class, 'getAssociations'])->name('super_admin.getAssociations');
-Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [SuperAdminController::class, 'getAssociationsCampaignsActive'])->name('super_admin.getAssociationsCampaignsActive');
-Route::middleware('auth:sanctum')->get('getAssociationCompaingsComplete/{id}', [SuperAdminController::class, 'getAssociationCompaingsComplete'])->name('super_admin.getAssociationCompaingsComplete');
-Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [SuperAdminController::class, 'getAssociationCompaingsClosed'])->name('super_admin.getAssociationCompaingsClosed');
+Route::middleware('auth:sanctum')->get('getAssociations', [SuperAdminCompaignsController::class, 'getAssociations'])->name('super_admin.getAssociations');
+Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [SuperAdminCompaignsController::class, 'getAssociationsCampaignsActive'])->name('super_admin.getAssociationsCampaignsActive');
+Route::middleware('auth:sanctum')->get('getAssociationCompaingsComplete/{id}', [SuperAdminCompaignsController::class, 'getAssociationCompaingsComplete'])->name('super_admin.getAssociationCompaingsComplete');
+Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [SuperAdminCompaignsController::class, 'getAssociationCompaingsClosed'])->name('super_admin.getAssociationCompaingsClosed');
 
 
 
@@ -144,8 +147,8 @@ Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [Su
 
 
 Route::controller(SuperAdminCompaignsController::class)->group(function(){
-    Route::get('getAssociationsCampaignsActive/{id}' , 'getAssociationsCampaignsActive')
-          ->name('user.getAssociationsCampaignsActive');
+    Route::get('getAssociationCompaingsComplete/{id}' , 'getAssociationCompaingsComplete')
+          ->name('user.getAssociationCompaingsComplete');
 });
 
 
