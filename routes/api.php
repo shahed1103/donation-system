@@ -122,6 +122,9 @@ Route::middleware('auth:sanctum')->get('deleteLeader/{id}', [SuperAdminControlle
 Route::controller(SuperAdminCompaignsController::class)->group(function(){
 Route::middleware('auth:sanctum')->get('getAssociations', [SuperAdminController::class, 'getAssociations'])->name('super_admin.getAssociations');
 Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [SuperAdminController::class, 'getAssociationsCampaignsActive'])->name('super_admin.getAssociationsCampaignsActive');
+Route::middleware('auth:sanctum')->get('getAssociationCompaingsComplete/{id}', [SuperAdminController::class, 'getAssociationCompaingsComplete'])->name('super_admin.getAssociationCompaingsComplete');
+Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [SuperAdminController::class, 'getAssociationCompaingsClosed'])->name('super_admin.getAssociationCompaingsClosed');
+
 
 
 });
@@ -129,8 +132,8 @@ Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [S
 
 
 Route::controller(SuperAdminCompaignsController::class)->group(function(){
-    Route::get('getAssociations' , 'getAssociations')
-          ->name('user.getAssociations');
+    Route::get('getAssociationsCampaignsActive/{id}' , 'getAssociationsCampaignsActive')
+          ->name('user.getAssociationsCampaignsActive');
 });
 
 
