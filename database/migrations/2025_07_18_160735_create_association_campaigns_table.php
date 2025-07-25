@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('classification_id')->unsigned();
             $table->integer('amount_required')->unsigned();
             //$table->foreignId('photo_id')->constrained()->onDelete('cascade');
-            // $table->integer('association_id')->unsigned();
+
             $table->integer('campaign_status_id')->unsigned();
             $table->string('photo');
             $table->date('compaigns_start_time');

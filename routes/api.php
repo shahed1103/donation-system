@@ -92,7 +92,7 @@ Route::controller(MobileHomeController::class)->group(function(){
 Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('miniIfo', [PersonalAccountController::class, 'miniIfo'])->name('user.miniIfo');
     Route::middleware('auth:sanctum')->get('mydonations', [PersonalAccountController::class, 'mydonations'])->name('user.mydonations');
-    
+
 });
 
 
@@ -116,12 +116,17 @@ Route::middleware('auth:sanctum')->get('deleteLeader/{id}', [SuperAdminControlle
 
 
 
+
+
 });
 
+//Route::middleware('auth:sanctum')->get('getAssociations', [SuperAdminController::class, 'getAssociations'])->name('super_admin.getAssociations');
+Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [SuperAdminController::class, 'getAssociationsCampaignsActive'])->name('super_admin.getAssociationsCampaignsActive');
 
-Route::controller(SuperAdminController::class)->group(function(){
-    Route::get('deleteLeader/{id}' , 'deleteLeader')
-          ->name('user.deleteLeader');
+
+Route::controller(SuperAdminCompaignsController::class)->group(function(){
+    Route::get('getAssociations' , 'getAssociations')
+          ->name('user.getAssociations');
 });
 
 
