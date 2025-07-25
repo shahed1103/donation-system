@@ -94,14 +94,24 @@ Route::middleware('auth:sanctum')->get('totalDonationsByYear/{year}', [SuperAdmi
 Route::middleware('auth:sanctum')->get('getCityDonationPercentagesByYear/{year}', [SuperAdminController::class, 'getCityDonationPercentagesByYear'])->name('super_admin.getCityDonationPercentagesByYear');
 Route::middleware('auth:sanctum')->get('getMonthlyDonationsByYear/{year}', [SuperAdminController::class, 'getMonthlyDonationsByYear'])->name('super_admin.getMonthlyDonationsByYear');
 Route::middleware('auth:sanctum')->get('getEndedCampaignsCountByYear/{year}', [SuperAdminController::class, 'getEndedCampaignsCountByYear'])->name('super_admin.getEndedCampaignsCountByYear');
-
+Route::middleware('auth:sanctum')->get('getDonorsAndVolunteers', [SuperAdminController::class, 'getDonorsAndVolunteers'])->name('super_admin.getDonorsAndVolunteers');
+Route::middleware('auth:sanctum')->get('getTeamLeaders', [SuperAdminController::class, 'getTeamLeaders'])->name('super_admin.getTeamLeaders');
+Route::middleware('auth:sanctum')->get('createLeader', [SuperAdminController::class, 'createLeader'])->name('super_admin.createLeader');
+Route::middleware('auth:sanctum')->get('deleteLeader/{id}', [SuperAdminController::class, 'deleteLeader'])->name('super_admin.deleteLeader');
 
 
 
 });
+
 
 Route::controller(SuperAdminController::class)->group(function(){
-    Route::get('getEndedCampaignsCountByYear/{year}' , 'getEndedCampaignsCountByYear')
-          ->name('super_admin.getEndedCampaignsCountByYear');
+    Route::get('deleteLeader/{id}' , 'deleteLeader')
+          ->name('user.deleteLeader');
 });
 
+
+// Route::controller(SuperAdminController::class)->group(function(){
+//     Route::post('createLeader' , 'createLeader')
+//           ->name('super_admin.createLeader');
+
+// });

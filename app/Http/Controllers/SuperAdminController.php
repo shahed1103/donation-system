@@ -147,6 +147,53 @@ public function getEndedCampaignsCountByYear($year): JsonResponse {
     }
 }
 
+public function getDonorsAndVolunteers(): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->getDonorsAndVolunteers();
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function getTeamLeaders(): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->getTeamLeaders();
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function createLeader(Request $request): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->createLeader($request);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function deleteLeader($id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->deleteLeader($id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 
 
 }

@@ -25,7 +25,7 @@ use HasApiTokens, HasFactory, Notifiable , HasRoles;
         'password',
         'gender_id',
         'phone',
-        'nationality_id',
+        'city_id',
         'age'
     ];
 
