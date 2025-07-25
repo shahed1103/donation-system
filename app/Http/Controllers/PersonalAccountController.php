@@ -127,4 +127,33 @@ class PersonalAccountController extends Controller
         }
     } 
     
+    // show Volunting Profile
+    public function showVoluntingProfile(): JsonResponse{
+        $data =[];
+        try{
+           $data = $this->personalAccountService->showVoluntingProfile();
+           return Response::Success($data['volunting profile'] , $data['message']);
+        }
+
+        catch(Throwable $th){
+           $message = $th->getMessage();
+           $errors [] = $message;
+           return Response::Error($data , $message , $errors );
+        }
+    } 
+
+    // show Volunting Profile details
+    public function showVoluntingProfileDetails(): JsonResponse{
+        $data =[];
+        try{
+           $data = $this->personalAccountService->showVoluntingProfileDetails();
+           return Response::Success($data['volunting profile'] , $data['message']);
+        }
+
+        catch(Throwable $th){
+           $message = $th->getMessage();
+           $errors [] = $message;
+           return Response::Error($data , $message , $errors );
+        }
+    } 
 }
