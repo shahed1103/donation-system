@@ -21,7 +21,7 @@ return new class extends Migration
             //$table->foreignId('photo_id')->constrained()->onDelete('cascade');
             // $table->integer('association_id')->unsigned();
             $table->integer('campaign_status_id')->unsigned();
-
+            $table->string('photo');
             $table->date('compaigns_start_time');
             $table->date('compaigns_end_time');
             $table->tinyInteger('emergency_level');

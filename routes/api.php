@@ -6,8 +6,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AssociationCompaignsController;
 use App\Http\Controllers\IndividualCompaignsController;
 use App\Http\Controllers\SuperAdminController;
-use App\Http\Requests\Auth\UserSignupRequest;
-use App\Http\Requests\Auth\UserSigninRequest;
+use App\Http\Controllers\PersonalAccountController;
+// use App\Http\Requests\Auth\UserSignupRequest;
+// use App\Http\Requests\Auth\UserSigninRequest;
+use App\Http\Controllers\MobileHomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,11 +79,24 @@ Route::get('showAssociationDetails/{id}' , 'showAssociationDetails')
     //association campaign id
 Route::get('showCampaignDetails/{campaignId}' , 'showCampaignDetails')
     ->name('user.showCampaignDetails');
-
-Route::post('searchCampaigns' , 'searchCampaigns')
-    ->name('user.searchCampaigns');
-
 });
+
+Route::controller(MobileHomeController::class)->group(function(){
+    Route::post('searchCampaigns' , 'searchCampaigns')
+        ->name('user.searchCampaigns');
+
+    Route::get('emergencyCompaings' , 'emergencyCompaings')
+        ->name('user.emergencyCompaings');
+});
+
+Route::controller(PersonalAccountController::class)->group(function(){
+    Route::middleware('auth:sanctum')->get('miniIfo', [PersonalAccountController::class, 'miniIfo'])->name('user.miniIfo');
+    Route::middleware('auth:sanctum')->get('mydonations', [PersonalAccountController::class, 'mydonations'])->name('user.mydonations');
+    
+});
+
+
+
 
 Route::controller(SuperAdminController::class)->group(function(){
 Route::middleware('auth:sanctum')->get('countAssociations', [SuperAdminController::class, 'countAssociations'])->name('super_admin.countAssociations');

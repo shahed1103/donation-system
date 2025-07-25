@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class IndCompaigns_photo extends Model
@@ -11,20 +12,12 @@ class IndCompaigns_photo extends Model
 
     protected $fillable = [
         'id',
-        'title',
-        'description',
-        'classification_id',
-        'location',
-        'amount_required',
-        //'photo_id',
-        ///
-        'user_id',
-        'acceptance_status_id',
-        'campaign_status_id'
+        'photo'
     ];
     
         public function indCampaigns()
     {
-        return $this->hasMany(IndCompaigns::class);
+        return $this->hasMany(IndCompaign::class);
     }
+
 }

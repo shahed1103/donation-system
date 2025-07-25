@@ -15,7 +15,7 @@ class Donation extends Model
 
     public function IndCompaigns()
     {
-        return $this->belongsTo(IndCompaigns::class);
+        return $this->belongsTo(IndCompaign::class , 'campaign_id');
     }
 }
 

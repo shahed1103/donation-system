@@ -76,6 +76,7 @@ class IndividualCompaignsSeeder extends Seeder
                 'location' => $locations[$i],
                 'amount_required' => rand(500, 10000),
                 'user_id' => rand(1, 5),
+                'photo_id' => rand(1, 4),
                 'acceptance_status_id' => $acceptance_status_ids[$i],
                 'campaign_status_id' => $campaign_status_ids[$i],
                 'compaigns_start_time' => $startTime,

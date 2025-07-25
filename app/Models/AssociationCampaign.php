@@ -16,6 +16,7 @@ class AssociationCampaign extends Model
         'campaign_status_id',
         'compaigns_start_time',
         'compaigns_end_time',
+        'photo',
         'emergency_level'
     ];
 
@@ -35,4 +36,10 @@ class AssociationCampaign extends Model
     {
         return $this->hasMany(DonationAssociationCampaign::class);
     }
+
+    public function volunteerTasks()
+    {
+    return $this->belongsToMany(VolunteerTask::class, 'association_campaign_task', 'association_campaign_id', 'volunteer_task_id');
+    }
+
 }

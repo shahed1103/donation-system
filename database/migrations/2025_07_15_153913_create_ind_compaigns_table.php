@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('location');
             $table->integer('amount_required')->unsigned();
             //$table->foreignId('photo_id')->constrained()->onDelete('cascade');
+            $table->integer('photo_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('acceptance_status_id')->unsigned()->default(1);
             $table->integer('campaign_status_id')->unsigned()->default(2);
-
             $table->date('compaigns_start_time')->nullable();
             $table->date('compaigns_end_time')->nullable();
             $table->integer('compaigns_time');
