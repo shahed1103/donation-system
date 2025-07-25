@@ -1,8 +1,5 @@
 <?php
-
-
 namespace App\Services;
-
 use App\Models\IndCompaign;
 use App\Models\Classification;
 use App\Models\AcceptanceStatus;
@@ -185,8 +182,8 @@ class IndividualCompaignsService
 
     $targetPath = 'uploads/det/defualtProfilePhoto.png';
     $userPhoto = $compaign->user->photo
-             ? url(Storage::url($compaign->user->photo)) 
-             : url(Storage::url($targetPath)) ; 
+             ? url(Storage::url($compaign->user->photo))
+             : url(Storage::url($targetPath)) ;
 
          $compaingDet = [];
          $compaingDet[] = [
