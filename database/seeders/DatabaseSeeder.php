@@ -73,8 +73,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             VolunteerTasksSeeder::class]);
 
-        $this->call([
-            AssociationCampaignTaskSeeder::class]);
+        // $this->call([
+        //     AssociationCampaignTaskSeeder::class]);
 
         $this->call([
             TaskVolunteerProfileSeeder::class]);

@@ -24,6 +24,7 @@ class VolunteerTasksSeeder extends Seeder
         $status_ids = [1, 2, 3];
 
         $hours = [5, 3, 4];
+        
 
         for ($i = 0; $i < 3 ; $i++) {
             VolunteerTask::create([
@@ -31,6 +32,7 @@ class VolunteerTasksSeeder extends Seeder
                 'description' => $descriptions[$i],
                 'status_id' => $status_ids[$i],
                 'hours' => $hours[$i],
+                'association_campaign_id' => rand(1,4)
             ]);
         }
     }
