@@ -16,6 +16,7 @@ class RolesPermissionsSeeder extends Seeder
         $volunteerRole = Role::create(['name' => 'Volunteer']);
         $donorRole = Role::create(['name' => 'Donor']);
         $adminRole = Role::create(['name' => 'Admin']);
+        $leaderRole = Role::create(['name' => 'Leader']);
 
         // 2. Create permissions
         $permissions = [
@@ -34,6 +35,7 @@ class RolesPermissionsSeeder extends Seeder
         $donorRole->syncPermissions($permissions);
         $superAdminRole->syncPermissions($permissions);
         $adminRole->syncPermissions($permissions);
+        $leaderRole->syncPermissions($permissions);
 
 
         // 4. Create users for each role
@@ -71,6 +73,7 @@ class RolesPermissionsSeeder extends Seeder
         $permissions = $volunteerRole->permissions()->pluck('name')->toArray();
         $volunteerUser->givePermissionTo ($permissions);
 
+        
        $admin = User::factory()->create([
             'role_id' => $adminRole->id,
             'gender_id' => 2,
@@ -87,6 +90,27 @@ class RolesPermissionsSeeder extends Seeder
         //assign permissions with the role to the user
         $permissions = $adminRole->permissions()->pluck('name')->toArray();
         $admin->givePermissionTo ($permissions);
+
+
+
+
+       $leader = User::factory()->create([
+            'role_id' => $leaderRole->id,
+            'gender_id' => 2,
+            'phone' => '09544117593',
+            'city_id' => 1,
+            'age' => '20',
+            'name' => 'leader',
+            'email' => 'leader@example.com',
+            'password' => bcrypt('password')
+        ]);
+
+        $leader->assignRole($leaderRole);
+
+        //assign permissions with the role to the user
+        $permissions = $leaderRole->permissions()->pluck('name')->toArray();
+        $leader->givePermissionTo ($permissions);
+
 
 
         // 5. Create additional Donor users

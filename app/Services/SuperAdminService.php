@@ -124,8 +124,8 @@ public function getTotalCampaignsCountByYear(int $year): array
 public function getUserCountsByRoleByYear(int $year): array
 {
     try {
-        $startOfYear = Carbon\Carbon::createFromDate($year, 1, 1)->startOfDay();
-        $endOfYear = Carbon\Carbon::createFromDate($year, 12, 31)->endOfDay();
+        $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
 
         $volunteerRoleId = Role::where('name', 'Volunteer')->value('id');
         $donorRoleId = Role::where('name', 'Donor')->value('id');
@@ -314,5 +314,120 @@ public function getEndedCampaignsCountByYear(int $year): array
     }
 }
 
+public function getDonorsAndVolunteers(): array
+{
+    try {
+        $volunteerRoleId = Role::where('name', 'Volunteer')->value('id');
+        $donorRoleId = Role::where('name', 'Donor')->value('id');
+
+        $users = User::whereIn('role_id', [$volunteerRoleId, $donorRoleId])
+            ->select('name', 'email', 'phone')
+            ->get();
+
+        return [
+            'users' => $users,
+            'message' => 'done'
+        ];
+    } catch (Throwable $th) {
+        return [
+            'users' => [],
+            'message' => 'Database connection or query error',
+            'error_detail' => $th->getMessage(),
+        ];
+    }
+}
+
+public function getTeamLeaders(): array
+{
+    try {
+        $LeaderRoleId = Role::where('name', 'Leader')->value('id');
+
+        $users = User::with('city:id,name')
+            ->where('role_id', $LeaderRoleId)
+            ->select('id', 'name', 'email', 'phone', 'city_id', 'password')
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'name'     => $user->name,
+                    'email'    => $user->email,
+                    'phone'    => $user->phone,
+                    'city'     => optional($user->city)->name,
+                    'password' => '[PASSWORD IS HASHED]',
+                ];
+            });
+
+        return [
+            'users' => $users,
+            'message' => 'done'
+        ];
+    } catch (Throwable $th) {
+        return [
+            'users' => [],
+            'message' => 'Database connection or query error',
+            'error_detail' => $th->getMessage(),
+        ];
+    }
+}
+
+public function createLeader(Request $request): array
+{
+    try {
+
+        $role = Role::where('name', 'leader')->first();
+        $validated = $request->validate([
+            'name'     => 'required|string',
+            'email'    => 'required|email|unique:users,email',
+            'phone'    => 'nullable|string',
+            'password' => 'required|string|min:6',
+            'age'      => 'nullable|string',
+            'city_id'  => 'nullable|integer',
+            'gender_id'=> 'nullable|integer',
+        ]);
+
+        $user = User::create([
+            'name'      => $validated['name'],
+            'email'     => $validated['email'],
+            'phone'     => $validated['phone'] ?? null,
+            'password'  => Hash::make($validated['password']),
+            'age'       => $validated['age'] ?? null,
+            'city_id'   => $validated['city_id'] ?? null,
+            'gender_id' => $validated['gender_id'] ?? null,
+            'role_id'   => $role->id,
+        ]);
+
+        $user->assignRole('leader');
+        return [
+            'status' => 1,
+            'message' => 'done',
+            'user' => $user
+        ];
+
+    } catch (Throwable $th) {
+        return [
+            'status' => 0,
+            'message' => 'error',
+            'error' => $th->getMessage()
+        ];
+    }
+}
+
+public function deleteLeader($id): array
+{
+    try {
+        $user = User::find($id);
+        $user->delete();
+        return [
+            'status' => 1,
+            'message' => 'done'
+        ];
+ }
+    catch (Throwable $th) {
+        return [
+            'status' => 0,
+            'message' => 'can`t delet',
+            'error' => $th->getMessage()
+        ];
+    }
+}
 
 }
