@@ -18,7 +18,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 class SuperAdminController extends Controller
 {
 
-protected AssociationService $associationService;
+protected SuperAdminService $superAdminService;
 
 public function __construct(SuperAdminService $superAdminService)
 {

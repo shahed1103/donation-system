@@ -92,14 +92,17 @@ Route::controller(MobileHomeController::class)->group(function(){
 Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('miniIfo', [PersonalAccountController::class, 'miniIfo'])->name('user.miniIfo');
     Route::middleware('auth:sanctum')->get('mydonations', [PersonalAccountController::class, 'mydonations'])->name('user.mydonations');
+
     Route::middleware('auth:sanctum')->get('myVoluntings', [PersonalAccountController::class, 'myVoluntings'])->name('user.myVoluntings');
-    Route::middleware('auth:sanctum')->get('mostDonationFor', [PersonalAccountController::class, 'mostDonationFor'])->name('user.mostDonationFor');    
-    Route::middleware('auth:sanctum')->get('mySummryAchievements', [PersonalAccountController::class, 'mySummryAchievements'])->name('user.mySummryAchievements');    
+    Route::middleware('auth:sanctum')->get('mostDonationFor', [PersonalAccountController::class, 'mostDonationFor'])->name('user.mostDonationFor');
+    Route::middleware('auth:sanctum')->get('mySummryAchievements', [PersonalAccountController::class, 'mySummryAchievements'])->name('user.mySummryAchievements');
     Route::middleware('auth:sanctum')->post('createVoluntingProfile', [PersonalAccountController::class, 'createVoluntingProfile'])->name('user.createVoluntingProfile');
     Route::middleware('auth:sanctum')->post('updateVoluntingProfile', [PersonalAccountController::class, 'updateVoluntingProfile'])->name('user.updateVoluntingProfile');  
     Route::middleware('auth:sanctum')->get('showVoluntingProfile', [PersonalAccountController::class, 'showVoluntingProfile'])->name('user.showVoluntingProfile');  
     Route::middleware('auth:sanctum')->get('showVoluntingProfileDetails', [PersonalAccountController::class, 'showVoluntingProfileDetails'])->name('user.showVoluntingProfileDetails');  
     
+    Route::middleware('auth:sanctum')->post('updateVoluntingProfile', [PersonalAccountController::class, 'updateVoluntingProfile'])->name('user.updateVoluntingProfile');
+
 });
 
 
@@ -122,13 +125,25 @@ Route::middleware('auth:sanctum')->get('createLeader', [SuperAdminController::cl
 Route::middleware('auth:sanctum')->get('deleteLeader/{id}', [SuperAdminController::class, 'deleteLeader'])->name('super_admin.deleteLeader');
 
 
+});
+
+
+
+Route::controller(SuperAdminCompaignsController::class)->group(function(){
+Route::middleware('auth:sanctum')->get('getAssociations', [SuperAdminController::class, 'getAssociations'])->name('super_admin.getAssociations');
+Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [SuperAdminController::class, 'getAssociationsCampaignsActive'])->name('super_admin.getAssociationsCampaignsActive');
+Route::middleware('auth:sanctum')->get('getAssociationCompaingsComplete/{id}', [SuperAdminController::class, 'getAssociationCompaingsComplete'])->name('super_admin.getAssociationCompaingsComplete');
+Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [SuperAdminController::class, 'getAssociationCompaingsClosed'])->name('super_admin.getAssociationCompaingsClosed');
+
+
 
 });
 
 
-Route::controller(SuperAdminController::class)->group(function(){
-    Route::get('deleteLeader/{id}' , 'deleteLeader')
-          ->name('user.deleteLeader');
+
+Route::controller(SuperAdminCompaignsController::class)->group(function(){
+    Route::get('getAssociationsCampaignsActive/{id}' , 'getAssociationsCampaignsActive')
+          ->name('user.getAssociationsCampaignsActive');
 });
 
 
