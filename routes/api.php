@@ -65,6 +65,7 @@ Route::middleware('auth:sanctum')->post('createIndiviCompa', [IndividualCompaign
 Route::middleware('auth:sanctum')->get('viewMyIndiviCompa', [IndividualCompaignsController::class, 'viewMyIndiviCompa'])->name('user.viewMyIndiviCompa');
 Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     ->name('user.viewIndiviCompa');
+    
     //individual campaign id
 Route::get('showIndiviCampaignDetails/{campaignId}' , 'showIndiviCampaignDetails')
     ->name('user.showIndiviCampaignDetails');
