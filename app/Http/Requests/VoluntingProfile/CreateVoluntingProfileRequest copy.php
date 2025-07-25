@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\IndividualCompaings;
+namespace App\Http\Requests\VoluntingProfile;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -8,7 +8,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Responses\response;
 
-class CreateIndividualCompaingsRequest extends FormRequest
+class CreateVoluntingProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,15 +26,13 @@ class CreateIndividualCompaingsRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|min:5',
-            'description' => 'required|string|min:10',
-            'classification_id' => 'required|exists:classifications,id',
-            'location' => 'required|string|min:10',
-            'amount_required' => 'required|integer',
-            'compaigns_time' =>  'required|integer',
-            // 'user_id' => 'required|exists:users,id',
-        //    'acceptance_status_id' => 'required|exists:acceptance_statuses,id',
-          //  'campaign_status_id' => 'required|exists:campaign_statuses,id',
+        // 'user_id' => 'required|exists:users,id',
+        'availability_type_id' => 'required|exists:availability_types,id',
+        'skills' => 'required|string',
+        'availability_hours'=> 'required|integer',
+        'preferred_tasks' => 'required|string',
+        'academic_major' => 'required|string',
+        'previous_volunteer_work' => 'required|string',
         ];
     }
 
