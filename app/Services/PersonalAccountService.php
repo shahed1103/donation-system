@@ -241,9 +241,10 @@ class PersonalAccountService
     // update Volunting Profile
     public function updateVoluntingProfile($request): array{
        $userId = Auth::user()->id;
+       $voluntingProfile_dett = [];
       $voluntingProfile = VolunteerProfile::where('user_id' , $userId)->first();
-echo $voluntingProfile->availability_type_id;
-       $voluntingProfile->update([
+
+      $voluntingProfile->update([
                 'availability_type_id' =>  $request['availability_type_id'] ?? $voluntingProfile->availability_type_id,
                 'skills' => $request['skills'] ?? $voluntingProfile->skills,
                 'availability_hours' => $request['availability_hours'] ?? $voluntingProfile->availability_hours,
@@ -264,6 +265,45 @@ echo $voluntingProfile->availability_type_id;
        ];
 
         $message = 'Your volunting profile updated sucessfully';
+
+        return ['volunting profile' =>  $voluntingProfile_dett , 'message' => $message];
+    }
+
+    // show Volunting Profile
+    public function showVoluntingProfile(): array{
+       $userId = Auth::user()->id;
+       $userName = Auth::user()->name;
+       $voluntingProfileCreated = VolunteerProfile::where('user_id' , $userId)->value('created_at');
+
+       $voluntingProfile_dett = [];
+       $voluntingProfile_dett = [
+        'volunteer_name' => $userName,
+        'time_becoming_volunteer_member' => $voluntingProfileCreated->format('Y-m-d')
+       ];
+
+        $message = 'volunting profile';
+
+        return ['volunting profile' =>  $voluntingProfile_dett , 'message' => $message];
+    }
+
+    // show Volunting Profile details
+    public function showVoluntingProfileDetails(): array{
+       $userId = Auth::user()->id;
+       $voluntingProfile_dett = [];
+
+      $voluntingProfile = VolunteerProfile::where('user_id' , $userId)->first();
+      $availability_type = AvailabilityType::find($voluntingProfile->availability_type_id)->name;
+
+    $voluntingProfile_dett = [
+        'availability_type_id' =>  ['id' => $voluntingProfile->availability_type_id , 'availability_type' => $availability_type],
+        'skills' => $voluntingProfile->skills,
+        'availability_hours' => $voluntingProfile->availability_hours,
+        'preferred_tasks' => $voluntingProfile->preferred_tasks,
+        'academic_major' =>  $voluntingProfile->academic_major,
+        'previous_volunteer_work' =>  $voluntingProfile->previous_volunteer_work,
+       ];
+
+        $message = 'Your volunting profile details retrived sucessfully';
 
         return ['volunting profile' =>  $voluntingProfile_dett , 'message' => $message];
     }
