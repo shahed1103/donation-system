@@ -55,10 +55,17 @@ Route::controller(IndividualCompaignsController::class)->group(function(){
 Route::get('getClassification' , 'getClassification')
 ->name('all.getClassification');
 
+Route::get('getAvailabilityType' , 'getAvailabilityType')
+->name('all.getAvailabilityType');
+
+Route::get('getCities' , 'getCities')
+->name('all.getCities');
+
 Route::middleware('auth:sanctum')->post('createIndiviCompa', [IndividualCompaignsController::class, 'createIndiviCompa'])->name('user.createIndiviCompa');
 Route::middleware('auth:sanctum')->get('viewMyIndiviCompa', [IndividualCompaignsController::class, 'viewMyIndiviCompa'])->name('user.viewMyIndiviCompa');
 Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     ->name('user.viewIndiviCompa');
+
     //individual campaign id
 Route::get('showIndiviCampaignDetails/{campaignId}' , 'showIndiviCampaignDetails')
     ->name('user.showIndiviCampaignDetails');
@@ -95,7 +102,6 @@ Route::controller(MobileHomeController::class)->group(function(){
 Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('miniIfo', [PersonalAccountController::class, 'miniIfo'])->name('user.miniIfo');
     Route::middleware('auth:sanctum')->get('mydonations', [PersonalAccountController::class, 'mydonations'])->name('user.mydonations');
-
     Route::middleware('auth:sanctum')->get('myVoluntings', [PersonalAccountController::class, 'myVoluntings'])->name('user.myVoluntings');
     Route::middleware('auth:sanctum')->get('mostDonationFor', [PersonalAccountController::class, 'mostDonationFor'])->name('user.mostDonationFor');
     Route::middleware('auth:sanctum')->get('mySummryAchievements', [PersonalAccountController::class, 'mySummryAchievements'])->name('user.mySummryAchievements');
@@ -106,6 +112,9 @@ Route::controller(PersonalAccountController::class)->group(function(){
 
     Route::middleware('auth:sanctum')->post('updateVoluntingProfile', [PersonalAccountController::class, 'updateVoluntingProfile'])->name('user.updateVoluntingProfile');
 
+    Route::middleware('auth:sanctum')->post('updateVoluntingProfile', [PersonalAccountController::class, 'updateVoluntingProfile'])->name('user.updateVoluntingProfile');
+    Route::middleware('auth:sanctum')->get('showVoluntingProfile', [PersonalAccountController::class, 'showVoluntingProfile'])->name('user.showVoluntingProfile');
+    Route::middleware('auth:sanctum')->get('showVoluntingProfileDetails', [PersonalAccountController::class, 'showVoluntingProfileDetails'])->name('user.showVoluntingProfileDetails');
 });
 
 
