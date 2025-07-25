@@ -115,13 +115,17 @@ Route::middleware('auth:sanctum')->get('createLeader', [SuperAdminController::cl
 Route::middleware('auth:sanctum')->get('deleteLeader/{id}', [SuperAdminController::class, 'deleteLeader'])->name('super_admin.deleteLeader');
 
 
+});
 
+
+
+Route::controller(SuperAdminCompaignsController::class)->group(function(){
+Route::middleware('auth:sanctum')->get('getAssociations', [SuperAdminController::class, 'getAssociations'])->name('super_admin.getAssociations');
+Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [SuperAdminController::class, 'getAssociationsCampaignsActive'])->name('super_admin.getAssociationsCampaignsActive');
 
 
 });
 
-//Route::middleware('auth:sanctum')->get('getAssociations', [SuperAdminController::class, 'getAssociations'])->name('super_admin.getAssociations');
-Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [SuperAdminController::class, 'getAssociationsCampaignsActive'])->name('super_admin.getAssociationsCampaignsActive');
 
 
 Route::controller(SuperAdminCompaignsController::class)->group(function(){

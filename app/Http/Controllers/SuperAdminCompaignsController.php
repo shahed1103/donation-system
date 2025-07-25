@@ -37,4 +37,41 @@ public function getAssociations(): JsonResponse {
         return Response::Error($data, $message, $errors);
     }
 }
+
+public function getAssociationsCampaignsActive($association_id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminCompaignsService->getAssociationsCampaignsActive($association_id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function getAssociationCompaingsComplete($association_id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminCompaignsService->getAssociationCompaingsComplete($association_id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function getAssociationCompaingsClosed($association_id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminCompaignsService->getAssociationCompaingsClosed($association_id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
 }
