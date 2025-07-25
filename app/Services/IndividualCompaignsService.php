@@ -10,7 +10,8 @@ use App\Models\CampaignStatus;
 use App\Models\IndCompaigns_photo;
 use App\Models\Donation;
 use App\Models\User;
-City
+use App\Models\AvailabilityType;
+use App\Models\City;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Session;
 use Exception;

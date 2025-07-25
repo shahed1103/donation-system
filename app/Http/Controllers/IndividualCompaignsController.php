@@ -62,7 +62,23 @@ class IndividualCompaignsController extends Controller
             return Response::Error($data , $message , $errors);
         }
     }
-    //view all classifications
+
+    // Get individual campaign details 
+    public function showIndiviCampaignDetails($campaignId){
+                $data = [] ;
+        try{
+            $data = $this->individualCompaignsService->showIndiviCampaignDetails($campaignId);
+           return Response::Success($data['campaign'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+     // view all
+    //1 view all classifications
     public function getClassification(): JsonResponse {
         $data = [] ;
         try{
@@ -76,12 +92,26 @@ class IndividualCompaignsController extends Controller
         }
     }
 
-    // Get individual campaign details 
-    public function showIndiviCampaignDetails($campaignId){
-                $data = [] ;
+    //2 view all Availability Type
+    public function getAvailabilityType(): JsonResponse {
+        $data = [] ;
         try{
-            $data = $this->individualCompaignsService->showIndiviCampaignDetails($campaignId);
-           return Response::Success($data['campaign'], $data['message']);
+            $data = $this->individualCompaignsService->getAvailabilityType();
+           return Response::Success($data['availabilityTypes'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+    //3 view all cities
+    public function getCities(): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->individualCompaignsService->getCities();
+           return Response::Success($data['cities'], $data['message']);
         }
         catch(Throwable $th){
             $message = $th->getMessage();
