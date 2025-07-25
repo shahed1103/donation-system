@@ -8,9 +8,16 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Association;
 use App\Models\User;
 use App\Models\Donation;
+use App\Models\IndCompaign;
+
+use App\Models\Classification;
+use App\Models\AcceptanceStatus;
+use App\Models\CampaignStatus;
+use App\Models\IndCompaigns_photo;
+
 use App\Models\SharedAssociationCampaign;
 use App\Models\DonationAssociationCampaign;
-use App\Models\IndCompaign;
+
 use App\Models\AssociationCampaign;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -26,6 +33,7 @@ use Storage;
 class SuperAdminCompaignsService
 {
 
+    ///////////////association
 public function getAssociations(): array
 {
     try {
@@ -147,4 +155,186 @@ public function getAssociationCompaingsClosed($association_id): array
          return ['campaign' => $compaingAll, 'message' => $message];
       }
 
+
+      /////////////individual
+public function getActiveIndiviCompaign(): array
+{
+    $activeCampaignIds = CampaignStatus::where('status_type', 'Active')
+        ->pluck('id');
+
+    $campaigns = IndCompaign::with(['classification', 'campaignStatus', 'photo'])
+        ->whereIn('campaign_status_id', $activeCampaignIds)
+        ->get();
+
+    $campaignAll = [];
+
+    foreach ($campaigns as $campaign) {
+        $totalDonations = Donation::where('campaign_id', $campaign->id)->sum('amount');
+
+        $photoUrl = $campaign->photo ? url(Storage::url($campaign->photo->photo)) : null;
+
+        $campaignAll[] = [
+            'id' => $campaign->id,
+            'title' => $campaign->title,
+            'amount_required' => $campaign->amount_required,
+            'donation_amount' => $totalDonations,
+            'campaign_status_id' => [
+                'id' => $campaign->campaign_status_id,
+                'campaign_status_type' => optional($campaign->campaignStatus)->status_type,
+            ],
+            'photo_id' => [
+                'id' => $campaign->photo_id,
+                'photo' => $photoUrl,
+            ],
+            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+        ];
     }
+
+    return [
+        'campaign' => $campaignAll,
+        'message' => 'All active campaigns retrieved successfully',
+    ];
+}
+
+
+
+
+
+public function getCompleteIndiviCompaign($id): array{
+        $campaigns = IndCompaign::where('classification_id' , $id)->get();
+        $compaingAll = [];
+        foreach ($campaigns as $compaign) {
+                $classification_name = Classification::find($compaign->classification_id)->classification_name;
+                $campaign_status_type = CampaignStatus::find($compaign->campaign_status_id)->status_type;
+                $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
+
+                $fullPath = url(Storage::url($photo));
+
+        if($campaign_status_type === "Complete"){
+             $campaign_ids = Donation::where('campaign_id' , $compaign->id)->get();
+             $total  = 0;
+             foreach ($campaign_ids as $campaign_id) {
+                $total += $campaign_id->amount;
+             }
+
+        $compaingAll [] =
+        [
+        'id' =>  $compaign->id,
+        'title' =>  $compaign->title,
+        'amount_required' =>  $compaign->amount_required,
+        'donation_amount' => $total,
+        'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
+        'photo_id' => ['id' =>$compaign->photo_id , 'photo' =>$fullPath],
+        'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+        ];
+        }}
+
+        $message = 'Your campaign retrived sucessfully';
+
+        return ['campaign' =>   $compaingAll , 'message' => $message];
+     }
+
+
+public function getClosedPendingIndiviCampaigns($id): array
+{
+    $campaigns = IndCompaign::where('classification_id', $id)
+        ->whereHas('campaignStatus', function ($query) {
+            $query->where('status_type', 'Closed');
+        })
+        ->whereHas('acceptanceStatus', function ($query) {
+            $query->where('status_type', 'Under review');
+        })
+        ->get();
+
+    $campaignAll = [];
+
+    foreach ($campaigns as $campaign) {
+        $classification_name = optional($campaign->classification)->classification_name;
+        $campaign_status_type = optional($campaign->campaignStatus)->status_type;
+        $acceptance_status_type = optional($campaign->acceptanceStatus)->status_type;
+
+        $photo = optional($campaign->photo)->photo;
+        $fullPath = url(Storage::url($photo));
+
+        $total = Donation::where('campaign_id', $campaign->id)->sum('amount');
+
+        $campaignAll[] = [
+            'id' => $campaign->id,
+            'title' => $campaign->title,
+            'amount_required' => $campaign->amount_required,
+            'donation_amount' => $total,
+            'campaign_status' => [
+                'id' => $campaign->campaign_status_id,
+                'type' => $campaign_status_type,
+            ],
+            'acceptance_status' => [
+                'id' => $campaign->acceptance_status_id,
+                'type' => $acceptance_status_type,
+            ],
+            'photo' => [
+                'id' => $campaign->photo_id,
+                'url' => $fullPath,
+            ],
+            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+        ];
+    }
+
+    return [
+        'campaigns' => $campaignAll,
+        'message' => 'Closed and pending (under review) campaigns retrieved successfully',
+    ];
+}
+
+
+public function getClosedRejectedIndiviCampaigns($id): array
+{
+    $campaigns = IndCompaign::where('classification_id', $id)
+        ->whereHas('campaignStatus', function ($query) {
+            $query->where('status_type', 'Closed');
+        })
+        ->whereHas('acceptanceStatus', function ($query) {
+            $query->where('status_type', 'Rejected');
+        })
+        ->get();
+
+    $campaignAll = [];
+
+    foreach ($campaigns as $campaign) {
+        $classification_name = optional($campaign->classification)->classification_name;
+        $campaign_status_type = optional($campaign->campaignStatus)->status_type;
+        $acceptance_status_type = optional($campaign->acceptanceStatus)->status_type;
+
+        $photo = optional($campaign->photo)->photo;
+        $fullPath = url(Storage::url($photo));
+
+        $total = Donation::where('campaign_id', $campaign->id)->sum('amount');
+
+        $campaignAll[] = [
+            'id' => $campaign->id,
+            'title' => $campaign->title,
+            'amount_required' => $campaign->amount_required,
+            'donation_amount' => $total,
+            'campaign_status' => [
+                'id' => $campaign->campaign_status_id,
+                'type' => $campaign_status_type,
+            ],
+            'acceptance_status' => [
+                'id' => $campaign->acceptance_status_id,
+                'type' => $acceptance_status_type,
+            ],
+            'photo' => [
+                'id' => $campaign->photo_id,
+                'url' => $fullPath,
+            ],
+            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+        ];
+    }
+
+    return [
+        'campaigns' => $campaignAll,
+        'message' => 'Closed and Rejected campaigns retrieved successfully',
+    ];
+}
+
+    }
+

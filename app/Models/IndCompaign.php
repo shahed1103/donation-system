@@ -32,21 +32,24 @@ class IndCompaign extends Model
         return $this->belongsTo(User::class);
     }
 
-   public function classification(){
-        return $this->belongsTo(Classification::class);
-    }
+public function classification()
+{
+    return $this->belongsTo(Classification::class, 'classification_id');
+}
 
     public function indCompaignsPhoto(){
         return $this->belongsTo(IndCompaigns_photo::class);
     }
 
-        public function campaignStatus(){
-        return $this->belongsTo(CampaignStatus::class);
-    }
+public function campaignStatus()
+{
+    return $this->belongsTo(CampaignStatus::class, 'campaign_status_id');
+}
 
-        public function acceptanceStatus(){
-        return $this->belongsTo(AcceptanceStatus::class);
-    }
+public function acceptanceStatus()
+{
+    return $this->belongsTo(AcceptanceStatus::class, 'acceptance_status_id');
+}
 
     public function donations()
     {
