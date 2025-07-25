@@ -57,4 +57,9 @@ public function acceptanceStatus()
     }
 
 
+public function photo()
+{
+    return $this->belongsTo(IndCompaigns_photo::class, 'photo_id');
+}
+
 }
