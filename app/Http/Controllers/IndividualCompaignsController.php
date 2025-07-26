@@ -120,4 +120,18 @@ class IndividualCompaignsController extends Controller
         }
     }
 
+    //4 view all genders
+    public function getGender(): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->individualCompaignsService->getGender();
+           return Response::Success($data['gender'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
 }

@@ -8,6 +8,7 @@ use App\Models\IndCompaigns_photo;
 use App\Models\Donation;
 use App\Models\User;
 use App\Models\City;
+use App\Models\Gender;
 use App\Models\AvailabilityType;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Session;
@@ -161,7 +162,7 @@ class IndividualCompaignsService
      }
 
       // Get individual campaign details
-    public function showIndiviCampaignDetails($campaignId){
+    public function showIndiviCampaignDetails($campaignId):array{
     $compaign = IndCompaign::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
 
     $total = $compaign->donations->sum('amount');
@@ -211,7 +212,7 @@ class IndividualCompaignsService
 }
 
      //1 view all classifications
-    public function getClassification(){
+    public function getClassification():array{
         $classifications = Classification::all();
         foreach ($classifications as $classification) {
             $classifications_name [] = ['id' => $classification->id  , 'classification_name' => $classification->classification_name];
@@ -221,8 +222,8 @@ class IndividualCompaignsService
         return ['classifications' =>  $classifications_name , 'message' => $message];
      }
 
-         // view all classifications
-    public function getAvailabilityType(){
+    //2 view all Availability Type
+    public function getAvailabilityType():array{
         $availabilityTypes = AvailabilityType::all();
         foreach ($availabilityTypes as $availabilityType) {
             $availabilityTypes_name [] = ['id' => $availabilityType->id  , 'AvailabilityType_name' => $availabilityType->name];
@@ -233,7 +234,7 @@ class IndividualCompaignsService
      }
 
     //3 view all cities
-    public function getCities(){
+    public function getCities():array{
         $cities = City::all();
         foreach ($cities as $city) {
             $cities_name [] = ['id' => $city->id  , 'city_name' => $city->name];
@@ -243,4 +244,13 @@ class IndividualCompaignsService
         return ['cities' =>  $cities_name , 'message' => $message];
      }
 
-}
+    //4 view all genders
+    public function getGender():array{
+        $gender = Gender::all();
+        foreach ($gender as $gen) {
+            $gender_name [] = ['id' => $gen->id  , 'gender_type' => $gen->type];
+        }
+        $message = 'all genders are retrived successfully';
+
+        return ['gender' =>  $gender_name , 'message' => $message];
+     }}

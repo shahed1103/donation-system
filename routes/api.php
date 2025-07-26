@@ -61,6 +61,9 @@ Route::get('getAvailabilityType' , 'getAvailabilityType')
 Route::get('getCities' , 'getCities')
 ->name('all.getCities');
 
+Route::get('getGender' , 'getGender')
+->name('all.getGender');
+
 Route::middleware('auth:sanctum')->post('createIndiviCompa', [IndividualCompaignsController::class, 'createIndiviCompa'])->name('user.createIndiviCompa');
 Route::middleware('auth:sanctum')->get('viewMyIndiviCompa', [IndividualCompaignsController::class, 'viewMyIndiviCompa'])->name('user.viewMyIndiviCompa');
 Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
