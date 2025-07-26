@@ -108,7 +108,9 @@ Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->post('createVoluntingProfile', [PersonalAccountController::class, 'createVoluntingProfile'])->name('user.createVoluntingProfile');
     Route::middleware('auth:sanctum')->post('updateVoluntingProfile', [PersonalAccountController::class, 'updateVoluntingProfile'])->name('user.updateVoluntingProfile');  
     Route::middleware('auth:sanctum')->get('showVoluntingProfile', [PersonalAccountController::class, 'showVoluntingProfile'])->name('user.showVoluntingProfile');  
-    Route::middleware('auth:sanctum')->get('showVoluntingProfileDetails', [PersonalAccountController::class, 'showVoluntingProfileDetails'])->name('user.showVoluntingProfileDetails');  
+    Route::middleware('auth:sanctum')->get('showVoluntingProfileDetails', [PersonalAccountController::class, 'showVoluntingProfileDetails'])->name('user.showVoluntingProfileDetails');
+    Route::middleware('auth:sanctum')->get('showAllInfo', [PersonalAccountController::class, 'showAllInfo'])->name('user.showAllInfo');      
+    Route::middleware('auth:sanctum')->post('editPersonalInfo', [PersonalAccountController::class, 'editPersonalInfo'])->name('user.editPersonalInfo');      
 });
 
 

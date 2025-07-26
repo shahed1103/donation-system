@@ -78,5 +78,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             TaskVolunteerProfileSeeder::class]);
+   
+        $this->call([
+            GenderSeeder::class]);
     }
 }

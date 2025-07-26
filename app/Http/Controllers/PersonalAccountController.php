@@ -11,6 +11,8 @@ use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use App\Http\Requests\VoluntingProfile\CreateVoluntingProfileRequest;
 use App\Http\Requests\VoluntingProfile\UpdateVoluntingProfileRequest;
+use App\Http\Requests\Auth\UpdatePersonalProfileRequest;
+
 
 
 class PersonalAccountController extends Controller
@@ -156,4 +158,34 @@ class PersonalAccountController extends Controller
            return Response::Error($data , $message , $errors );
         }
     } 
-}
+
+    //show my personal profile information
+    public function showAllInfo(): JsonResponse{
+        $data =[];
+        try{
+           $data = $this->personalAccountService->showAllInfo();
+           return Response::Success($data['personal profile'] , $data['message']);
+        }
+
+        catch(Throwable $th){
+           $message = $th->getMessage();
+           $errors [] = $message;
+           return Response::Error($data , $message , $errors );
+        }
+     }
+
+    //edit my personal profile information
+    public function editPersonalInfo(UpdatePersonalProfileRequest $request): JsonResponse{
+        $data =[];
+        try{
+           $data = $this->personalAccountService->editPersonalInfo($request);
+           return Response::Success($data['personal profile'] , $data['message']);
+        }
+
+        catch(Throwable $th){
+           $message = $th->getMessage();
+           $errors [] = $message;
+           return Response::Error($data , $message , $errors );
+        }
+     }
+   }

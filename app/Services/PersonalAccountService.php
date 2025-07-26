@@ -242,7 +242,7 @@ class PersonalAccountService
     public function updateVoluntingProfile($request): array{
        $userId = Auth::user()->id;
        $voluntingProfile_dett = [];
-      $voluntingProfile = VolunteerProfile::where('user_id' , $userId)->first();
+      $voluntingProfile = VolunteerProfile::with('availabilityType')->where('user_id' , $userId)->first();
 
       $voluntingProfile->update([
                 'availability_type_id' =>  $request['availability_type_id'] ?? $voluntingProfile->availability_type_id,
@@ -253,10 +253,10 @@ class PersonalAccountService
                 'previous_volunteer_work' =>  $request['previous_volunteer_work'] ?? $voluntingProfile->previous_volunteer_work,
        ]);
 
-       $availability_type = AvailabilityType::find($voluntingProfile->availability_type_id)->name;
+    //    $availability_type = AvailabilityType::find($voluntingProfile->availability_type_id)->name;
 
        $voluntingProfile_dett = [
-        'availability_type_id' =>  ['id' => $request['availability_type_id'] ?? $voluntingProfile->availability_type_id , 'availability_type' => $availability_type],
+        'availability_type_id' =>  ['id' => $request['availability_type_id'] ?? $voluntingProfile->availability_type_id , 'availability_type' => $voluntingProfile->availabilityType->name],
         'skills' => $request['skills'] ?? $voluntingProfile->skills,
         'availability_hours' => $request['availability_hours'] ?? $voluntingProfile->availability_hours,
         'preferred_tasks' => $request['preferred_tasks'] ?? $voluntingProfile->preferred_tasks,
@@ -271,13 +271,15 @@ class PersonalAccountService
 
     // show Volunting Profile
     public function showVoluntingProfile(): array{
-       $userId = Auth::user()->id;
-       $userName = Auth::user()->name;
-       $voluntingProfileCreated = VolunteerProfile::where('user_id' , $userId)->value('created_at');
+    //    $userId = Auth::user()->id;
+    //    $userName = Auth::user()->name;
+           $user = Auth::user();
+
+       $voluntingProfileCreated = VolunteerProfile::where('user_id' , $user->id)->value('created_at');
 
        $voluntingProfile_dett = [];
        $voluntingProfile_dett = [
-        'volunteer_name' => $userName,
+        'volunteer_name' => $user->name,
         'time_becoming_volunteer_member' => $voluntingProfileCreated->format('Y-m-d')
        ];
 
@@ -291,11 +293,11 @@ class PersonalAccountService
        $userId = Auth::user()->id;
        $voluntingProfile_dett = [];
 
-      $voluntingProfile = VolunteerProfile::where('user_id' , $userId)->first();
-      $availability_type = AvailabilityType::find($voluntingProfile->availability_type_id)->name;
+      $voluntingProfile = VolunteerProfile::with('availabilityType')->where('user_id' , $userId)->first();
+    //   $availability_type = AvailabilityType::find($voluntingProfile->availability_type_id)->name;
 
     $voluntingProfile_dett = [
-        'availability_type_id' =>  ['id' => $voluntingProfile->availability_type_id , 'availability_type' => $availability_type],
+        'availability_type_id' =>  ['id' => $voluntingProfile->availability_type_id , 'availability_type' => $voluntingProfile->availabilityType->name],
         'skills' => $voluntingProfile->skills,
         'availability_hours' => $voluntingProfile->availability_hours,
         'preferred_tasks' => $voluntingProfile->preferred_tasks,
@@ -306,6 +308,51 @@ class PersonalAccountService
         $message = 'Your volunting profile details retrived sucessfully';
 
         return ['volunting profile' =>  $voluntingProfile_dett , 'message' => $message];
+    }
+
+    //show my personal profile information
+    public function showAllInfo(): array{
+        $userIfon = Auth::user()->load(['city' , 'gender']);
+
+        $userDett = [
+        'user_name' => $userIfon->name,
+        'city_id' => ['id' => $userIfon->city_id , 'city_name' => $userIfon->city->name  ?? null],
+        'phone_number' => $userIfon ->phone,
+        'age' => $userIfon ->age,
+        'gender_id' => ['id' => $userIfon->gender_id , 'gender_type' => $userIfon->gender->type ?? null ],
+        'email' => $userIfon->email,
+        ];
+
+        $message = 'Your personal profile details retrived sucessfully';
+
+        return ['personal profile' =>  $userDett , 'message' => $message];
+    }
+
+    //edit my personal profile information
+    public function editPersonalInfo($request): array{
+        $userIfon = Auth::user()->load(['city', 'gender']);
+
+        $userIfon->update([
+        'name' => $request['name'] ?? $userIfon->name,
+        'city_id' => $request['city_id'] ?? $userIfon->city_id ,
+        'phone_number' => $request['phone_number'] ?? $userIfon ->phone,
+        'age' => $request['age'] ?? $userIfon->age,
+        'gender_id' =>  $request['gender_id'] ?? $userIfon->gender_id ,
+        // 'photo' => $request['city_id'] 
+        ]);
+
+        $userIfon->refresh()->load(['city', 'gender']);
+
+        $userDett = [
+        'name' => $userIfon->name,
+        'city_id' => ['id' => $userIfon->city_id , 'city_name' => $userIfon->city->name  ?? null],
+        'phone_number' =>  $userIfon ->phone,
+        'age' => $userIfon->age,
+        'gender_id' => ['id' => $userIfon->gender_id , 'gender_type' => $userIfon->gender->type ?? null ],
+        ];
+        $message = 'Your personal profile updated sucessfully';
+
+        return ['personal profile' =>  $userDett , 'message' => $message];
     }
     }
 

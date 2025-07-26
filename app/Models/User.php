@@ -26,7 +26,8 @@ use HasApiTokens, HasFactory, Notifiable , HasRoles;
         'gender_id',
         'phone',
         'city_id',
-        'age'
+        'age',
+        'photo'
     ];
 
     /* The attributes that should be hidden for serialization.
@@ -77,6 +78,11 @@ use HasApiTokens, HasFactory, Notifiable , HasRoles;
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class);
     }
 
     public function volunteerProfile()
