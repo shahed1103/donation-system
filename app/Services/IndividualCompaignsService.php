@@ -8,6 +8,7 @@ use App\Models\IndCompaigns_photo;
 use App\Models\Donation;
 use App\Models\User;
 use App\Models\City;
+use App\Models\AvailabilityType;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Session;
 use Exception;
@@ -209,7 +210,7 @@ class IndividualCompaignsService
          return ['campaign' => $compaingDet , 'message' => $message];
 }
 
-     // view all classifications
+     //1 view all classifications
     public function getClassification(){
         $classifications = Classification::all();
         foreach ($classifications as $classification) {
@@ -220,7 +221,18 @@ class IndividualCompaignsService
         return ['classifications' =>  $classifications_name , 'message' => $message];
      }
 
-          // view all classifications
+         // view all classifications
+    public function getAvailabilityType(){
+        $availabilityTypes = AvailabilityType::all();
+        foreach ($availabilityTypes as $availabilityType) {
+            $availabilityTypes_name [] = ['id' => $availabilityType->id  , 'AvailabilityType_name' => $availabilityType->name];
+        }
+        $message = 'all availability types are retrived successfully';
+
+        return ['availabilityTypes' =>  $availabilityTypes_name , 'message' => $message];
+     }
+
+    //3 view all cities
     public function getCities(){
         $cities = City::all();
         foreach ($cities as $city) {
@@ -230,16 +242,5 @@ class IndividualCompaignsService
 
         return ['cities' =>  $cities_name , 'message' => $message];
      }
-
-    // // view all classifications
-    // public function getClassification(){
-    //     $classifications = Classification::all();
-    //     foreach ($classifications as $classification) {
-    //         $classifications_name [] = ['id' => $classification->id  , 'classification_name' => $classification->classification_name];
-    //     }
-    //     $message = 'all classifications are retrived successfully';
-
-    //     return ['classifications' =>  $classifications_name , 'message' => $message];
-    //  }
 
 }

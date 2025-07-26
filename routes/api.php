@@ -55,6 +55,9 @@ Route::controller(IndividualCompaignsController::class)->group(function(){
 Route::get('getClassification' , 'getClassification')
 ->name('all.getClassification');
 
+Route::get('getAvailabilityType' , 'getAvailabilityType')
+->name('all.getAvailabilityType');
+
 Route::get('getCities' , 'getCities')
 ->name('all.getCities');
 
