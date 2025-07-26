@@ -23,15 +23,8 @@ class PersonalAccountService
      
     $userID = Auth::user()->id;
     $personalInfo = User::find($userID);
+    $photo = $personalInfo->photo ;
 
-         $sourcePath = 'uploads/seeder_photos/defualtProfilePhoto.png';
-         $targetPath = 'uploads/det/defualtProfilePhoto.png';
-
-    Storage::disk('public')->put($targetPath, File::get($sourcePath));
-
-    $photo = $personalInfo->photo 
-             ? url(Storage::url($personalInfo->photo)) 
-             : url(Storage::url($targetPath)) ;
     $requiredInfo = [];
     $requiredInfo = [
     'user name' => $personalInfo->name,
@@ -209,10 +202,10 @@ class PersonalAccountService
     public function createVoluntingProfile($request): array{
         $userId = Auth::user()->id;
 
-        if( VolunteerProfile::where('user_id' , $userId)){
+        if( VolunteerProfile::where('user_id' , $userId)->exists()){
             throw new Exception("You cannot create a volunteer profile because you already have one", 400);
         }
-        $voluntingProfile = VolunteerProfile::create([
+        $voluntingProfile = VolunteerProfile::with('availabilityType')->create([
                 'availability_type_id' =>  $request['availability_type_id'],
                 'skills' => $request['skills'],
                 'availability_hours' => $request['availability_hours'],
@@ -222,10 +215,8 @@ class PersonalAccountService
                 'previous_volunteer_work' =>  $request['previous_volunteer_work'],
        ]);
 
-       $availability_type = AvailabilityType::find($voluntingProfile->availability_type_id)->name;
-
        $voluntingProfile_dett = [
-        'availability_type_id' =>  ['id' => $request['availability_type_id'] , 'availability_type' => $availability_type],
+        'availability_type_id' =>  ['id' => $request['availability_type_id'] , 'availability_type' => $voluntingProfile->availabilityType->name],
         'skills' => $request['skills'],
         'availability_hours' => $request['availability_hours'],
         'preferred_tasks' => $request['preferred_tasks'],
@@ -253,8 +244,7 @@ class PersonalAccountService
                 'previous_volunteer_work' =>  $request['previous_volunteer_work'] ?? $voluntingProfile->previous_volunteer_work,
        ]);
 
-    //    $availability_type = AvailabilityType::find($voluntingProfile->availability_type_id)->name;
-
+       $voluntingProfile->refresh()->load('availabilityType');
        $voluntingProfile_dett = [
         'availability_type_id' =>  ['id' => $request['availability_type_id'] ?? $voluntingProfile->availability_type_id , 'availability_type' => $voluntingProfile->availabilityType->name],
         'skills' => $request['skills'] ?? $voluntingProfile->skills,
@@ -271,8 +261,6 @@ class PersonalAccountService
 
     // show Volunting Profile
     public function showVoluntingProfile(): array{
-    //    $userId = Auth::user()->id;
-    //    $userName = Auth::user()->name;
            $user = Auth::user();
 
        $voluntingProfileCreated = VolunteerProfile::where('user_id' , $user->id)->value('created_at');
@@ -294,9 +282,8 @@ class PersonalAccountService
        $voluntingProfile_dett = [];
 
       $voluntingProfile = VolunteerProfile::with('availabilityType')->where('user_id' , $userId)->first();
-    //   $availability_type = AvailabilityType::find($voluntingProfile->availability_type_id)->name;
 
-    $voluntingProfile_dett = [
+      $voluntingProfile_dett = [
         'availability_type_id' =>  ['id' => $voluntingProfile->availability_type_id , 'availability_type' => $voluntingProfile->availabilityType->name],
         'skills' => $voluntingProfile->skills,
         'availability_hours' => $voluntingProfile->availability_hours,
@@ -332,13 +319,20 @@ class PersonalAccountService
     public function editPersonalInfo($request): array{
         $userIfon = Auth::user()->load(['city', 'gender']);
 
+
+    if ($request->hasFile('photo')) {
+             $photo = $request->file('photo');
+             $path = $photo->store('uploads/profilePhoto', 'public');
+             $fullPath = url(Storage::url($path));
+     }
+
         $userIfon->update([
         'name' => $request['name'] ?? $userIfon->name,
         'city_id' => $request['city_id'] ?? $userIfon->city_id ,
         'phone_number' => $request['phone_number'] ?? $userIfon ->phone,
         'age' => $request['age'] ?? $userIfon->age,
         'gender_id' =>  $request['gender_id'] ?? $userIfon->gender_id ,
-        // 'photo' => $request['city_id'] 
+        'photo' => $fullPath ?? $userIfon->photo
         ]);
 
         $userIfon->refresh()->load(['city', 'gender']);
@@ -349,6 +343,7 @@ class PersonalAccountService
         'phone_number' =>  $userIfon ->phone,
         'age' => $userIfon->age,
         'gender_id' => ['id' => $userIfon->gender_id , 'gender_type' => $userIfon->gender->type ?? null ],
+        'photo' => $userIfon->photo
         ];
         $message = 'Your personal profile updated sucessfully';
 

@@ -6,11 +6,16 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
+use Storage;
+
 
 class RolesPermissionsSeeder extends Seeder
 {
     public function run(): void
     {
+
+
         // 1. Create roles
         $superAdminRole = Role::create(['name' => 'superAdmin']);
         $volunteerRole = Role::create(['name' => 'Volunteer']);
@@ -37,7 +42,11 @@ class RolesPermissionsSeeder extends Seeder
         $adminRole->syncPermissions($permissions);
         $leaderRole->syncPermissions($permissions);
 
+         $sourcePath = public_path('uploads/seeder_photos/defualtProfilePhoto.png');
+         $targetPath = 'uploads/det/defualtProfilePhoto.png';
 
+    Storage::disk('public')->put($targetPath, File::get($sourcePath));
+    
         // 4. Create users for each role
         $donorUser = User::factory()->create([
             'role_id' => $donorRole->id,
@@ -47,7 +56,8 @@ class RolesPermissionsSeeder extends Seeder
             'age' => '20',
             'name' => 'Donor',
             'email' => 'Donor@example.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password') ,
+            'photo' => url(Storage::url($targetPath))
         ]);
 
         $donorUser->assignRole($donorRole);
@@ -64,7 +74,9 @@ class RolesPermissionsSeeder extends Seeder
             'age' => '20',
             'name' => 'Volunteer',
             'email' => 'Volunteer@example.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
+            'photo' => url(Storage::url($targetPath))
+
         ]);
 
         $volunteerUser->assignRole($volunteerRole);
@@ -82,7 +94,9 @@ class RolesPermissionsSeeder extends Seeder
             'age' => '20',
             'name' => 'admin',
             'email' => 'admin@example.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
+            'photo' => url(Storage::url($targetPath))
+
         ]);
 
         $admin->assignRole($adminRole);
@@ -102,7 +116,8 @@ class RolesPermissionsSeeder extends Seeder
             'age' => '20',
             'name' => 'leader',
             'email' => 'leader@example.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
+            'photo' => url(Storage::url($targetPath))
         ]);
 
         $leader->assignRole($leaderRole);
@@ -112,7 +127,7 @@ class RolesPermissionsSeeder extends Seeder
         $leader->givePermissionTo ($permissions);
 
 
-
+        
         // 5. Create additional Donor users
         $names = ['shahed', 'dana', 'rama', 'yumna', 'rania', 'lana', 'rayan', 'mohammed', 'marwa', 'sawsan'];
         $nationalities = [1, 2, 3, 4, 5, 6, 7, 8, 3, 1];
@@ -125,7 +140,7 @@ class RolesPermissionsSeeder extends Seeder
         $passwords = ['123456789shahed', '123456789dana', '123456789rama', '123456789yumna',
                       '123456789rania', '123456789lana', '123456789rayan', '123456789mohammed',
                       '123456789marwa', '123456789sawsan'];
-
+        
         for ($i = 0; $i < 10; $i++) {
             $user = User::create([
                 'role_id' => $donorRole->id,
@@ -135,7 +150,9 @@ class RolesPermissionsSeeder extends Seeder
                 'email' => $emails[$i],
                 'phone' => $phones[$i],
                 'gender_id' => $genders[$i],
-                'password' => Hash::make($passwords[$i])
+                'password' => Hash::make($passwords[$i]),
+                'photo' => url(Storage::url($targetPath))
+
             ]);
 
             $user->assignRole($donorRole);

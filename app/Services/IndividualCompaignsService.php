@@ -7,7 +7,7 @@ use App\Models\CampaignStatus;
 use App\Models\IndCompaigns_photo;
 use App\Models\Donation;
 use App\Models\User;
-City
+use App\Models\City;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Session;
 use Exception;
@@ -159,17 +159,6 @@ class IndividualCompaignsService
         return ['campaign' =>   $compaingAll , 'message' => $message];
      }
 
-     // view all classifications
-    public function getClassification(){
-        $classifications = Classification::all();
-        foreach ($classifications as $classification) {
-            $classifications_name [] = ['id' => $classification->id  , 'classification_name' => $classification->classification_name];
-        }
-        $message = 'all classifications are retrived successfully';
-
-        return ['classifications' =>  $classifications_name , 'message' => $message];
-     }
-
       // Get individual campaign details
     public function showIndiviCampaignDetails($campaignId){
     $compaign = IndCompaign::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
@@ -220,5 +209,37 @@ class IndividualCompaignsService
          return ['campaign' => $compaingDet , 'message' => $message];
 }
 
+     // view all classifications
+    public function getClassification(){
+        $classifications = Classification::all();
+        foreach ($classifications as $classification) {
+            $classifications_name [] = ['id' => $classification->id  , 'classification_name' => $classification->classification_name];
+        }
+        $message = 'all classifications are retrived successfully';
+
+        return ['classifications' =>  $classifications_name , 'message' => $message];
+     }
+
+          // view all classifications
+    public function getCities(){
+        $cities = City::all();
+        foreach ($cities as $city) {
+            $cities_name [] = ['id' => $city->id  , 'city_name' => $city->name];
+        }
+        $message = 'all cities are retrived successfully';
+
+        return ['cities' =>  $cities_name , 'message' => $message];
+     }
+
+    // // view all classifications
+    // public function getClassification(){
+    //     $classifications = Classification::all();
+    //     foreach ($classifications as $classification) {
+    //         $classifications_name [] = ['id' => $classification->id  , 'classification_name' => $classification->classification_name];
+    //     }
+    //     $message = 'all classifications are retrived successfully';
+
+    //     return ['classifications' =>  $classifications_name , 'message' => $message];
+    //  }
 
 }

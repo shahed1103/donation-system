@@ -22,12 +22,20 @@ use App\Models\ResetCodePassword;
 use App\Mail\SendCodeResetPassword;
 use Illuminate\Support\Facades\Mail;
 use Throwable;
+use Storage;
+use Illuminate\Support\Facades\File;
+
 
 class UserService
 {
 
     public function register($request): array{
         $clientRole = Role::query()->firstWhere('name', 'Donor')->id;
+
+         $sourcePath = 'uploads/seeder_photos/defualtProfilePhoto.png';
+         $targetPath = 'uploads/det/defualtProfilePhoto.png';
+
+    Storage::disk('public')->put($targetPath, File::get($sourcePath));
 
               $user = User::query()->create([
      'role_id' =>  $clientRole,
@@ -39,6 +47,7 @@ class UserService
      'phone' => $request['phone'] ,
     //  'nationality_id' => $request['nationality_id'] ?? 0,
     //  'age' => $request['age'] ?? 0 ,
+    'photo' => url(Storage::url($targetPath)) 
         ]);
 
         $clientRole = Role::query()->where('name', 'Donor')->first();
