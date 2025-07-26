@@ -14,10 +14,11 @@ class IndCompaigns_photo extends Model
         'id',
         'photo'
     ];
-    
+
         public function indCampaigns()
     {
         return $this->hasMany(IndCompaign::class);
     }
+
 
 }

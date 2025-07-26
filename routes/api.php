@@ -55,17 +55,10 @@ Route::controller(IndividualCompaignsController::class)->group(function(){
 Route::get('getClassification' , 'getClassification')
 ->name('all.getClassification');
 
-Route::get('getAvailabilityType' , 'getAvailabilityType')
-->name('all.getAvailabilityType');
-
-Route::get('getCities' , 'getCities')
-->name('all.getCities');
-
 Route::middleware('auth:sanctum')->post('createIndiviCompa', [IndividualCompaignsController::class, 'createIndiviCompa'])->name('user.createIndiviCompa');
 Route::middleware('auth:sanctum')->get('viewMyIndiviCompa', [IndividualCompaignsController::class, 'viewMyIndiviCompa'])->name('user.viewMyIndiviCompa');
 Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     ->name('user.viewIndiviCompa');
-    
     //individual campaign id
 Route::get('showIndiviCampaignDetails/{campaignId}' , 'showIndiviCampaignDetails')
     ->name('user.showIndiviCampaignDetails');
@@ -102,6 +95,7 @@ Route::controller(MobileHomeController::class)->group(function(){
 Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('miniIfo', [PersonalAccountController::class, 'miniIfo'])->name('user.miniIfo');
     Route::middleware('auth:sanctum')->get('mydonations', [PersonalAccountController::class, 'mydonations'])->name('user.mydonations');
+
     Route::middleware('auth:sanctum')->get('myVoluntings', [PersonalAccountController::class, 'myVoluntings'])->name('user.myVoluntings');
     Route::middleware('auth:sanctum')->get('mostDonationFor', [PersonalAccountController::class, 'mostDonationFor'])->name('user.mostDonationFor');
     Route::middleware('auth:sanctum')->get('mySummryAchievements', [PersonalAccountController::class, 'mySummryAchievements'])->name('user.mySummryAchievements');
@@ -143,6 +137,10 @@ Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [S
 Route::middleware('auth:sanctum')->get('getAssociationCompaingsComplete/{id}', [SuperAdminCompaignsController::class, 'getAssociationCompaingsComplete'])->name('super_admin.getAssociationCompaingsComplete');
 Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [SuperAdminCompaignsController::class, 'getAssociationCompaingsClosed'])->name('super_admin.getAssociationCompaingsClosed');
 
+Route::middleware('auth:sanctum')->get('getClosedRejectedIndiviCampaigns/{id}', [SuperAdminCompaignsController::class, 'getClosedRejectedIndiviCampaigns'])->name('super_admin.getClosedRejectedIndiviCampaigns');
+Route::middleware('auth:sanctum')->get('getClosedPendingIndiviCampaigns/{id}', [SuperAdminCompaignsController::class, 'getClosedPendingIndiviCampaigns'])->name('super_admin.getClosedPendingIndiviCampaigns');
+Route::middleware('auth:sanctum')->get('getCompleteIndiviCompaign/{id}', [SuperAdminCompaignsController::class, 'getCompleteIndiviCompaign'])->name('super_admin.getCompleteIndiviCompaign');
+Route::middleware('auth:sanctum')->get('getActiveIndiviCompaign/{id}', [SuperAdminCompaignsController::class, 'getActiveIndiviCompaign'])->name('super_admin.getActiveIndiviCompaign');
 
 
 });
@@ -150,8 +148,8 @@ Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [Su
 
 
 Route::controller(SuperAdminCompaignsController::class)->group(function(){
-    Route::get('getAssociationCompaingsComplete/{id}' , 'getAssociationCompaingsComplete')
-          ->name('user.getAssociationCompaingsComplete');
+    Route::get('getActiveIndiviCompaign' , 'getActiveIndiviCompaign')
+          ->name('user.getActiveIndiviCompaign');
 });
 
 
