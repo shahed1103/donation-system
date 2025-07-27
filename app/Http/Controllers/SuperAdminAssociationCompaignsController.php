@@ -85,4 +85,16 @@ public function getCampaignDetails($Campaign_id): JsonResponse {
     }
 }
 
+
+public function getAssociationDetails($Campaign_id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminCompaignsService->getAssociationDetails($Campaign_id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 }

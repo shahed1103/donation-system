@@ -195,7 +195,6 @@ public function getCampaignDetails($campaignId): array
             'campaign_end_time' => $campaign->compaigns_end_time,
             'last_donation_time' => $lastDonation ? $lastDonation->created_at->diffForHumans() : 'no Donations yet',
             'totalDonors' => $totalDonors,
-            //////////////////
             'associations' => $campaign->associations
                ->unique('id')
                ->values()
@@ -205,7 +204,6 @@ public function getCampaignDetails($campaignId): array
                         'name' => $association->name,
                   ];
                }),
-            //////////////////
          ];
 
          $message = 'association campaign details are retrived sucessfully';
@@ -214,4 +212,32 @@ public function getCampaignDetails($campaignId): array
       }
 
 
+
+ public function getAssociationDetails($id): array
+      {
+         $association = Association::findOrFail($id);
+
+         $campaignIds = SharedAssociationCampaign::where('association_id', $id)
+            ->pluck('association_campaign_id');
+
+         $totalCampaigns = $campaignIds->count();
+
+         $totalDonations = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
+            ->sum('amount');
+
+         $completedCampaigns = $this->viewAssociationCompaingsComplete($id);
+
+         $associationDet = [];
+
+          $associationDet[] = [
+            'association_name' => $association->name,
+            'association_description' => $association->description,
+            'total_donations' => $totalDonations,
+            'total_campaigns' => $totalCampaigns,
+            'completed_campaigns' => $completedCampaigns
+            ];
+            $message = 'association details are retrived sucessfully';
+
+         return ['association' => $associationDet , 'message' => $message];
+      }
     }
