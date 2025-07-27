@@ -156,7 +156,9 @@ public function getAssociationCompaingsClosed($association_id): array
       }
 
 
-      /////////////individual
+      ////////////////////////////////////////////////////////individual
+
+      
 public function getActiveIndiviCompaign(): array
 {
     $activeCampaignIds = CampaignStatus::where('status_type', 'Active')
