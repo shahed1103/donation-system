@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Storage;
 use App\Http\Responses\response;
 use App\Services\IndividualCompaignsService;
-use App\Services\SuperAdminCompaignsService;
+use App\Services\SuperAdminIndividualCompaignsService;
 use App\Http\Requests\IndividualCompaings\CreateIndividualCompaingsRequest;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
