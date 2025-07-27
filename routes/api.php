@@ -6,7 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AssociationCompaignsController;
 use App\Http\Controllers\IndividualCompaignsController;
 use App\Http\Controllers\SuperAdminController;
-use App\Http\Controllers\SuperAdminCompaignsController;
+use App\Http\Controllers\SuperAdminIndividualCompaignsController;
+use App\Http\Controllers\SuperAdminAssociationCompaignsController;
 
 
 use App\Http\Controllers\PersonalAccountController;
@@ -139,25 +140,33 @@ Route::middleware('auth:sanctum')->get('deleteLeader/{id}', [SuperAdminControlle
 
 
 
-Route::controller(SuperAdminCompaignsController::class)->group(function(){
-Route::middleware('auth:sanctum')->get('getAssociations', [SuperAdminCompaignsController::class, 'getAssociations'])->name('super_admin.getAssociations');
-Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [SuperAdminCompaignsController::class, 'getAssociationsCampaignsActive'])->name('super_admin.getAssociationsCampaignsActive');
-Route::middleware('auth:sanctum')->get('getAssociationCompaingsComplete/{id}', [SuperAdminCompaignsController::class, 'getAssociationCompaingsComplete'])->name('super_admin.getAssociationCompaingsComplete');
-Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [SuperAdminCompaignsController::class, 'getAssociationCompaingsClosed'])->name('super_admin.getAssociationCompaingsClosed');
-
-Route::middleware('auth:sanctum')->get('getClosedRejectedIndiviCampaigns', [SuperAdminCompaignsController::class, 'getClosedRejectedIndiviCampaigns'])->name('super_admin.getClosedRejectedIndiviCampaigns');
-Route::middleware('auth:sanctum')->get('getClosedPendingIndiviCampaigns', [SuperAdminCompaignsController::class, 'getClosedPendingIndiviCampaigns'])->name('super_admin.getClosedPendingIndiviCampaigns');
-Route::middleware('auth:sanctum')->get('getCompleteIndiviCompaign', [SuperAdminCompaignsController::class, 'getCompleteIndiviCompaign'])->name('super_admin.getCompleteIndiviCompaign');
-Route::middleware('auth:sanctum')->get('getActiveIndiviCompaign', [SuperAdminCompaignsController::class, 'getActiveIndiviCompaign'])->name('super_admin.getActiveIndiviCompaign');
-
+Route::controller(SuperAdminAssociationCompaignsController::class)->group(function(){
+Route::middleware('auth:sanctum')->get('getAssociations', [SuperAdminAssociationCompaignsController::class, 'getAssociations'])->name('super_admin.getAssociations');
+Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [SuperAdminAssociationCompaignsController::class, 'getAssociationsCampaignsActive'])->name('super_admin.getAssociationsCampaignsActive');
+Route::middleware('auth:sanctum')->get('getAssociationCompaingsComplete/{id}', [SuperAdminAssociationCompaignsController::class, 'getAssociationCompaingsComplete'])->name('super_admin.getAssociationCompaingsComplete');
+Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [SuperAdminAssociationCompaignsController::class, 'getAssociationCompaingsClosed'])->name('super_admin.getAssociationCompaingsClosed');
+Route::middleware('auth:sanctum')->get('getCampaignDetails/{id}', [SuperAdminAssociationCompaignsController::class, 'getCampaignDetails'])->name('super_admin.getCampaignDetails');
 
 });
 
 
 
-Route::controller(SuperAdminCompaignsController::class)->group(function(){
-    Route::get('getClosedUnderReviewIndiviCompaign' , 'getClosedUnderReviewIndiviCompaign')
-          ->name('user.getClosedUnderReviewIndiviCompaign');
+
+
+Route::controller(SuperAdminIndividualCompaignsController::class)->group(function(){
+
+Route::middleware('auth:sanctum')->get('getClosedRejectedIndiviCampaigns', [SuperAdminIndividualCompaignsController::class, 'getClosedRejectedIndiviCampaigns'])->name('super_admin.getClosedRejectedIndiviCampaigns');
+Route::middleware('auth:sanctum')->get('getClosedPendingIndiviCampaigns', [SuperAdminIndividualCompaignsController::class, 'getClosedPendingIndiviCampaigns'])->name('super_admin.getClosedPendingIndiviCampaigns');
+Route::middleware('auth:sanctum')->get('getCompleteIndiviCompaign', [SuperAdminIndividualCompaignsController::class, 'getCompleteIndiviCompaign'])->name('super_admin.getCompleteIndiviCompaign');
+Route::middleware('auth:sanctum')->get('getActiveIndiviCompaign', [SuperAdminIndividualCompaignsController::class, 'getActiveIndiviCompaign'])->name('super_admin.getActiveIndiviCompaign');
+
+
+});
+
+
+Route::controller(SuperAdminAssociationCompaignsController::class)->group(function(){
+    Route::get('getCampaignDetails/{id}' , 'getCampaignDetails')
+          ->name('user.getCampaignDetails');
 });
 
 

@@ -33,7 +33,7 @@ use Storage;
 class SuperAdminCompaignsService
 {
 
-    ///////////////association
+
 public function getAssociations(): array
 {
     try {
@@ -156,7 +156,7 @@ public function getAssociationCompaingsClosed($association_id): array
       }
 
 
-public function showCampaignDetails($campaignId): array
+public function getCampaignDetails($campaignId): array
       {
          $campaign = AssociationCampaign::with(['associations', 'campaignStatus', 'classification', 'donationAssociationCampaigns'])
                               ->findOrFail($campaignId);
@@ -171,6 +171,7 @@ public function showCampaignDetails($campaignId): array
          $totalDonors = $campaign->donationAssociationCampaigns()
                         ->distinct('user_id')
                         ->count('user_id');
+         $remainingAmount = max($campaign->amount_required - $totalDonations, 0);
 
          $compaingDet = [];
          $compaingDet[] = [
@@ -178,6 +179,7 @@ public function showCampaignDetails($campaignId): array
             'description' => $campaign->description,
             'amount_required' => $campaign->amount_required,
             'donation_amount' => $totalDonations,
+            'remaining_amount' => $remainingAmount,
             'location' => $campaign->location ,
             'photo' => url(Storage::url($campaign->photo)),
             'campaign_status' => [
@@ -212,24 +214,4 @@ public function showCampaignDetails($campaignId): array
       }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     
     }

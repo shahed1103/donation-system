@@ -72,4 +72,17 @@ public function getAssociationCompaingsClosed($association_id): JsonResponse {
         return Response::Error($data, $message, $errors);
     }
 }
+
+public function getCampaignDetails($Campaign_id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminCompaignsService->getCampaignDetails($Campaign_id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
 }
