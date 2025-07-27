@@ -14,12 +14,12 @@ use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 
-class SuperAdminCompaignsController extends Controller
+class SuperAdminAssociationCompaignsController extends Controller
 {
 
-protected SuperAdminCompaignsService $superAdminCompaignsService;
+protected SuperAdminAssociationCompaignsService $superAdminCompaignsService;
 
-public function __construct(SuperAdminCompaignsService $superAdminCompaignsService)
+public function __construct(SuperAdminAssociationCompaignsService $superAdminCompaignsService)
 {
     $this->superAdminCompaignsService = $superAdminCompaignsService;
 }
@@ -72,55 +72,4 @@ public function getAssociationCompaingsClosed($association_id): JsonResponse {
         return Response::Error($data, $message, $errors);
     }
 }
-
-////////////indivi
-
-public function getActiveIndiviCompaign(): JsonResponse {
-    $data = [];
-    try {
-        $data = $this->superAdminCompaignsService->getActiveIndiviCompaign();
-        return Response::Success($data, $data['message']);
-    } catch (Throwable $th) {
-        $message = $th->getMessage();
-        $errors[] = $message;
-        return Response::Error($data, $message, $errors);
-    }
-}
-
-public function getCompleteIndiviCompaign($id): JsonResponse {
-    $data = [];
-    try {
-        $data = $this->superAdminCompaignsService->getCompleteIndiviCompaign($id);
-        return Response::Success($data, $data['message']);
-    } catch (Throwable $th) {
-        $message = $th->getMessage();
-        $errors[] = $message;
-        return Response::Error($data, $message, $errors);
-    }
-}
-
-public function getClosedPendingIndiviCampaigns($id): JsonResponse {
-    $data = [];
-    try {
-        $data = $this->superAdminCompaignsService->getClosedPendingIndiviCampaigns($id);
-        return Response::Success($data, $data['message']);
-    } catch (Throwable $th) {
-        $message = $th->getMessage();
-        $errors[] = $message;
-        return Response::Error($data, $message, $errors);
-    }
-}
-
-public function getClosedRejectedIndiviCampaigns($id): JsonResponse {
-    $data = [];
-    try {
-        $data = $this->superAdminCompaignsService->getClosedRejectedIndiviCampaigns($id);
-        return Response::Success($data, $data['message']);
-    } catch (Throwable $th) {
-        $message = $th->getMessage();
-        $errors[] = $message;
-        return Response::Error($data, $message, $errors);
-    }
-}
-
 }

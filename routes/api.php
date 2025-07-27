@@ -145,9 +145,9 @@ Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [S
 Route::middleware('auth:sanctum')->get('getAssociationCompaingsComplete/{id}', [SuperAdminCompaignsController::class, 'getAssociationCompaingsComplete'])->name('super_admin.getAssociationCompaingsComplete');
 Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [SuperAdminCompaignsController::class, 'getAssociationCompaingsClosed'])->name('super_admin.getAssociationCompaingsClosed');
 
-Route::middleware('auth:sanctum')->get('getClosedRejectedIndiviCampaigns/{id}', [SuperAdminCompaignsController::class, 'getClosedRejectedIndiviCampaigns'])->name('super_admin.getClosedRejectedIndiviCampaigns');
-Route::middleware('auth:sanctum')->get('getClosedPendingIndiviCampaigns/{id}', [SuperAdminCompaignsController::class, 'getClosedPendingIndiviCampaigns'])->name('super_admin.getClosedPendingIndiviCampaigns');
-Route::middleware('auth:sanctum')->get('getCompleteIndiviCompaign/{id}', [SuperAdminCompaignsController::class, 'getCompleteIndiviCompaign'])->name('super_admin.getCompleteIndiviCompaign');
+Route::middleware('auth:sanctum')->get('getClosedRejectedIndiviCampaigns', [SuperAdminCompaignsController::class, 'getClosedRejectedIndiviCampaigns'])->name('super_admin.getClosedRejectedIndiviCampaigns');
+Route::middleware('auth:sanctum')->get('getClosedPendingIndiviCampaigns', [SuperAdminCompaignsController::class, 'getClosedPendingIndiviCampaigns'])->name('super_admin.getClosedPendingIndiviCampaigns');
+Route::middleware('auth:sanctum')->get('getCompleteIndiviCompaign', [SuperAdminCompaignsController::class, 'getCompleteIndiviCompaign'])->name('super_admin.getCompleteIndiviCompaign');
 Route::middleware('auth:sanctum')->get('getActiveIndiviCompaign', [SuperAdminCompaignsController::class, 'getActiveIndiviCompaign'])->name('super_admin.getActiveIndiviCompaign');
 
 
@@ -156,8 +156,8 @@ Route::middleware('auth:sanctum')->get('getActiveIndiviCompaign', [SuperAdminCom
 
 
 Route::controller(SuperAdminCompaignsController::class)->group(function(){
-    Route::get('getActiveIndiviCompaign' , 'getActiveIndiviCompaign')
-          ->name('user.getActiveIndiviCompaign');
+    Route::get('getClosedUnderReviewIndiviCompaign' , 'getClosedUnderReviewIndiviCompaign')
+          ->name('user.getClosedUnderReviewIndiviCompaign');
 });
 
 
