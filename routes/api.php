@@ -152,9 +152,7 @@ Route::middleware('auth:sanctum')->get('getAssociationsCampaignsActive/{id}', [S
 Route::middleware('auth:sanctum')->get('getAssociationCompaingsComplete/{id}', [SuperAdminAssociationCompaignsController::class, 'getAssociationCompaingsComplete'])->name('super_admin.getAssociationCompaingsComplete');
 Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [SuperAdminAssociationCompaignsController::class, 'getAssociationCompaingsClosed'])->name('super_admin.getAssociationCompaingsClosed');
 Route::middleware('auth:sanctum')->get('getCampaignDetails/{id}', [SuperAdminAssociationCompaignsController::class, 'getCampaignDetails'])->name('super_admin.getCampaignDetails');
-Route::middleware('auth:sanctum')->get('getAssociationDetails/{id}', [SuperAdminAssociationCompaignsController::class, 'getAssociationDetails'])->name('super_admin.getAssociationDetails');
-
-
+Route::middleware('auth:sanctum')->get('getDetails/{id}', [SuperAdminAssociationCompaignsController::class, 'getAssociationDetails'])->name('super_admin.getAssociationDetails');
 
 });
 
@@ -174,8 +172,8 @@ Route::middleware('auth:sanctum')->get('getActiveIndiviCompaign', [SuperAdminInd
 
 
 Route::controller(SuperAdminAssociationCompaignsController::class)->group(function(){
-    Route::get('getCampaignDetails/{id}' , 'getCampaignDetails')
-          ->name('user.getCampaignDetails');
+    Route::get('getAssociationDetails/{id}' , 'getAssociationDetails')
+          ->name('user.getAssociationDetails');
 });
 
 

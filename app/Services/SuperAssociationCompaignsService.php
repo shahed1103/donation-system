@@ -9,15 +9,12 @@ use App\Models\Association;
 use App\Models\User;
 use App\Models\Donation;
 use App\Models\IndCompaign;
-
 use App\Models\Classification;
 use App\Models\AcceptanceStatus;
 use App\Models\CampaignStatus;
 use App\Models\IndCompaigns_photo;
-
 use App\Models\SharedAssociationCampaign;
 use App\Models\DonationAssociationCampaign;
-
 use App\Models\AssociationCampaign;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -30,7 +27,7 @@ use Illuminate\Http\JsonResponse;
 use Throwable;
 use Storage;
 
-class SuperAdminCompaignsService
+class SuperAssociationCompaignsService
 {
 
 
@@ -212,7 +209,6 @@ public function getCampaignDetails($campaignId): array
       }
 
 
-
  public function getAssociationDetails($id): array
       {
          $association = Association::findOrFail($id);
@@ -225,19 +221,30 @@ public function getCampaignDetails($campaignId): array
          $totalDonations = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
             ->sum('amount');
 
-         $completedCampaigns = $this->viewAssociationCompaingsComplete($id);
-
+         $completedCampaigns = $this->getAssociationCompaingsComplete($id);
+         $closedCampaigns = $this->getAssociationCompaingsClosed($id);
+         $activeCampaigns = $this->getAssociationsCampaignsActive($id);
+         $association_owner = User::find($association->association_owner_id);
          $associationDet = [];
+
 
           $associationDet[] = [
             'association_name' => $association->name,
             'association_description' => $association->description,
+            'location' => $association->location,
+            'association_owner' => $association_owner->name,
+            'date_start_working' => $association -> date_start_working,
+            'date_end_working' => $association -> date_end_working,
             'total_donations' => $totalDonations,
-            'total_campaigns' => $totalCampaigns,
-            'completed_campaigns' => $completedCampaigns
+            'closed_campaigns' => $closedCampaigns,
+            'completed_campaigns' => $completedCampaigns,
+            'active_campaigns' => $activeCampaigns
             ];
             $message = 'association details are retrived sucessfully';
 
          return ['association' => $associationDet , 'message' => $message];
       }
+
+
+
     }

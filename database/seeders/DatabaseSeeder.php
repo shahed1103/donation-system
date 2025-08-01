@@ -51,10 +51,6 @@ class DatabaseSeeder extends Seeder
             DonationsSeeder::class,
         ]);
 
-          $this->call([
-            AssociationSeeder::class,
-        ]);
-
         $this->call([
             CitySeeder::class]);
 
@@ -65,10 +61,10 @@ class DatabaseSeeder extends Seeder
             AvailabilityTypeSeeder::class]);
 
         $this->call([
-            VolunteerProfileSeeder::class]);        
-            
+            VolunteerProfileSeeder::class]);
+
         $this->call([
-            TaskStatusSeeder::class]); 
+            TaskStatusSeeder::class]);
 
         $this->call([
             VolunteerTasksSeeder::class]);
@@ -78,7 +74,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             TaskVolunteerProfileSeeder::class]);
-   
+
         $this->call([
             GenderSeeder::class]);
     }

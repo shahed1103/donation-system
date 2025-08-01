@@ -14,12 +14,21 @@ class Association extends Model
     protected $fillable = [
         'name',
         'location',
-        'description'
+        'description',
+        'association_owner_id',
+        'date_start_working',
+        'date_end_working'
+
     ];
 
     public function associationCampaigns()
     {
         return $this->belongsToMany(AssociationCampaign::class, 'shared_association_campaigns');
     }
+
+    public function owner()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
 
 }

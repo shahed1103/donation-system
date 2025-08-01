@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Storage;
 use App\Http\Responses\response;
-use App\Services\IndividualCompaignsService;
-use App\Services\SuperAdminAssociationCompaignsService;
+use App\Services\SuperAssociationCompaignsService;
 use App\Http\Requests\IndividualCompaings\CreateIndividualCompaingsRequest;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
@@ -17,18 +16,18 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 class SuperAdminAssociationCompaignsController extends Controller
 {
 
-protected SuperAdminAssociationCompaignsService $superAdminCompaignsService;
+protected SuperAssociationCompaignsService $superAssociationCompaignsService;
 
-public function __construct(SuperAdminAssociationCompaignsService $superAdminCompaignsService)
+public function __construct(SuperAssociationCompaignsService $superAssociationCompaignsService)
 {
-    $this->superAdminCompaignsService = $superAdminCompaignsService;
+    $this->superAssociationCompaignsService = $superAssociationCompaignsService;
 }
 
 
 public function getAssociations(): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminCompaignsService->getAssociations();
+        $data = $this->superAssociationCompaignsService->getAssociations();
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -40,7 +39,7 @@ public function getAssociations(): JsonResponse {
 public function getAssociationsCampaignsActive($association_id): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminCompaignsService->getAssociationsCampaignsActive($association_id);
+        $data = $this->superAssociationCompaignsService->getAssociationsCampaignsActive($association_id);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -52,7 +51,7 @@ public function getAssociationsCampaignsActive($association_id): JsonResponse {
 public function getAssociationCompaingsComplete($association_id): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminCompaignsService->getAssociationCompaingsComplete($association_id);
+        $data = $this->superAssociationCompaignsService->getAssociationCompaingsComplete($association_id);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -64,7 +63,7 @@ public function getAssociationCompaingsComplete($association_id): JsonResponse {
 public function getAssociationCompaingsClosed($association_id): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminCompaignsService->getAssociationCompaingsClosed($association_id);
+        $data = $this->superAssociationCompaignsService->getAssociationCompaingsClosed($association_id);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -76,7 +75,7 @@ public function getAssociationCompaingsClosed($association_id): JsonResponse {
 public function getCampaignDetails($Campaign_id): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminCompaignsService->getCampaignDetails($Campaign_id);
+        $data = $this->superAssociationCompaignsService->getCampaignDetails($Campaign_id);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -89,7 +88,7 @@ public function getCampaignDetails($Campaign_id): JsonResponse {
 public function getAssociationDetails($Campaign_id): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminCompaignsService->getAssociationDetails($Campaign_id);
+        $data = $this->superAssociationCompaignsService->getAssociationDetails($Campaign_id);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -97,4 +96,5 @@ public function getAssociationDetails($Campaign_id): JsonResponse {
         return Response::Error($data, $message, $errors);
     }
 }
+
 }
