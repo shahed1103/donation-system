@@ -73,7 +73,7 @@ Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
 Route::get('showIndiviCampaignDetails/{campaignId}' , 'showIndiviCampaignDetails')
     ->name('user.showIndiviCampaignDetails');
 
-Route::middleware('auth:sanctum')->post('donateIndiviWithPoints/{id}', [IndividualCompaignsController::class, 'donateIndiviWithPoints'])->name('user.donateIndiviWithPoints'); 
+Route::middleware('auth:sanctum')->post('donateIndiviWithPoints/{id}', [IndividualCompaignsController::class, 'donateIndiviWithPoints'])->name('user.donateIndiviWithPoints');
 
 });
 
@@ -95,7 +95,7 @@ Route::get('showAssociationDetails/{id}' , 'showAssociationDetails')
 Route::get('showCampaignDetails/{campaignId}' , 'showCampaignDetails')
     ->name('user.showCampaignDetails');
 
-Route::middleware('auth:sanctum')->post('donateWithPoints/{id}', [AssociationCompaignsController::class, 'donateWithPoints'])->name('user.donateWithPoints'); 
+Route::middleware('auth:sanctum')->post('donateWithPoints/{id}', [AssociationCompaignsController::class, 'donateWithPoints'])->name('user.donateWithPoints');
 });
 
 Route::controller(MobileHomeController::class)->group(function(){
@@ -151,6 +151,8 @@ Route::middleware('auth:sanctum')->get('getAssociationCompaingsComplete/{id}', [
 Route::middleware('auth:sanctum')->get('getAssociationCompaingsClosed/{id}', [SuperAdminAssociationCompaignsController::class, 'getAssociationCompaingsClosed'])->name('super_admin.getAssociationCompaingsClosed');
 Route::middleware('auth:sanctum')->get('getCampaignDetails/{id}', [SuperAdminAssociationCompaignsController::class, 'getCampaignDetails'])->name('super_admin.getCampaignDetails');
 Route::middleware('auth:sanctum')->get('getDetails/{id}', [SuperAdminAssociationCompaignsController::class, 'getAssociationDetails'])->name('super_admin.getAssociationDetails');
+Route::middleware('auth:sanctum')->post('addAssociation', [SuperAdminAssociationCompaignsController::class, 'addAssociation'])->name('super_admin.addAssociation');
+
 
 });
 
@@ -170,8 +172,8 @@ Route::middleware('auth:sanctum')->get('getActiveIndiviCompaign', [SuperAdminInd
 
 
 Route::controller(SuperAdminAssociationCompaignsController::class)->group(function(){
-    Route::get('getAssociationDetails/{id}' , 'getAssociationDetails')
-          ->name('user.getAssociationDetails');
+    Route::post('addAssociation' , 'addAssociation')
+          ->name('user.addAssociation');
 });
 
 
