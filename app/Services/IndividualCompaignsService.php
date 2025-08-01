@@ -173,7 +173,6 @@ class IndividualCompaignsService
       // Get individual campaign details
     public function showIndiviCampaignDetails($campaignId):array{
     $compaign = IndCompaign::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
-
     $total = $compaign->donations->sum('amount');
 
     $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
@@ -263,7 +262,7 @@ class IndividualCompaignsService
 
         return ['gender' =>  $gender_name , 'message' => $message];
      }
-    
+
       // donation with points for individual campaign
       public function donateIndiviWithPoints($request , $campaignId){
          $user = Auth::user();
@@ -272,7 +271,7 @@ echo "HH";
 
       $user->points -= $request->points;
       $user->save();
-      
+
       $donationIndiviCampaign = Donation::create([
       'user_id' => $user->id,
       'campaign_id' => $campaignId,

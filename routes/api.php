@@ -143,9 +143,7 @@ Route::middleware('auth:sanctum')->get('getTeamLeaders', [SuperAdminController::
 Route::middleware('auth:sanctum')->get('createLeader', [SuperAdminController::class, 'createLeader'])->name('super_admin.createLeader');
 Route::middleware('auth:sanctum')->get('deleteLeader/{id}', [SuperAdminController::class, 'deleteLeader'])->name('super_admin.deleteLeader');
 
-
 });
-
 
 
 Route::controller(SuperAdminAssociationCompaignsController::class)->group(function(){
@@ -165,19 +163,21 @@ Route::middleware('auth:sanctum')->post('addAssociation', [SuperAdminAssociation
 
 
 Route::controller(SuperAdminIndividualCompaignsController::class)->group(function(){
-
 Route::middleware('auth:sanctum')->get('getClosedRejectedIndiviCampaigns', [SuperAdminIndividualCompaignsController::class, 'getClosedRejectedIndiviCampaigns'])->name('super_admin.getClosedRejectedIndiviCampaigns');
 Route::middleware('auth:sanctum')->get('getClosedPendingIndiviCampaigns', [SuperAdminIndividualCompaignsController::class, 'getClosedPendingIndiviCampaigns'])->name('super_admin.getClosedPendingIndiviCampaigns');
 Route::middleware('auth:sanctum')->get('getCompleteIndiviCompaign', [SuperAdminIndividualCompaignsController::class, 'getCompleteIndiviCompaign'])->name('super_admin.getCompleteIndiviCompaign');
 Route::middleware('auth:sanctum')->get('getActiveIndiviCompaign', [SuperAdminIndividualCompaignsController::class, 'getActiveIndiviCompaign'])->name('super_admin.getActiveIndiviCompaign');
+Route::middleware('auth:sanctum')->get('getActiveCompleteIndiviCampaignDetails/{id}', [SuperAdminIndividualCompaignsController::class, 'getActiveCompleteIndiviCampaignDetails'])->name('super_admin.getActiveCompleteIndiviCampaignDetails');
+Route::middleware('auth:sanctum')->post('updateAcceptanceStatus/{id}', [SuperAdminIndividualCompaignsController::class, 'updateAcceptanceStatus'])->name('super_admin.updateAcceptanceStatus');
+Route::middleware('auth:sanctum')->get('getClosedIndiviCampaignDetails/{id}', [SuperAdminIndividualCompaignsController::class, 'getClosedIndiviCampaignDetails'])->name('super_admin.getClosedIndiviCampaignDetails');
 
 
 });
 
 
-Route::controller(SuperAdminAssociationCompaignsController::class)->group(function(){
-    Route::post('addAssociation' , 'addAssociation')
-          ->name('user.addAssociation');
+Route::controller(SuperAdminIndividualCompaignsController::class)->group(function(){
+    Route::get('getClosedIndiviCampaignDetails/{id}' , 'getClosedIndiviCampaignDetails')
+          ->name('user.getClosedIndiviCampaignDetails');
 });
 
 

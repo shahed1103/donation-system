@@ -27,6 +27,9 @@ return new class extends Migration
             $table->date('compaigns_end_time')->nullable();
             $table->integer('compaigns_time');
             $table->tinyInteger('emergency_level')->default(1);
+
+                        $table->text('rejection_reason')->nullable();
+
             $table->timestamps();
         });
     }
