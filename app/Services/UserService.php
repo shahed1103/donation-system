@@ -47,7 +47,7 @@ class UserService
      'phone' => $request['phone'] ,
     //  'nationality_id' => $request['nationality_id'] ?? 0,
     //  'age' => $request['age'] ?? 0 ,
-    'photo' => url(Storage::url($targetPath)) 
+    'photo' => url(Storage::url($targetPath))
         ]);
 
         $clientRole = Role::query()->where('name', 'Donor')->first();
@@ -196,7 +196,7 @@ class UserService
 
               return ['role' =>  $data ,'message' => $message  , 'code' => $code];
                     }
- 
+
     private function appendRolesAndPermissions($user){
            $roles = [];
 

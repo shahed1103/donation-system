@@ -16,7 +16,8 @@ return new class extends Migration
             $table->integer('role_id')->unsigned();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone');
+            $table->string('phone')->nullable();
+
             $table->string('password');
 
             $table->integer('city_id')->unsigned()->nullable();

@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Storage;
 use App\Http\Responses\response;
 use App\Services\SuperAssociationCompaignsService;
-use App\Http\Requests\IndividualCompaings\CreateIndividualCompaingsRequest;
+use App\Http\Requests\Association\AddAssociationRequest;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -96,5 +96,18 @@ public function getAssociationDetails($Campaign_id): JsonResponse {
         return Response::Error($data, $message, $errors);
     }
 }
+
+public function addAssociation(AddAssociationRequest $request): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAssociationCompaignsService->addAssociation($request->validated(),$request);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
 
 }

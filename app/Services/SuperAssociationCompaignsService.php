@@ -245,6 +245,40 @@ public function getCampaignDetails($campaignId): array
          return ['association' => $associationDet , 'message' => $message];
       }
 
+public function addAssociation($request): array{
+
+        $adminRole = Role::query()->firstWhere('name', 'Admin')->id;
+        $association_owner = User::create([
+         'name' =>$request['owner_name'],
+         'email' => $request ['email'],
+         'password' => Hash::make($request['password']),
+         'role_id' => $adminRole
+        ]);
+
+        $association = Association::create([
+                'name' =>  $request['name'],
+                'description' => $request['description'],
+                'location' => $request['location'],
+                'date_start_working' =>  $request['date_start_working'],
+                'date_end_working' => $request['date_end_working'],
+                'compaigns_time' =>  $request['compaigns_time'],
+                'association_owner_id' => $association_owner -> id
+       ]);
+
+       $association->refresh();
+       $association_dett = [
+                'name' =>  $request['name'],
+                'description' => $request['description'],
+                'location' => $request['location'],
+                'date_start_working' =>  $request['date_start_working'],
+                'date_end_working' => $request['date_end_working'],
+                'compaigns_time' =>  $request['compaigns_time'],
+                'association_owner' => $association_owner->name,
+       ];
+        $message = 'Your association created sucessfully';
+
+        return ['association' =>  $association_dett , 'message' => $message];
+    }
 
 
     }

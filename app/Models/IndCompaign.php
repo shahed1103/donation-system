@@ -25,7 +25,8 @@ class IndCompaign extends Model
         'campaign_status_id',
         'compaigns_time',
         'photo',
-        'emergency_level'
+        'emergency_level',
+        'rejection_reason'
     ];
 
     public function user(){

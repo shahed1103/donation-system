@@ -200,5 +200,168 @@ public function getClosedUnderReviewIndiviCompaign(): array
     ];
 }
 
+
+public function getActiveCompleteIndiviCampaignDetails($campaignId):array{
+    $compaign = IndCompaign::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
+    $totalDonations = $compaign->donations->sum('amount');
+
+    $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
+    $fullPath = url(Storage::url($photo));
+
+    $lastDonation = $compaign->donations->sortByDesc('created_at')->first();
+
+    $targetPath = 'uploads/det/defualtProfilePhoto.png';
+    $userPhoto = $compaign->user->photo
+             ? url(Storage::url($compaign->user->photo))
+             : url(Storage::url($targetPath)) ;
+    $remainingAmount = max($compaign->amount_required - $totalDonations, 0);
+
+         $compaingDet = [];
+         $compaingDet[] = [
+            'title' => $compaign->title,
+            'amount_required' => $compaign->amount_required,
+            'donation_amount' => $totalDonations,
+            'remaining_amount' => $remainingAmount,
+            'campaign_status' => [
+                  'id' => $compaign->campaign_status_id,
+                  'type' => $compaign->campaignStatus->status_type
+            ],
+            'photo_id' => [
+                  'id' =>$compaign->photo_id ,
+                  'photo' => $fullPath
+            ],
+            'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'description' => $compaign->description,
+            'campaign_start_time' => $compaign->compaigns_start_time,
+            'campaign_end_time' => $compaign->compaigns_end_time,
+            'last_donation_time' => $lastDonation ? $lastDonation->created_at->diffForHumans() : 'no Donations yet',
+            'location' => $compaign->location,
+            'classification' => [
+                  'id' => $compaign->classification_id,
+                  'type' => $compaign->classification->classification_name
+            ],
+            'user' => [
+                'name' => $compaign->user->name,
+                'photo' => $userPhoto,
+            ]
+    ];
+
+        $message = 'individual campaign details are retrived sucessfully';
+         return ['campaign' => $compaingDet , 'message' => $message];
+}
+
+
+public function getUnderReviewIndiviCampaignDetails($campaignId):array{
+    $compaign = IndCompaign::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
+    $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
+    $fullPath = url(Storage::url($photo));
+    $targetPath = 'uploads/det/defualtProfilePhoto.png';
+    $userPhoto = $compaign->user->photo
+             ? url(Storage::url($compaign->user->photo))
+             : url(Storage::url($targetPath)) ;
+
+         $compaingDet = [];
+         $compaingDet[] = [
+            'title' => $compaign->title,
+            'amount_required' => $compaign->amount_required,
+            'compaigns_time' => $compaign->compaigns_time,
+            'campaign_status' => [
+                  'id' => $compaign->campaign_status_id,
+                  'type' => $compaign->campaignStatus->status_type
+            ],
+            'photo_id' => [
+                  'id' =>$compaign->photo_id ,
+                  'photo' => $fullPath
+            ],
+            'description' => $compaign->description,
+            'location' => $compaign->location,
+            'classification' => [
+                  'id' => $compaign->classification_id,
+                  'type' => $compaign->classification->classification_name
+            ],
+            'user' => [
+                'name' => $compaign->user->name,
+                'photo' => $userPhoto,
+            ]
+    ];
+
+        $message = 'individual campaign details are retrived sucessfully';
+         return ['campaign' => $compaingDet , 'message' => $message];
+}
+
+public function updateAcceptanceStatus(array $request, int $campaignId): array
+{
+    $campaign = IndCompaign::findOrFail($campaignId);
+    $status = AcceptanceStatus::where('status_type', $request['status'])->first();
+
+    if (!$status) {
+        throw new InvalidArgumentException('Invalid acceptance status type.');
     }
 
+    $campaign->acceptance_status_id = $status->id;
+
+    if ($request['status'] === 'Rejected') {
+        $campaign->rejection_reason = $request['rejection_reason'];
+    } else {
+        $campaign->rejection_reason = null;
+    }
+
+    $campaign->save();
+    $campaign->refresh();
+
+    $campaignDetails = [
+        'id' => $campaign->id,
+        'title' => $campaign->title,
+        'status' => $status->status_type,
+        'rejection_reason' => $campaign->rejection_reason,
+    ];
+
+    $message = 'done';
+
+    return [
+        'campaign' => $campaignDetails,
+        'message' => $message,
+    ];
+}
+
+
+public function getClosedIndiviCampaignDetails($campaignId):array{
+    $compaign = IndCompaign::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
+    $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
+    $fullPath = url(Storage::url($photo));
+    $targetPath = 'uploads/det/defualtProfilePhoto.png';
+    $userPhoto = $compaign->user->photo
+             ? url(Storage::url($compaign->user->photo))
+             : url(Storage::url($targetPath)) ;
+
+         $compaingDet = [];
+         $compaingDet[] = [
+            'title' => $compaign->title,
+            'amount_required' => $compaign->amount_required,
+            'compaigns_time' => $compaign->compaigns_time,
+            'rejection_reason' => $compaign -> rejection_reason,
+            'campaign_status' => [
+                  'id' => $compaign->campaign_status_id,
+                  'type' => $compaign->campaignStatus->status_type
+            ],
+            'photo_id' => [
+                  'id' =>$compaign->photo_id ,
+                  'photo' => $fullPath
+            ],
+            'description' => $compaign->description,
+            'location' => $compaign->location,
+            'classification' => [
+                  'id' => $compaign->classification_id,
+                  'type' => $compaign->classification->classification_name
+            ],
+            'user' => [
+                'name' => $compaign->user->name,
+                'photo' => $userPhoto,
+            ]
+    ];
+
+        $message = 'individual campaign details are retrived sucessfully';
+         return ['campaign' => $compaingDet , 'message' => $message];
+}
+
+}
