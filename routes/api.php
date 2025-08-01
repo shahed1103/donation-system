@@ -129,13 +129,13 @@ Route::controller(VoluntingController::class)->group(function(){
 
     //association campaign id
     Route::get('getVoluntingCampigndetails/{id}' , 'getVoluntingCampigndetails')
-        ->name('user.getVoluntingCampigndetails'); 
-        
+        ->name('user.getVoluntingCampigndetails');
+
     //task id
     Route::get('getTaskDetails/{id}' , 'getTaskDetails')
         ->name('user.getTaskDetails');
-        
-    //task id  
+
+    //task id
     Route::middleware('auth:sanctum')->get('voluntingRequest/{id}', [VoluntingController::class, 'voluntingRequest'])->name('user.voluntingRequest');
 });
 
@@ -188,9 +188,9 @@ Route::middleware('auth:sanctum')->get('getClosedIndiviCampaignDetails/{id}', [S
 });
 
 
-Route::controller(SuperAdminIndividualCompaignsController::class)->group(function(){
-    Route::get('getClosedIndiviCampaignDetails/{id}' , 'getClosedIndiviCampaignDetails')
-          ->name('user.getClosedIndiviCampaignDetails');
+Route::controller(LeaderController::class)->group(function(){
+    Route::post('addLeaderForm/{id}' , 'addLeaderForm')
+          ->name('user.addLeaderForm');
 });
 
 
