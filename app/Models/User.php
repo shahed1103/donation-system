@@ -90,4 +90,9 @@ use HasApiTokens, HasFactory, Notifiable , HasRoles;
     return $this->hasOne(VolunteerProfile::class);
     }
 
+        public function associations()
+    {
+        return $this->hasMany(Association::class, 'user_id');
+    }
+
 }

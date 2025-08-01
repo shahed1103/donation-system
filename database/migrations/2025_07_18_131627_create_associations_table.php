@@ -17,7 +17,12 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('location');
-        
+            $table->integer('association_owner_id')->unsigned();
+           // $table->string('association_owner');
+            $table->date('date_start_working');
+            $table->date('date_end_working');
+
+
         });
     }
 
