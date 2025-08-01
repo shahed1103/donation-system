@@ -117,6 +117,7 @@ class AssociationCompaignsService
           $associationDet[] = [
             'association_name' => $association->name,
             'association_description' => $association->description,
+            'association_location' => $association->location,
             'total_donations' => $totalDonations,
             'total_campaigns' => $totalCampaigns,
             'completed_campaigns' => $completedCampaigns
@@ -184,6 +185,25 @@ class AssociationCompaignsService
          return ['campaign' => $compaingDet , 'message' => $message];
       }
 
+      // donation with points for association campaign
+      public function donateWithPoints($request , $campaignId){
+         $user = Auth::user();
 
+      $dollarAmount = $request->points / 15;
+
+      $user->points -= $request->points;
+      $user->save();
+      
+      $donationAssociationCampaign = DonationAssociationCampaign::create([
+      'user_id' => $user->id,
+      'association_campaign_id' => $campaignId,
+      'amount' => $dollarAmount
+      ]);
+
+      $message = 'donation for this association campaign are dine sucessfully';
+
+      return ['donation' => $donationAssociationCampaign , 'message' => $message];
+
+      }
 
 }

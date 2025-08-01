@@ -6,12 +6,12 @@ use Storage;
 use Illuminate\Http\Request;
 use App\Http\Responses\response;
 use App\Services\AssociationCompaignsService;
+use App\Http\Requests\Donation\DonationForCompaingRequest;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
 
 class AssociationCompaignsController extends Controller
 {
@@ -77,4 +77,17 @@ class AssociationCompaignsController extends Controller
         }
     }
 
+    // donation with points for association campaign
+    public function donateWithPoints(DonationForCompaingRequest $request , $campaignId): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->associationCompaignsService->donateWithPoints($request , $campaignId);
+           return Response::Success($data['donation'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }    
 }

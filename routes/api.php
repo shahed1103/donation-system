@@ -73,6 +73,8 @@ Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
 Route::get('showIndiviCampaignDetails/{campaignId}' , 'showIndiviCampaignDetails')
     ->name('user.showIndiviCampaignDetails');
 
+Route::middleware('auth:sanctum')->post('donateIndiviWithPoints/{id}', [IndividualCompaignsController::class, 'donateIndiviWithPoints'])->name('user.donateIndiviWithPoints'); 
+
 });
 
 Route::controller(AssociationCompaignsController::class)->group(function(){
@@ -92,6 +94,8 @@ Route::get('showAssociationDetails/{id}' , 'showAssociationDetails')
     //association campaign id
 Route::get('showCampaignDetails/{campaignId}' , 'showCampaignDetails')
     ->name('user.showCampaignDetails');
+
+Route::middleware('auth:sanctum')->post('donateWithPoints/{id}', [AssociationCompaignsController::class, 'donateWithPoints'])->name('user.donateWithPoints'); 
 });
 
 Route::controller(MobileHomeController::class)->group(function(){

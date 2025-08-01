@@ -32,6 +32,12 @@ class IndividualCompaignsService
 
         $user= Auth::user()->id;
 
+            $photoRanges = [
+                1 => [1, 4],
+                2 => [5, 8],
+                3 => [9, 12],
+                4 => [13, 16],
+            ];
         $campaign = IndCompaign::create([
                 'title' =>  $request['title'],
                 'description' => $request['description'],
@@ -39,7 +45,7 @@ class IndividualCompaignsService
                 'location' => $request['location'],
                 'amount_required' =>  $request['amount_required'],
                 'user_id' => $user,
-                'photo_id' => rand(1, 4),
+                'photo_id' => rand(...$photoRanges[$request['classification_id']]),
                 'compaigns_time' =>  $request['compaigns_time'],
        ]);
 
@@ -47,11 +53,14 @@ class IndividualCompaignsService
        $classification_name = Classification::find($request['classification_id'])->classification_name;
        $acceptance_status_type = AcceptanceStatus::find($campaign->acceptance_status_id)->status_type;
        $campaign_status_type = CampaignStatus::find($campaign->campaign_status_id)->status_type;
+       $campaign_photo = IndCompaigns_photo::find($campaign->photo_id)->photo;
+
 
        $campaign_dett = [
         'title' =>  $request['title'],
         'description' => $request['description'],
         'classification_id' => ['id' => $request['classification_id'], 'classification_name' => $classification_name] ,
+        'photo_id' => ['id' => $campaign->photo_id , 'photo' => url(Storage::url($campaign_photo))] ,
         'location' => $request['location'],
         'amount_required' =>  $request['amount_required'],
         'acceptance_status_id'=>  ['id' => $campaign->acceptance_status_id, 'acceptance_status_type' => $acceptance_status_type],
@@ -253,4 +262,26 @@ class IndividualCompaignsService
         $message = 'all genders are retrived successfully';
 
         return ['gender' =>  $gender_name , 'message' => $message];
-     }}
+     }
+    
+      // donation with points for individual campaign
+      public function donateIndiviWithPoints($request , $campaignId){
+         $user = Auth::user();
+echo "HH";
+      $dollarAmount = $request->points / 15;
+
+      $user->points -= $request->points;
+      $user->save();
+      
+      $donationIndiviCampaign = Donation::create([
+      'user_id' => $user->id,
+      'campaign_id' => $campaignId,
+      'amount' => $dollarAmount
+      ]);
+
+      $message = 'donation for this individual campaign are dine sucessfully';
+
+      return ['donation' => $donationIndiviCampaign , 'message' => $message];
+
+      }
+    }
