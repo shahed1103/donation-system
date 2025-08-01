@@ -8,7 +8,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Responses\response;
 
-class StoreLeaderFormRequest extends FormRequest
+class LeaderFormRequest extends FormRequest
 {
     public function authorize(): bool
     {
