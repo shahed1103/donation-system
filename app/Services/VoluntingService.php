@@ -41,6 +41,13 @@ class VoluntingService
         $taskCount = $voluntings->where('associationCampaigns.id', $campaign->id)->count();
 
         if ($campaign && !in_array($campaign->id, $seenCampaigns) && $campaign->campaign_status_id == 1) {
+
+             $tasksC = $campaign->volunteerTasks->sum('number_volunter_need');
+
+             if($tasksC <= 0){
+               continue;
+             }
+
             $seenCampaigns[] = $campaign->id;
 
             $det[] = [
@@ -116,8 +123,6 @@ class VoluntingService
    //volunting request
    public function voluntingRequest($taskId) : array{
     $user = Auth::user();
-
-   //  $user->load('volunteerProfile');
 
     if(!$user->volunteerProfile){
          throw new Exception("You must create your volunteer profile before requesting to volunteer", 403);
