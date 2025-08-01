@@ -52,13 +52,13 @@ class PersonalAccountService
     $totalDonations = $indivdualCampaignsdoniations + $associationCampaignsdoniations;
 
     $volunteerProfileId = VolunteerProfile::where('user_id' , $userId)
-                                            ->pluck('id');
+                                            ->value('id');
 
     $volunteerTaskId = TaskVolunteerProfile::where('volunteer_profile_id' , $volunteerProfileId)
+                                            ->where('status_id', 2)
                                             ->pluck('volunteer_task_id');
 
     $totalVoluntingHours = VolunteerTask::whereIn('id' , $volunteerTaskId)
-                                           ->where('status_id' , 2)
                                            ->sum('hours');
 
     $indivdualCampaigns = Donation::where('user_id' , $userId)
@@ -70,7 +70,6 @@ class PersonalAccountService
                                                         ->count('association_campaign_id');
 
     $VoluntingCampaigns = VolunteerTask::whereIn('id' , $volunteerTaskId)
-                                            ->where('status_id' , 2)
                                             ->distinct('association_campaign_id')
                                             ->count('association_campaign_id');
 
@@ -121,33 +120,36 @@ class PersonalAccountService
     public function myVoluntings(): array{
       $userId = Auth::user()->id;
       $volunteerProfileId = VolunteerProfile::where('user_id' , $userId)
-                                            ->pluck('id');
+                                            ->value('id');
 
-      $volunteerTaskId = TaskVolunteerProfile::where('volunteer_profile_id' , $volunteerProfileId)
-                                             ->pluck('volunteer_task_id');
-      
-      $campiagnsVolunting = VolunteerTask::with('associationCampaigns')
-                                           ->whereIn('id' , $volunteerTaskId)
-                                           ->where('status_id' , 2)
-                                           ->get();
+      $taskProfiles  = TaskVolunteerProfile::where('volunteer_profile_id' , $volunteerProfileId)
+                                              ->where('status_id', 2)
+                                              ->get();
+                                              
+      $volunteerTaskIds = $taskProfiles->pluck('volunteer_task_id');
 
-        foreach ($campiagnsVolunting as $campiagnVolunting) {
+      $tasks = VolunteerTask::with('associationCampaigns')
+                          ->whereIn('id', $volunteerTaskIds)
+                          ->get();
 
-        $createdAt = TaskVolunteerProfile::where('volunteer_profile_id', $volunteerProfileId)
-                                            ->where('volunteer_task_id', $campiagnVolunting->id)
-                                            ->value('created_at');
+     $campiagns_volunting = [];
+
+        foreach ($tasks as $task) {
+
+        $createdAt = $taskProfiles->firstWhere('volunteer_task_id', $task->id)?->created_at;
+
 
             $campiagns_volunting [] = [
-                'campiagn name' => $campiagnVolunting->associationCampaigns->title,
-                'volunting time' => $createdAt->format('Y-m-d')
+            'campiagn name' => $task->associationCampaigns->title ,
+            'volunting time' => $createdAt ? $createdAt->format('Y-m-d') : 'N/A'
             ];
         }
 
-    $message = 'my voluntings are retrived sucessfully';
+     $message = 'my voluntings are retrived sucessfully';
 
-    return ['my voluntings' => $campiagns_volunting , 'message' => $message];
+     return ['my voluntings' => $campiagns_volunting , 'message' => $message];
 
-      }
+    }
 
     //4 - the most campigns that user donate for it 
     public function mostDonationFor(): array{
@@ -202,7 +204,7 @@ class PersonalAccountService
     public function createVoluntingProfile($request): array{
         $userId = Auth::user()->id;
 
-        if( VolunteerProfile::where('user_id' , $userId)->exists()){
+        if(VolunteerProfile::where('user_id' , $userId)->exists()){
             throw new Exception("You cannot create a volunteer profile because you already have one", 400);
         }
         $voluntingProfile = VolunteerProfile::with('availabilityType')->create([

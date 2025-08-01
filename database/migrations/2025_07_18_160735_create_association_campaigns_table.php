@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('location');
+            $table->time('tasks_start_time');
+            $table->time('tasks_end_time');
             $table->integer('classification_id')->unsigned();
             $table->integer('amount_required')->unsigned();
             //$table->foreignId('photo_id')->constrained()->onDelete('cascade');

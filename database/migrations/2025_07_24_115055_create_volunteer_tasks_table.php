@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->integer('status_id')->unsigned();
+            // $table->integer('status_id')->unsigned();
+            $table->integer('number_volunter_need')->unsigned();
             $table->integer('association_campaign_id')->unsigned();
             $table->integer('hours')->unsigned();
             $table->timestamps();

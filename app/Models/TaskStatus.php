@@ -8,9 +8,14 @@ class TaskStatus extends Model
 {
     protected $fillable = ['name'];
 
+    // public function tasks()
+    // {
+    // return $this->hasMany(VolunteerTask::class);
+    // }
+
     public function tasks()
     {
-    return $this->hasMany(VolunteerTask::class);
+    return $this->hasMany(TaskVolunteerProfile::class);
     }
 
 }

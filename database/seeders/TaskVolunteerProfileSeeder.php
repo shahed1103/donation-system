@@ -19,12 +19,15 @@ class TaskVolunteerProfileSeeder extends Seeder
             return;
         }
 
-        $count = 15;
+        $status_ids = [1, 2, 3 , 1, 2, 3 , 1, 2, 3 , 2];
+
+        $count = 10;
 
         for ($i = 0; $i < $count; $i++) {
             DB::table('task_volunteer_profile')->insert([
                 'volunteer_profile_id' => $profileIds[array_rand($profileIds)],
                 'volunteer_task_id' => $taskIds[array_rand($taskIds)],
+                'status_id' => $status_ids[$i],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

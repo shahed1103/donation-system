@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('volunteer_profile_id')->unsigned();
             $table->integer('volunteer_task_id')->unsigned();
+            $table->integer('status_id')->unsigned();
             $table->timestamps();
         });
     }

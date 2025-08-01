@@ -4,12 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AssociationCompaignsController;
+use App\Http\Controllers\VoluntingController;
 use App\Http\Controllers\IndividualCompaignsController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\SuperAdminIndividualCompaignsController;
 use App\Http\Controllers\SuperAdminAssociationCompaignsController;
-
-
 use App\Http\Controllers\PersonalAccountController;
 // use App\Http\Requests\Auth\UserSignupRequest;
 // use App\Http\Requests\Auth\UserSigninRequest;
@@ -122,7 +121,21 @@ Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->post('editPersonalInfo', [PersonalAccountController::class, 'editPersonalInfo'])->name('user.editPersonalInfo');
 });
 
+Route::controller(VoluntingController::class)->group(function(){
+    Route::get('getAllVoluntingCampigns' , 'getAllVoluntingCampigns')
+        ->name('user.getAllVoluntingCampigns');
 
+    //association campaign id
+    Route::get('getVoluntingCampigndetails/{id}' , 'getVoluntingCampigndetails')
+        ->name('user.getVoluntingCampigndetails'); 
+        
+    //task id
+    Route::get('getTaskDetails/{id}' , 'getTaskDetails')
+        ->name('user.getTaskDetails');
+        
+    //task id  
+    Route::middleware('auth:sanctum')->get('voluntingRequest/{id}', [VoluntingController::class, 'voluntingRequest'])->name('user.voluntingRequest');
+});
 
 
 Route::controller(SuperAdminController::class)->group(function(){

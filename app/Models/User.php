@@ -87,7 +87,7 @@ use HasApiTokens, HasFactory, Notifiable , HasRoles;
 
     public function volunteerProfile()
     {
-    return $this->hasOne(VolunteerProfile::class);
+    return $this->hasOne(VolunteerProfile::class , 'user_id');
     }
 
         public function associations()

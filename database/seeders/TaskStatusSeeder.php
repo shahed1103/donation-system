@@ -16,7 +16,8 @@ class TaskStatusSeeder extends Seeder
         $names = [
             'قادمة',
             'منجزة',
-            'تم الاعتذار'
+            'تم الاعتذار' , 
+            'قيد الانتظار'
         ];
 
         for ($i = 0; $i < 3; $i++) {

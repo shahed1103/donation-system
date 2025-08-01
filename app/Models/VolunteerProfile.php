@@ -18,7 +18,7 @@ class VolunteerProfile extends Model
 
     public function user()
     {
-    return $this->belongsTo(User::class);
+    return $this->belongsTo(User::class , 'user_id');
     }
 
     public function availabilityType()
@@ -30,4 +30,6 @@ class VolunteerProfile extends Model
 {
     return $this->belongsToMany(VolunteerTask::class, 'task_volunteer_profile');
 }
+
+
 }

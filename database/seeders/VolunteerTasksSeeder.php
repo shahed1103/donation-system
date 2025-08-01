@@ -21,18 +21,17 @@ class VolunteerTasksSeeder extends Seeder
             'توفير الدعم اللوجستي للحملات المختلفة.',
         ];
 
-        $status_ids = [1, 2, 3];
-
         $hours = [5, 3, 4];
         
+        $number_volunter_need =  [10 , 20 , 25];
 
         for ($i = 0; $i < 3 ; $i++) {
             VolunteerTask::create([
                 'name' => $names[$i],
                 'description' => $descriptions[$i],
-                'status_id' => $status_ids[$i],
                 'hours' => $hours[$i],
-                'association_campaign_id' => rand(1,4)
+                'association_campaign_id' => rand(1,4),
+                'number_volunter_need' => $number_volunter_need[$i]
             ]);
         }
     }
