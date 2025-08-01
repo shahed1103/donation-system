@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
+use App\Http\Requests\Donation\DonationForCompaingRequest;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 
@@ -134,4 +135,16 @@ class IndividualCompaignsController extends Controller
         }
     }
 
-}
+      // donation with points for individual campaign
+    public function donateIndiviWithPoints(DonationForCompaingRequest $request , $campaignId): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->individualCompaignsService->donateIndiviWithPoints($request , $campaignId);
+           return Response::Success($data['donation'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }  }

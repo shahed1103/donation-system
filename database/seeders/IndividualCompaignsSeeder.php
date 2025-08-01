@@ -55,6 +55,13 @@ class IndividualCompaignsSeeder extends Seeder
             'Jeddah, Saudi Arabia'
         ];
 
+        $photoRanges = [
+                1 => [1, 4],
+                2 => [5, 8],
+                3 => [9, 12],
+                4 => [13, 16],
+        ];
+
         $classification_ids = [1, 2, 3, 4 , 1, 2, 3, 4 , 1, 2, 3]; // healthy, Educational, cleanliness, environmental
         $acceptance_status_ids = [1, 2, 3 , 2 , 1, 2, 3 , 2 , 1, 2, 3]; // Under review, Approved, Rejected
         $campaign_status_ids = [2, 1, 2 , 3 , 2, 1, 2 , 3 , 2, 1, 2 ]; // Active, Closed, Complete
@@ -76,7 +83,7 @@ class IndividualCompaignsSeeder extends Seeder
                 'location' => $locations[$i],
                 'amount_required' => rand(500, 10000),
                 'user_id' => rand(1, 5),
-                'photo_id' => rand(1, 4),
+                'photo_id' => rand(...$photoRanges[$classification_ids[$i]]),
                 'acceptance_status_id' => $acceptance_status_ids[$i],
                 'campaign_status_id' => $campaign_status_ids[$i],
                 'compaigns_start_time' => $startTime,
