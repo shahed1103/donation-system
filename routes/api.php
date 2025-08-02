@@ -7,6 +7,7 @@ use App\Http\Controllers\AssociationCompaignsController;
 use App\Http\Controllers\VoluntingController;
 use App\Http\Controllers\IndividualCompaignsController;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\SuperAdminIndividualCompaignsController;
 use App\Http\Controllers\SuperAdminAssociationCompaignsController;
 use App\Http\Controllers\PersonalAccountController;
@@ -129,13 +130,13 @@ Route::controller(VoluntingController::class)->group(function(){
 
     //association campaign id
     Route::get('getVoluntingCampigndetails/{id}' , 'getVoluntingCampigndetails')
-        ->name('user.getVoluntingCampigndetails'); 
-        
+        ->name('user.getVoluntingCampigndetails');
+
     //task id
     Route::get('getTaskDetails/{id}' , 'getTaskDetails')
         ->name('user.getTaskDetails');
-        
-    //task id  
+
+    //task id
     Route::middleware('auth:sanctum')->get('voluntingRequest/{id}', [VoluntingController::class, 'voluntingRequest'])->name('user.voluntingRequest');
 
     Route::middleware('auth:sanctum')->get('upComingTasks', [VoluntingController::class, 'upComingTasks'])->name('user.upComingTasks');
@@ -191,14 +192,25 @@ Route::middleware('auth:sanctum')->get('getActiveIndiviCompaign', [SuperAdminInd
 Route::middleware('auth:sanctum')->get('getActiveCompleteIndiviCampaignDetails/{id}', [SuperAdminIndividualCompaignsController::class, 'getActiveCompleteIndiviCampaignDetails'])->name('super_admin.getActiveCompleteIndiviCampaignDetails');
 Route::middleware('auth:sanctum')->post('updateAcceptanceStatus/{id}', [SuperAdminIndividualCompaignsController::class, 'updateAcceptanceStatus'])->name('super_admin.updateAcceptanceStatus');
 Route::middleware('auth:sanctum')->get('getClosedIndiviCampaignDetails/{id}', [SuperAdminIndividualCompaignsController::class, 'getClosedIndiviCampaignDetails'])->name('super_admin.getClosedIndiviCampaignDetails');
+Route::middleware('auth:sanctum')->get('getLeaderForm/{id}', [SuperAdminIndividualCompaignsController::class, 'getLeaderForm'])->name('super_admin.getLeaderForm');
+
 
 
 });
 
 
-Route::controller(SuperAdminIndividualCompaignsController::class)->group(function(){
-    Route::get('getClosedIndiviCampaignDetails/{id}' , 'getClosedIndiviCampaignDetails')
-          ->name('user.getClosedIndiviCampaignDetails');
+Route::controller(LeaderController::class)->group(function(){
+Route::middleware('auth:sanctum')->get('UnderReviewIndiviCompaign', [LeaderController::class, 'UnderReviewIndiviCompaign'])->name('super_admin.UnderReviewIndiviCompaign');
+Route::middleware('auth:sanctum')->post('addLeaderForm/{id}', [LeaderController::class, 'addLeaderForm'])->name('super_admin.addLeaderForm');
+
+});
+
+
+
+
+Route::controller(LeaderController::class)->group(function(){
+    Route::post('addLeaderForm/{id}' , 'addLeaderForm')
+          ->name('user.addLeaderForm');
 });
 
 

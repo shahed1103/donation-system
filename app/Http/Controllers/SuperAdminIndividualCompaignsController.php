@@ -122,6 +122,18 @@ public function getClosedIndiviCampaignDetails( $id): JsonResponse {
     }
 }
 
+public function getLeaderForm( $id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminCompaignsService->getLeaderForm($id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
 
 
 }
