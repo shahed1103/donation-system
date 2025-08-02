@@ -6,11 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Responses\response;
 use App\Models\AssociationCampaign;
 use App\Models\IndCompaign;
+use App\Http\Responses\response;
 
-class DonationForCompaingRequest extends FormRequest
+class WalletDonationForCompaingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,12 +27,14 @@ class DonationForCompaingRequest extends FormRequest
      */
     public function rules()
     {
+ 
         return [
-        'points' => [
+        'amount' => [
             'required',
             'integer',
+            'min:1000',
             function ($attribute, $value, $fail) {
-                $userPoints = auth()->user()->points;
+                $userWallet = auth()->user()->wallet->wallet_value;
                 $campaignId = $this->route('campaignId'); 
                 $campaignType =  $this->route('campaignType'); 
 
@@ -46,23 +48,19 @@ class DonationForCompaingRequest extends FormRequest
                 $amount = $campaign->amount_required - $campaign->donationAssociationCampaigns->sum('amount');
                     }
 
-                if ($userPoints < 15) {
-                    return $fail('You must have at least 15 points to redeem.');
-                }
-
-                if ($value < 15) {
-                    return $fail('You must redeem at least 15 points.');
-                }
-
-                if ($value > $userPoints) {
-                    return $fail('The number of points to redeem exceeds your available points.');
-                }
-
-                if (($value / 15) > $amount) {
+               
+                if ($value > $amount) {
                     return $fail("the campign need only $amount to complete , donate with this amount or less");
                 }
-          },
+
+                if ($value > $userWallet) {
+                    return $fail('The money amount you put exceeds your available money in your wallet');
+                }
+            },
+
         ],
+        'wallet_password' => 'required'
+
     ];
     }
 

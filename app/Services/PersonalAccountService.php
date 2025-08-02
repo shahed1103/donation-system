@@ -11,6 +11,7 @@ use App\Models\AvailabilityType;
 use App\Models\VolunteerTask;
 use App\Models\IndCampaign;
 use App\Models\Donation;
+use App\Models\Wallet;
 use App\Models\User;
 use Exception;
 use Storage;
@@ -355,6 +356,10 @@ class PersonalAccountService
 
     public function createWallet($request):array{
         $user = Auth::user();
+        if($user->wallet->exists()){
+            throw new Exception("You cannot create a wallet because you already have one", 400);
+        }
+        
         $wallet = Wallet::create([
           'user_id' => $user->id,
           'wallet_value' => $request ['wallet_value'],

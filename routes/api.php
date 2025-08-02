@@ -11,6 +11,8 @@ use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\SuperAdminIndividualCompaignsController;
 use App\Http\Controllers\SuperAdminAssociationCompaignsController;
 use App\Http\Controllers\PersonalAccountController;
+use App\Http\Controllers\DonationController;
+
 // use App\Http\Requests\Auth\UserSignupRequest;
 // use App\Http\Requests\Auth\UserSigninRequest;
 use App\Http\Controllers\MobileHomeController;
@@ -72,11 +74,6 @@ Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     //individual campaign id
 Route::get('showIndiviCampaignDetails/{campaignId}' , 'showIndiviCampaignDetails')
     ->name('user.showIndiviCampaignDetails');
-
-Route::middleware('auth:sanctum')->post('donateIndiviWithPoints/{id}', [IndividualCompaignsController::class, 'donateIndiviWithPoints'])->name('user.donateIndiviWithPoints');
-    //individual campaign id
-Route::middleware('auth:sanctum')->post('donateIndiviWithPoints/{id}', [IndividualCompaignsController::class, 'donateIndiviWithPoints'])->name('user.donateIndiviWithPoints');
-
 });
 
 Route::controller(AssociationCompaignsController::class)->group(function(){
@@ -98,8 +95,7 @@ Route::get('showCampaignDetails/{campaignId}' , 'showCampaignDetails')
     ->name('user.showCampaignDetails');
 
 Route::middleware('auth:sanctum')->post('donateWithPoints/{id}', [AssociationCompaignsController::class, 'donateWithPoints'])->name('user.donateWithPoints');
-    //association campaign id
-Route::middleware('auth:sanctum')->post('donateWithPoints/{id}', [AssociationCompaignsController::class, 'donateWithPoints'])->name('user.donateWithPoints');
+
 });
 
 Route::controller(MobileHomeController::class)->group(function(){
@@ -122,6 +118,7 @@ Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('showVoluntingProfileDetails', [PersonalAccountController::class, 'showVoluntingProfileDetails'])->name('user.showVoluntingProfileDetails');
     Route::middleware('auth:sanctum')->get('showAllInfo', [PersonalAccountController::class, 'showAllInfo'])->name('user.showAllInfo');
     Route::middleware('auth:sanctum')->post('editPersonalInfo', [PersonalAccountController::class, 'editPersonalInfo'])->name('user.editPersonalInfo');
+    Route::middleware('auth:sanctum')->post('createWallet', [PersonalAccountController::class, 'createWallet'])->name('user.createWallet');
 });
 
 Route::controller(VoluntingController::class)->group(function(){
@@ -143,9 +140,15 @@ Route::controller(VoluntingController::class)->group(function(){
 
     //task id  
     Route::middleware('auth:sanctum')->post('editTaskStatus/{id}', [VoluntingController::class, 'editTaskStatus'])->name('user.editTaskStatus');
+});
 
+Route::controller(DonationController::class)->group(function(){
 
+    //campaignType  ,  campaign id
+Route::middleware('auth:sanctum')->post('donateWithPoints/{campaignType}/{campaignId}', [DonationController::class, 'donateWithPoints'])->name('user.donateWithPoints');
 
+    //campaignType  ,  campaign id
+Route::middleware('auth:sanctum')->post('donateWithWallet/{campaignType}/{campaignId}', [DonationController::class, 'donateWithWallet'])->name('user.donateWithWallet');
 });
 
 

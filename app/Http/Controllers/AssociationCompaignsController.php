@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Responses\response;
 use App\Services\AssociationCompaignsService;
 use App\Http\Requests\Donation\DonationForCompaingRequest;
+use App\Http\Requests\Donation\WalletDonationForCompaingRequest;
+
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -89,5 +91,18 @@ class AssociationCompaignsController extends Controller
             $errors [] = $message;
             return Response::Error($data , $message , $errors);
         }
-    }    
-}
+    }
+    
+    // donation with wallet money for association campaign
+    public function donateWithWallet(WalletDonationForCompaingRequest $request , $campaignId): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->associationCompaignsService->donateWithWallet($request , $campaignId);
+           return Response::Success($data['donation'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }  }

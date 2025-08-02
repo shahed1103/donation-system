@@ -160,7 +160,8 @@ class IndividualCompaignsService
         'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
         'photo_id' => ['id' =>$compaign->photo_id , 'photo' =>$fullPath],
         'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
-        ];
+        'type' => 'individual',
+    ];
         }
 
         }
@@ -211,7 +212,8 @@ class IndividualCompaignsService
             'user' => [
                 'name' => $compaign->user->name,
                 'photo' => $userPhoto,
-            ]
+            ],
+            'type' => 'individual',
     ];
 
         $message = 'individual campaign details are retrived sucessfully';
@@ -263,24 +265,4 @@ class IndividualCompaignsService
         return ['gender' =>  $gender_name , 'message' => $message];
      }
 
-      // donation with points for individual campaign
-      public function donateIndiviWithPoints($request , $campaignId){
-         $user = Auth::user();
-echo "HH";
-      $dollarAmount = $request->points / 15;
-
-      $user->points -= $request->points;
-      $user->save();
-
-      $donationIndiviCampaign = Donation::create([
-      'user_id' => $user->id,
-      'campaign_id' => $campaignId,
-      'amount' => $dollarAmount
-      ]);
-
-      $message = 'donation for this individual campaign are dine sucessfully';
-
-      return ['donation' => $donationIndiviCampaign , 'message' => $message];
-
-      }
     }

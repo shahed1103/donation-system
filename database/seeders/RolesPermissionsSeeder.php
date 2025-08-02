@@ -181,7 +181,7 @@ class RolesPermissionsSeeder extends Seeder
             $wallet = Wallet::create([
                 'user_id' => $user->id,
                 'wallet_value' => 1000000,
-                'wallet_password' => bcrypt('password') ,
+                'wallet_password' => Hash::make('password') ,
                 ]);
 
 

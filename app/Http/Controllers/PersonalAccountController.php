@@ -12,6 +12,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use App\Http\Requests\VoluntingProfile\CreateVoluntingProfileRequest;
 use App\Http\Requests\VoluntingProfile\UpdateVoluntingProfileRequest;
 use App\Http\Requests\Auth\UpdatePersonalProfileRequest;
+use App\Http\Requests\Wallet\WalletRequest;
 
 
 

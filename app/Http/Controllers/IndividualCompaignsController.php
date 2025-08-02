@@ -12,6 +12,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
 use App\Http\Requests\Donation\DonationForCompaingRequest;
+use App\Http\Requests\Donation\WalletDonationForIndiviCompaingRequest;
+
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 
@@ -147,4 +149,21 @@ class IndividualCompaignsController extends Controller
             $errors [] = $message;
             return Response::Error($data , $message , $errors);
         }
-    }  }
+    }  
+
+    // donation with wallet money for individual campaign
+    public function donateIndiviWithWallet(WalletDonationForIndiviCompaingRequest $request , $campaignId): JsonResponse {
+                $data = [] ;
+        try{
+            $data = $this->individualCompaignsService->donateIndiviWithWallet($request , $campaignId);
+           return Response::Success($data['donation'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }    
+
+    }
+
+}

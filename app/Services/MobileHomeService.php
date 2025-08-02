@@ -57,6 +57,7 @@ class MobileHomeService
                         'campaign_status_type' => $activeCampaign->campaignStatus->status_type
                     ],
                     'compaigns_time_to_end' => Carbon::now()->diff($activeCampaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                    'type' => 'association',
                 ];
                 }
         }
@@ -90,6 +91,8 @@ class MobileHomeService
                         'campaign_status_type' => $assocCampaignsByClas->campaignStatus->status_type
                     ],
                     'compaigns_time_to_end' => Carbon::now()->diff($assocCampaignsByClas->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                    'type' => 'association',
+
                 ];
                 }
 
@@ -118,6 +121,7 @@ class MobileHomeService
                         'photo' => $fullPath
                     ],
                     'compaigns_time_to_end' => Carbon::now()->diff($individualCampaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                    'type' => 'individual',
                 ];
                 }
         }
@@ -142,8 +146,8 @@ class MobileHomeService
                                         ->orderBy('emergency_level', 'desc')
                                         ->get();
 
-    $campaigns = [];
-    foreach ($associationCamignsEme as $associationCamignsEm) {
+     $campaigns = [];
+     foreach ($associationCamignsEme as $associationCamignsEm) {
         $totalDonations = DonationAssociationCampaign::where('association_campaign_id', $associationCamignsEm->id)
                                                         ->sum('amount');
             $campaigns [] = [
@@ -153,10 +157,11 @@ class MobileHomeService
             'donation_amount' => $totalDonations,
             'photo' => url(Storage::url($associationCamignsEm->photo)),
             'emergency_level' => $associationCamignsEm->emergency_level,
+            'type' => 'association',
         ];
-    }
+       }
 
-    foreach ($individualCamignsEme as $individualCamignsEm) {
+     foreach ($individualCamignsEme as $individualCamignsEm) {
         $totalDonations = Donation::where('campaign_id', $individualCamignsEm->id)
                                     ->sum('amount');
         $photo = IndCompaigns_photo::find($individualCamignsEm->photo_id)->photo;
@@ -169,21 +174,22 @@ class MobileHomeService
             'donation_amount' => $totalDonations,
             'photo' => ['id' =>$individualCamignsEm->photo_id ,'photo' => $fullPath],
             'emergency_level' => $individualCamignsEm->emergency_level,
+            'type' => 'individual',
         ];
-    }
+      }
 
         usort($campaigns, function ($a, $b) {
         return $b['emergency_level'] <=> $a['emergency_level'];
-    });
+      });
 
         foreach ($campaigns as &$campaign) {
         unset($campaign['emergency_level']);
-    }
+      }
 
-    $message = 'emergency compaings are retrived sucessfully' ;
+     $message = 'emergency compaings are retrived sucessfully' ;
 
-    return ['emergency compaings' => $campaigns , 'message' => $message];
-    } 
+     return ['emergency compaings' => $campaigns , 'message' => $message];
+  } 
 }
 
 

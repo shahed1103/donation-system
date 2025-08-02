@@ -56,6 +56,7 @@ class AssociationCompaignsService
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
                   'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'type' => 'association',
             ];
          }
          $message = 'Your campaigns retrieved successfully';
@@ -178,32 +179,13 @@ class AssociationCompaignsService
                   ];
                }),
             //////////////////
+            'type' => 'association',
+
          ];
 
          $message = 'association campaign details are retrived sucessfully';
 
          return ['campaign' => $compaingDet , 'message' => $message];
-      }
-
-      // donation with points for association campaign
-      public function donateWithPoints($request , $campaignId){
-         $user = Auth::user();
-
-      $dollarAmount = $request->points / 15;
-
-      $user->points -= $request->points;
-      $user->save();
-      
-      $donationAssociationCampaign = DonationAssociationCampaign::create([
-      'user_id' => $user->id,
-      'association_campaign_id' => $campaignId,
-      'amount' => $dollarAmount
-      ]);
-
-      $message = 'donation for this association campaign are dine sucessfully';
-
-      return ['donation' => $donationAssociationCampaign , 'message' => $message];
-
       }
 
 }
