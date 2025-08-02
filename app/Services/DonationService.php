@@ -94,7 +94,6 @@ class DonationService
       'amount' => $request->amount
       ]);   }
 
-
       $message = 'donation for this campaign are done sucessfully';
 
       return ['donation' => $donation , 'message' => $message]; 

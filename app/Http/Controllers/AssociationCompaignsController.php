@@ -79,30 +79,4 @@ class AssociationCompaignsController extends Controller
         }
     }
 
-    // donation with points for association campaign
-    public function donateWithPoints(DonationForCompaingRequest $request , $campaignId): JsonResponse {
-        $data = [] ;
-        try{
-            $data = $this->associationCompaignsService->donateWithPoints($request , $campaignId);
-           return Response::Success($data['donation'], $data['message']);
-        }
-        catch(Throwable $th){
-            $message = $th->getMessage();
-            $errors [] = $message;
-            return Response::Error($data , $message , $errors);
-        }
-    }
-    
-    // donation with wallet money for association campaign
-    public function donateWithWallet(WalletDonationForCompaingRequest $request , $campaignId): JsonResponse {
-        $data = [] ;
-        try{
-            $data = $this->associationCompaignsService->donateWithWallet($request , $campaignId);
-           return Response::Success($data['donation'], $data['message']);
-        }
-        catch(Throwable $th){
-            $message = $th->getMessage();
-            $errors [] = $message;
-            return Response::Error($data , $message , $errors);
-        }
-    }  }
+}

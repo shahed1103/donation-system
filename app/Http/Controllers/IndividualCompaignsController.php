@@ -136,34 +136,4 @@ class IndividualCompaignsController extends Controller
             return Response::Error($data , $message , $errors);
         }
     }
-
-      // donation with points for individual campaign
-    public function donateIndiviWithPoints(DonationForCompaingRequest $request , $campaignId): JsonResponse {
-        $data = [] ;
-        try{
-            $data = $this->individualCompaignsService->donateIndiviWithPoints($request , $campaignId);
-           return Response::Success($data['donation'], $data['message']);
-        }
-        catch(Throwable $th){
-            $message = $th->getMessage();
-            $errors [] = $message;
-            return Response::Error($data , $message , $errors);
-        }
-    }  
-
-    // donation with wallet money for individual campaign
-    public function donateIndiviWithWallet(WalletDonationForIndiviCompaingRequest $request , $campaignId): JsonResponse {
-                $data = [] ;
-        try{
-            $data = $this->individualCompaignsService->donateIndiviWithWallet($request , $campaignId);
-           return Response::Success($data['donation'], $data['message']);
-        }
-        catch(Throwable $th){
-            $message = $th->getMessage();
-            $errors [] = $message;
-            return Response::Error($data , $message , $errors);
-        }    
-
-    }
-
 }
