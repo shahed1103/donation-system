@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Responses\response;
 use App\Services\VoluntingService;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\VoluntingProfile\UpdateTaskStatusRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
@@ -71,6 +72,36 @@ class VoluntingController extends Controller
         try{
            $data = $this->voluntingService->voluntingRequest($taskId);
            return Response::Success($data['volunting request'], $data['message']);
+        }
+
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+   }
+
+   //all upcoming tasks for user 
+   public function upComingTasks() : JsonResponse{
+        $data = [];
+        try{
+           $data = $this->voluntingService->upComingTasks();
+           return Response::Success($data['upComing Tasks'], $data['message']);
+        }
+
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+   }
+
+   //edit task status  
+   public function editTaskStatus(UpdateTaskStatusRequest $request , $taskId) : JsonResponse{
+        $data = [];
+        try{
+           $data = $this->voluntingService->editTaskStatus($request , $taskId);
+           return Response::Success($data['Task'], $data['message']);
         }
 
         catch(Throwable $th){

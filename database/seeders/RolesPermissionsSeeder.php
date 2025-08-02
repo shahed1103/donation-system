@@ -5,6 +5,8 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
+use App\Models\Wallet;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 use Storage;
@@ -60,6 +62,12 @@ class RolesPermissionsSeeder extends Seeder
             'photo' => url(Storage::url($targetPath))
         ]);
 
+        $wallet = Wallet::create([
+          'user_id' => $donorUser->id,
+          'wallet_value' => 1000000,
+          'wallet_password' => bcrypt('password') ,
+        ]);
+
         $donorUser->assignRole($donorRole);
 
         //assign permissions with the role to the user
@@ -79,6 +87,11 @@ class RolesPermissionsSeeder extends Seeder
 
         ]);
 
+       $wallet = Wallet::create([
+          'user_id' => $volunteerUser->id,
+          'wallet_value' => 1000000,
+          'wallet_password' => bcrypt('password') ,
+        ]);
         $volunteerUser->assignRole($volunteerRole);
 
         //assign permissions with the role to the user
@@ -99,6 +112,11 @@ class RolesPermissionsSeeder extends Seeder
 
         ]);
 
+       $wallet = Wallet::create([
+          'user_id' => $admin->id,
+          'wallet_value' => 1000000,
+          'wallet_password' => bcrypt('password') ,
+        ]);
         $admin->assignRole($adminRole);
 
         //assign permissions with the role to the user
@@ -120,6 +138,11 @@ class RolesPermissionsSeeder extends Seeder
             'photo' => url(Storage::url($targetPath))
         ]);
 
+       $wallet = Wallet::create([
+          'user_id' => $leader->id,
+          'wallet_value' => 1000000,
+          'wallet_password' => bcrypt('password') ,
+        ]);
         $leader->assignRole($leaderRole);
 
         //assign permissions with the role to the user
@@ -154,6 +177,13 @@ class RolesPermissionsSeeder extends Seeder
                 'photo' => url(Storage::url($targetPath))
 
             ]);
+
+            $wallet = Wallet::create([
+                'user_id' => $user->id,
+                'wallet_value' => 1000000,
+                'wallet_password' => bcrypt('password') ,
+                ]);
+
 
             $user->assignRole($donorRole);
 

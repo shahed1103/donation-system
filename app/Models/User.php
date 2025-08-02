@@ -95,4 +95,9 @@ use HasApiTokens, HasFactory, Notifiable , HasRoles;
         return $this->hasMany(Association::class, 'user_id');
     }
 
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
+    }
+
 }

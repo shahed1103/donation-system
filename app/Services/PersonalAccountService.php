@@ -301,7 +301,7 @@ class PersonalAccountService
 
     //show my personal profile information
     public function showAllInfo(): array{
-        $userIfon = Auth::user()->load(['city' , 'gender']);
+        $userIfon = Auth::user()->load(['city' , 'gender' , 'wallet']);
 
         $userDett = [
         'user_name' => $userIfon->name,
@@ -310,6 +310,7 @@ class PersonalAccountService
         'age' => $userIfon ->age,
         'gender_id' => ['id' => $userIfon->gender_id , 'gender_type' => $userIfon->gender->type ?? null ],
         'email' => $userIfon->email,
+        'wallet_value'=> $userIfon->wallet->wallet_value ?? 0
         ];
 
         $message = 'Your personal profile details retrived sucessfully';
@@ -351,6 +352,17 @@ class PersonalAccountService
 
         return ['personal profile' =>  $userDett , 'message' => $message];
     }
-    }
 
+    public function createWallet($request):array{
+        $user = Auth::user();
+        $wallet = Wallet::create([
+          'user_id' => $user->id,
+          'wallet_value' => $request ['wallet_value'],
+          'wallet_password' => $request ['wallet_password']]);
+
+        $message = 'Your wallet created sucessfully';
+
+        return ['wallet' =>  $wallet , 'message' => $message];
+     }
+    }
 

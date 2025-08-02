@@ -188,4 +188,18 @@ class PersonalAccountController extends Controller
            return Response::Error($data , $message , $errors );
         }
      }
+
+    public function createWallet(WalletRequest $request): JsonResponse {
+        $data =[];
+        try{
+           $data = $this->personalAccountService->createWallet($request);
+           return Response::Success($data['wallet'] , $data['message']);
+        }
+
+        catch(Throwable $th){
+           $message = $th->getMessage();
+           $errors [] = $message;
+           return Response::Error($data , $message , $errors );
+        }
+     }
    }

@@ -138,4 +138,57 @@ class VoluntingService
 
       return ['volunting request' => $voluntingRequest , 'message' => $message];
    }
-}
+
+   //all upcoming tasks for user 
+   public function upComingTasks() : array{
+      $user = Auth::user();
+      $tasks = $user->volunteerProfile->tasks;
+       $det = [] ;
+
+       foreach ($tasks as $task) {
+        $TaskIn =  TaskVolunteerProfile::with('status')
+                                       ->where('volunteer_profile_id' , $user->volunteerProfile->id)
+                                       ->where('volunteer_task_id' , $task->id)
+                                       ->where('status_id' , 1)
+                                       ->first();
+
+        if($TaskIn){
+             $det [] = [
+            'task_id' => $task->id,
+            'campaign_name' => $task->associationCampaigns->title,
+            'task_name' => $task->name,
+            'campaign_end_time' =>  $task->associationCampaigns->compaigns_end_time,
+            'status_id' => ['id' => 1 , 'status' =>  $TaskIn->status->name ]
+         ];
+        }
+
+      }
+
+      $message = 'Your upComing Tasks retrivrd successfully';
+
+      return ['upComing Tasks' => $det , 'message' => $message];  
+    }
+
+   //edit task status  
+   public function editTaskStatus($request , $taskId) : array{
+      $user = Auth::user();
+      $TaskIn =  TaskVolunteerProfile::with('status')
+                                       ->where('volunteer_profile_id' , $user->volunteerProfile->id)
+                                       ->where('volunteer_task_id' , $taskId)
+                                       // ->where('status_id' , 1)
+                                       ->first();
+
+      $TaskIn->update([
+      'volunteer_profile_id' => $TaskIn->volunteer_profile_id,
+      'volunteer_task_id' => $taskId,
+      'status_id' => $request->status_id ?? $TaskIn->status_id,
+      ]);
+
+
+      $TaskIn->load('status');
+      $message = ' Task Status updated successfully';
+
+      return ['Task' => $TaskIn , 'message' => $message];  
+   }
+
+   }

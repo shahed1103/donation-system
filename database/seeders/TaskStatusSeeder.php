@@ -20,7 +20,7 @@ class TaskStatusSeeder extends Seeder
             'قيد الانتظار'
         ];
 
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             TaskStatus::create([
                 'name' => $names[$i],
             ]);

@@ -137,6 +137,14 @@ Route::controller(VoluntingController::class)->group(function(){
         
     //task id  
     Route::middleware('auth:sanctum')->get('voluntingRequest/{id}', [VoluntingController::class, 'voluntingRequest'])->name('user.voluntingRequest');
+
+    Route::middleware('auth:sanctum')->get('upComingTasks', [VoluntingController::class, 'upComingTasks'])->name('user.upComingTasks');
+
+    //task id  
+    Route::middleware('auth:sanctum')->post('editTaskStatus/{id}', [VoluntingController::class, 'editTaskStatus'])->name('user.editTaskStatus');
+
+
+
 });
 
 
