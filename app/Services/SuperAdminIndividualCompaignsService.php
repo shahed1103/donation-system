@@ -308,16 +308,13 @@ public function updateAcceptanceStatus(array $request, int $campaignId): array
 
     $campaign->save();
     $campaign->refresh();
-
     $campaignDetails = [
         'id' => $campaign->id,
         'title' => $campaign->title,
         'status' => $status->status_type,
         'rejection_reason' => $campaign->rejection_reason,
     ];
-
     $message = 'done';
-
     return [
         'campaign' => $campaignDetails,
         'message' => $message,
@@ -364,4 +361,44 @@ public function getClosedIndiviCampaignDetails($campaignId):array{
          return ['campaign' => $compaingDet , 'message' => $message];
 }
 
+
+public function getLeaderForm($campaignId):array{
+    $form = Leader_form::where('campaign_id', $campaignId)->first();
+    if (!$form) {
+    return ['form' => [], 'message' => 'No leader form found for this campaign yet'];
+}
+
+    // $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
+    // $fullPath = url(Storage::url($photo));
+    // $targetPath = 'uploads/det/defualtProfilePhoto.png';
+    // $userPhoto = $compaign->user->photo
+    //          ? url(Storage::url($compaign->user->photo))
+    //          : url(Storage::url($targetPath)) ;
+
+         $formDet = [];
+         $formDet[] = [
+                'visit_date' => $form->visit_date,
+                'leader_name' => $form->leader_name,
+                'location_type' => $form->location_type,
+                'description' => $form -> description,
+                'number_of_beneficiaries' =>  $form->number_of_beneficiaries,
+
+                'beneficiary_type' =>  $form->beneficiary_type,
+                'need_type' =>  $form->need_type,
+                'is_need_real' =>  $form->is_need_real,
+                'has_other_support' =>  $form->has_other_support,
+                'marks_from_5' =>  $form->marks_from_5,
+
+                'notes' => $form->notes ?? '',
+                'recommendation' =>  $form->recommendation,
+
+            // 'photo_id' => [
+            //       'id' =>$compaign->photo_id ,
+            //       'photo' => $fullPath
+            // ],
+    ];
+
+        $message = 'Leader form are retrived sucessfully';
+         return ['form' => $formDet , 'message' => $message];
+}
 }

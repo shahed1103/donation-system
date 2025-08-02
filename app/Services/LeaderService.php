@@ -70,6 +70,50 @@ class LeaderService
     }
 
 
+public function UnderReviewIndiviCompaign(): array
+{
+    $closedStatusId = CampaignStatus::where('status_type', 'Closed')->pluck('id');
+    $underReviewStatusId = AcceptanceStatus::where('status_type', 'Under review')->pluck('id');
+
+    $campaigns = IndCompaign::with(['classification', 'campaignStatus', 'acceptanceStatus', 'photo'])
+        ->whereIn('campaign_status_id', $closedStatusId)
+        ->whereIn('acceptance_status_id', $underReviewStatusId)
+        ->get();
+
+    $campaignAll = [];
+
+    foreach ($campaigns as $campaign) {
+        $totalDonations = Donation::where('campaign_id', $campaign->id)->sum('amount');
+
+        $photoUrl = $campaign->photo ? url(Storage::url($campaign->photo->photo)) : null;
+
+        $campaignAll[] = [
+            'id' => $campaign->id,
+            'title' => $campaign->title,
+            'amount_required' => $campaign->amount_required,
+            'donation_amount' => $totalDonations,
+            'campaign_status_id' => [
+                'id' => $campaign->campaign_status_id,
+                'campaign_status_type' => optional($campaign->campaignStatus)->status_type,
+            ],
+            'acceptance_status_id' => [
+                'id' => $campaign->acceptance_status_id,
+                'acceptance_status_type' => optional($campaign->acceptanceStatus)->status_type,
+            ],
+            'photo_id' => [
+                'id' => $campaign->photo_id,
+                'photo' => $photoUrl,
+            ],
+            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+        ];
+    }
+
+    return [
+        'campaign' => $campaignAll,
+        'message' => 'All closed and under review campaigns retrieved successfully',
+    ];
+}
+
 
 
 
