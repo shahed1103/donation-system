@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\CampaignStatusUpdater;
+
 
 class AssociationCampaign extends Model
 {
+        use CampaignStatusUpdater;
+        
         protected $fillable = [
         'id',
         'classification_id',

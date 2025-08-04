@@ -8,6 +8,8 @@ use App\Http\Responses\response;
 use App\Services\DonationService;
 use App\Http\Requests\Donation\DonationForCompaingRequest;
 use App\Http\Requests\Donation\WalletDonationForCompaingRequest;
+use App\Http\Requests\Donation\QuickWalletDonationForCompaingRequest;
+
 
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
@@ -49,4 +51,19 @@ class  DonationController extends Controller
             $errors [] = $message;
             return Response::Error($data , $message , $errors);
         }
-    }  }
+    } 
+
+    // quick donation with wallet money for campaign
+    public function quickDonateWithWallet(QuickWalletDonationForCompaingRequest $request): JsonResponse {
+                $data = [] ;
+        try{
+            $data = $this->donationService->quickDonateWithWallet($request);
+           return Response::Success($data['donation'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    } 
+}

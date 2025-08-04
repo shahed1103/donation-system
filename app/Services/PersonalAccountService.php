@@ -302,7 +302,7 @@ class PersonalAccountService
 
     //show my personal profile information
     public function showAllInfo(): array{
-        $userIfon = Auth::user()->load(['city' , 'gender' , 'wallet']);
+        $userIfon = Auth::user()->load(['city' , 'gender']);
 
         $userDett = [
         'user_name' => $userIfon->name,
@@ -311,7 +311,7 @@ class PersonalAccountService
         'age' => $userIfon ->age,
         'gender_id' => ['id' => $userIfon->gender_id , 'gender_type' => $userIfon->gender->type ?? null ],
         'email' => $userIfon->email,
-        'wallet_value'=> $userIfon->wallet->wallet_value ?? 0
+        // 'wallet_value'=> $userIfon->wallet->wallet_value ?? 0
         ];
 
         $message = 'Your personal profile details retrived sucessfully';
@@ -354,7 +354,8 @@ class PersonalAccountService
         return ['personal profile' =>  $userDett , 'message' => $message];
     }
 
-    public function createWallet($request):array{
+    //create wallet for user
+    public function createWallet($request): array{
         $user = Auth::user();
         if($user->wallet->exists()){
             throw new Exception("You cannot create a wallet because you already have one", 400);
@@ -369,5 +370,18 @@ class PersonalAccountService
 
         return ['wallet' =>  $wallet , 'message' => $message];
      }
+
+
+     //show wallet
+     public function showWallet(): array{
+        $user = Auth::user();
+        $wallet = [
+        'wallet_value' => $user->wallet->wallet_value,
+        'wallet_careated_date' => $user->wallet->created_at->format('Y-m-d')
+        ];
+
+        $message = 'Your wallet retrived sucessfully';
+
+        return ['wallet' =>  $wallet , 'message' => $message];     }
     }
 

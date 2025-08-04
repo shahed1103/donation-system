@@ -20,7 +20,7 @@ use App\Http\Controllers\MobileHomeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
-|--------------------------------------------------------------------------
+|-------------------------------------------------------- ------------------
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
@@ -119,6 +119,7 @@ Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('showAllInfo', [PersonalAccountController::class, 'showAllInfo'])->name('user.showAllInfo');
     Route::middleware('auth:sanctum')->post('editPersonalInfo', [PersonalAccountController::class, 'editPersonalInfo'])->name('user.editPersonalInfo');
     Route::middleware('auth:sanctum')->post('createWallet', [PersonalAccountController::class, 'createWallet'])->name('user.createWallet');
+    Route::middleware('auth:sanctum')->get('showWallet', [PersonalAccountController::class, 'showWallet'])->name('user.showWallet');
 });
 
 Route::controller(VoluntingController::class)->group(function(){
@@ -149,6 +150,9 @@ Route::middleware('auth:sanctum')->post('donateWithPoints/{campaignType}/{campai
 
     //campaignType  ,  campaign id
 Route::middleware('auth:sanctum')->post('donateWithWallet/{campaignType}/{campaignId}', [DonationController::class, 'donateWithWallet'])->name('user.donateWithWallet');
+
+Route::middleware('auth:sanctum')->post('quickDonateWithWallet', [DonationController::class, 'quickDonateWithWallet'])->name('user.quickDonateWithWallet');
+
 });
 
 

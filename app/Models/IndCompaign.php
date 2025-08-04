@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\CampaignStatusUpdater;
+
 use App\Models\User;
 
 
 class IndCompaign extends Model
 {
         use HasFactory;
-
+        use CampaignStatusUpdater;
 
     protected $fillable = [
         'id',

@@ -30,7 +30,7 @@ use Carbon\Carbon;
 class DonationService
 {
       // donation with points for campaign
-      public function donateWithPoints($request , $campaignType, $campaignId){
+      public function donateWithPoints($request , $campaignType , $campaignId){
          $user = Auth::user();
 
       $dollarAmount = $request->points / 15;
@@ -40,6 +40,8 @@ class DonationService
       $user->save();
 
       if ($campaignType === 'individual') {
+            $campaign = IndCompaign::find($campaignId);
+
             $donation  = Donation::create([
             'user_id' => $user->id,
             'campaign_id' => $campaignId,
@@ -48,6 +50,8 @@ class DonationService
          }
 
          else{
+            $campaign = AssociationCampaign::find($campaignId);
+
             $donation  = DonationAssociationCampaign::create([
             'user_id' => $user->id,
             'association_campaign_id' => $campaignId,
@@ -55,13 +59,15 @@ class DonationService
             ]);
          }
 
+      $campaign->updateStatus($campaignType);
+
       $message = 'donation for this campaign are done sucessfully';
 
       return ['donation' => $donation  , 'message' => $message];
 
       }
 
-    // donation with wallet money for association campaign
+    // donation with wallet money for campaign
     public function donateWithWallet($request , $campaignType, $campaignId): array {
       $user = Auth::user();
 
@@ -79,6 +85,8 @@ class DonationService
 
 
       if ($campaignType === 'individual') {
+      $campaign = IndCompaign::find($campaignId);
+
       $donation = Donation::create([
       'user_id' => $user->id,
       'campaign_id' => $campaignId,
@@ -88,11 +96,57 @@ class DonationService
 
 
    else{
+      $campaign = AssociationCampaign::find($campaignId);
+
       $donation = DonationAssociationCampaign::create([
       'user_id' => $user->id,
       'association_campaign_id' => $campaignId,
       'amount' => $request->amount
       ]);   }
+
+      $campaign->updateStatus($campaignType);
+
+      $message = 'donation for this campaign are done sucessfully';
+
+      return ['donation' => $donation , 'message' => $message]; 
+   }
+
+    // quick donation with wallet money for campaign
+   public function quickDonateWithWallet($request) : array{
+      $user = Auth::user();
+
+      if( !Hash::check($request->wallet_password ,$user->wallet->wallet_password)){
+            throw new Exception("the wallet password you entre is incorrect", 401);
+      }
+
+      $user->wallet->wallet_value -= $request->amount;
+      $user->load('wallet');
+
+      $user->wallet->save();
+
+      $user->points +=5;
+      $user->save();
+
+   if ( $request->campaign_type === 'individual') {
+      $campaign = IndCompaign::find($request->campaign_id);
+
+      $donation = Donation::create([
+      'user_id' => $user->id,
+      'campaign_id' => $request->campaign_id,
+      'amount' => $request->amount
+      ]);
+   }
+
+   else{
+      $campaign = AssociationCampaign::find($request->campaign_id);
+
+      $donation = DonationAssociationCampaign::create([
+      'user_id' => $user->id,
+      'association_campaign_id' =>  $request->campaign_id,
+      'amount' => $request->amount
+      ]);   }
+
+      $campaign->updateStatus($request->campaign_type);
 
       $message = 'donation for this campaign are done sucessfully';
 

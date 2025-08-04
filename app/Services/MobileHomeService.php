@@ -30,20 +30,26 @@ use Throwable;
 class MobileHomeService
 {
     //search campigns
-    public function searchCampaigns(Request $request): array
-    {
+    public function searchCampaigns(Request $request): array{
         $campaigns = [];
 
         if($request->has('association_name')){
         $associations = Association::where('name', 'like', '%' . $request['association_name'] . '%')->get();
 
         foreach ($associations as $association) {
-            $activeCampaigns = $association->associationCampaigns()
+        $allCampaigns = $association->associationCampaigns()->get();
+
+        foreach ($allCampaigns as $campaign) {
+          $campaign->updateStatus('association');
+            }
+
+        $activeCampaigns = $association->associationCampaigns()
                                         ->where('campaign_status_id', 1)
                                         ->distinct('id')
                                         ->get();
 
             foreach ($activeCampaigns as $activeCampaign) {
+
             $totalDonations = DonationAssociationCampaign::where('association_campaign_id', $activeCampaign->id)
                                                         ->sum('amount');
             $campaigns [] = [
@@ -58,6 +64,8 @@ class MobileHomeService
                     ],
                     'compaigns_time_to_end' => Carbon::now()->diff($activeCampaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
                     'type' => 'association',
+                    'amount_to_Complete' => $activeCampaign->amount_required - $totalDonations,
+
                 ];
                 }
         }
@@ -65,17 +73,20 @@ class MobileHomeService
             $message = 'this association campaigns are retrived sucessfully';
 
             return ['campaign' => $campaigns , 'message' => $message];
-    }
+         }
 
-    if($request->has('classification_name')){
+        if($request->has('classification_name')){
         $classification = Classification::where('classification_name', 'like', '%' . $request['classification_name'] . '%')->first();
 
         if ($classification) {
-            $assocCampaignsByClass = AssociationCampaign::where('classification_id', $classification->id)
-                                                        ->where('campaign_status_id', 1)
+            $allAssocCampaigns = AssociationCampaign::where('classification_id', $classification->id)
                                                         ->get();
 
 
+            foreach ($allAssocCampaigns as $campaign) {
+                $campaign->updateStatus('association');
+            }
+            $assocCampaignsByClass = $allAssocCampaigns->where('campaign_status_id', 1);
 
             foreach ($assocCampaignsByClass as $assocCampaignsByClas) {
             $totalDonations = DonationAssociationCampaign::where('association_campaign_id', $assocCampaignsByClas->id)
@@ -92,13 +103,19 @@ class MobileHomeService
                     ],
                     'compaigns_time_to_end' => Carbon::now()->diff($assocCampaignsByClas->compaigns_end_time)->format('%m Months %d Days %h Hours'),
                     'type' => 'association',
+                    'amount_to_Complete' => $assocCampaignsByClas->amount_required -  $totalDonations,
 
                 ];
                 }
 
-            $individualCampaigns = IndCompaign::where('classification_id', $classification->id)
-                                                    ->where('campaign_status_id', 1)
+            $allIndividualCampaigns  = IndCompaign::where('classification_id', $classification->id)
                                                     ->get();
+
+            foreach ($allIndividualCampaigns as $campaign) {
+                $campaign->updateStatus('individual');
+            }
+
+            $individualCampaigns = $allIndividualCampaigns->where('campaign_status_id', 1);
 
             foreach ($individualCampaigns as $individualCampaign) {
             $totalDonations = Donation::where('campaign_id', $individualCampaign->id)
@@ -122,13 +139,15 @@ class MobileHomeService
                     ],
                     'compaigns_time_to_end' => Carbon::now()->diff($individualCampaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
                     'type' => 'individual',
+                     'amount_to_Complete' => $individualCampaign->amount_required -  $totalDonations,
+
                 ];
                 }
         }
                 $message = 'campaigns with this classification are retrived sucessfully';
 
             return ['campaign' => $campaigns , 'message' => $message];
-    }
+      }
 
             $message = 'there is no campigns' ;
 
@@ -138,9 +157,21 @@ class MobileHomeService
 
     // view emergency compaings active
     public function emergencyCompaings(): array {
+     $allAssociationCampaigns = AssociationCampaign::get();
+
+        foreach ($allAssociationCampaigns as $campaign) {
+        $campaign->updateStatus('association');
+        }
+
      $associationCamignsEme = AssociationCampaign::where('campaign_status_id' , 1)
                                                     ->orderBy('emergency_level', 'desc')
                                                     ->get();
+
+     $allIndividualCampaigns = IndCompaign::get();
+
+        foreach ($allIndividualCampaigns as $campaign) {
+        $campaign->updateStatus('individual');
+        }
 
      $individualCamignsEme = IndCompaign::where('campaign_status_id' , 1)
                                         ->orderBy('emergency_level', 'desc')
@@ -158,6 +189,7 @@ class MobileHomeService
             'photo' => url(Storage::url($associationCamignsEm->photo)),
             'emergency_level' => $associationCamignsEm->emergency_level,
             'type' => 'association',
+            'amount_to_Complete' => $associationCamignsEm->amount_required - $totalDonations,
         ];
        }
 
@@ -175,6 +207,7 @@ class MobileHomeService
             'photo' => ['id' =>$individualCamignsEm->photo_id ,'photo' => $fullPath],
             'emergency_level' => $individualCamignsEm->emergency_level,
             'type' => 'individual',
+            'amount_to_Complete' => $individualCamignsEm->amount_required - $totalDonations,
         ];
       }
 

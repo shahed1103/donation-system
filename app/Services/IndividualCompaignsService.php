@@ -136,6 +136,11 @@ class IndividualCompaignsService
 // view individual compaings active
      public function viewIndiviCompa($id): array{
         $campaigns = IndCompaign::where('classification_id' , $id)->get();
+
+        foreach ($campaigns as $campaign) {
+                $campaign->updateStatus('individual');
+            }
+
         $compaingAll = [];
         foreach ($campaigns as $compaign) {
                 $classification_name = Classification::find($compaign->classification_id)->classification_name;
@@ -143,6 +148,7 @@ class IndividualCompaignsService
                 $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
 
                 $fullPath = url(Storage::url($photo));
+
 
         if($campaign_status_type === "Active"){
              $campaign_ids = Donation::where('campaign_id' , $compaign->id)->get();
@@ -161,6 +167,8 @@ class IndividualCompaignsService
         'photo_id' => ['id' =>$compaign->photo_id , 'photo' =>$fullPath],
         'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
         'type' => 'individual',
+        'amount_to_Complete' => $compaign->amount_required - $total,
+
     ];
         }
 
@@ -214,6 +222,7 @@ class IndividualCompaignsService
                 'photo' => $userPhoto,
             ],
             'type' => 'individual',
+            'amount_to_Complete' => $compaign->amount_required - $total,
     ];
 
         $message = 'individual campaign details are retrived sucessfully';

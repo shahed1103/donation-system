@@ -34,10 +34,19 @@ class AssociationCompaignsService
 
       public function viewAssociationsCompaingsActive($id): array
       {
-         $campaigns = AssociationCampaign::with(['classification', 'campaignStatus'])
-            ->where('campaign_status_id', 1)
-            ->where('classification_id', $id)
-            ->get();
+
+            $allAssocCampaigns = AssociationCampaign::with(['classification', 'campaignStatus'])->where('classification_id', $id)
+                                                        ->get();
+
+            foreach ($allAssocCampaigns as $campaign) {
+                $campaign->updateStatus('association');
+            }
+
+            $campaigns = $allAssocCampaigns->where('campaign_status_id', 1);
+            //  $campaigns = AssociationCampaign::with(['classification', 'campaignStatus'])
+            // ->where('campaign_status_id', 1)
+            // ->where('classification_id', $id)
+            // ->get();
 
          $compaingAll = [];
 
@@ -57,6 +66,7 @@ class AssociationCompaignsService
                   ],
                   'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
                   'type' => 'association',
+                  'amount_to_Complete' => $campaign->amount_required - $totalDonations,
             ];
          }
          $message = 'Your campaigns retrieved successfully';
@@ -180,6 +190,8 @@ class AssociationCompaignsService
                }),
             //////////////////
             'type' => 'association',
+            'amount_to_Complete' => $campaign->amount_required - $totalDonations,
+
 
          ];
 
