@@ -59,8 +59,8 @@ class WalletDonationForCompaingRequest extends FormRequest
             },
 
         ],
-        'wallet_password' => 'required'
-
+        'wallet_password' => 'required',
+        'gift_token' => 'nullable|string|exists:gift_donations,token',    
     ];
     }
 

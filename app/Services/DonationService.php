@@ -8,6 +8,7 @@ use App\Models\IndCompaign;
 use App\Models\Classification;
 use App\Models\Association;
 use App\Models\CampaignStatus;
+use App\Models\GiftDonation;
 use App\Models\DonationAssociationCampaign;
 use App\Models\Donation;
 use App\Models\SharedAssociationCampaign;
@@ -102,7 +103,17 @@ class DonationService
       'user_id' => $user->id,
       'association_campaign_id' => $campaignId,
       'amount' => $request->amount
-      ]);   }
+      ]);  
+      
+      if (!empty($request['gift_token'])) {
+        $gift = GiftDonation::where('token', $request['gift_token'])->first();
+         if ($gift) {
+               $gift->update([
+                  'donation_id' => $donation->id,
+               ]);
+         }
+      }
+      }
 
       $campaign->updateStatus($campaignType);
 
@@ -144,7 +155,8 @@ class DonationService
       'user_id' => $user->id,
       'association_campaign_id' =>  $request->campaign_id,
       'amount' => $request->amount
-      ]);   }
+      ]);
+      }
 
       $campaign->updateStatus($request->campaign_type);
 
@@ -152,4 +164,17 @@ class DonationService
 
       return ['donation' => $donation , 'message' => $message]; 
    }
+
+   public function giftAdonation($request): array{
+
+    $token = uniqid('gift_', true);
+    $gift = GiftDonation::create([
+        'recipient_name' => $request['recipient_name'],
+        'recipient_phone' => $request['recipient_phone'],
+        'message' => $request['message'] ?? null,
+        'token' => $token,
+    ]);
+      $message = 'gift details are done sucessfully';
+
+      return ['gift' => $gift , 'message' => $message];    }
 }

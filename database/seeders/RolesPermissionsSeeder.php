@@ -28,18 +28,37 @@ class RolesPermissionsSeeder extends Seeder
         // 2. Create permissions
         $permissions = [
             'register', 'signin', 'userForgotPassword', 'userCheckCode', 'userResetPassword',
-            'logout', 'getClassification', 'createIndiviCompa', 'viewMyIndiviCompa',
-            'viewIndiviCompa', 'viewAssociationsCompaingsActive',
-            'getUserCountsLastFiveYears', 'getTotalCampaignsCount', 'countAssociations', 'lastNewUsers'
+            'logout', 'getClassification',
+            'getUserCountsLastFiveYears', 'getTotalCampaignsCount', 'countAssociations', 'lastNewUsers' ,
+            'myVoluntings' , 'updateVoluntingProfile' , 'showVoluntingProfile' , 'showVoluntingProfileDetails',
+            'voluntingRequest' , 'upComingTasks' , 'editTaskStatus' ,'viewAssociationsCompaingsActive' , 'viewAssociationCompaingsComplete' , 'showAssociationDetails',
+            'showCampaignDetails' , 'donateWithPoints' , 'donateWithWallet' , 'quickDonateWithWallet' , 'createIndiviCompa' ,
+            'viewMyIndiviCompa' , 'viewIndiviCompa' , 'showIndiviCampaignDetails' , 'searchCampaigns' , 'emergencyCompaings' ,
+            'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' ,
+            'editPersonalInfo' , 'createWallet' , 'showWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails'
         ];
 
         foreach ($permissions as $permissionName) {
             Permission::findOrCreate($permissionName, 'web');
         }
 
+      //assign permissions to roles
+
+        $donorRole->givePermissionTo(['viewAssociationsCompaingsActive' , 'viewAssociationCompaingsComplete' , 'showAssociationDetails',
+        'showCampaignDetails' , 'donateWithPoints' , 'donateWithWallet' , 'quickDonateWithWallet' , 'createIndiviCompa' ,
+        'viewMyIndiviCompa' , 'viewIndiviCompa' , 'showIndiviCampaignDetails' , 'searchCampaigns' , 'emergencyCompaings' ,
+        'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' ,
+        'editPersonalInfo' , 'createWallet' , 'showWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails'
+        ]);
+
+        $volunteerRole->givePermissionTo(['myVoluntings' , 'updateVoluntingProfile' , 'showVoluntingProfile' , 'showVoluntingProfileDetails',
+        'voluntingRequest' , 'upComingTasks' , 'editTaskStatus'
+        ]);
+
         // 3. Assign permissions
-        $volunteerRole->syncPermissions($permissions);
-        $donorRole->syncPermissions($permissions);
+        // $donorRole->syncPermissions($permissions);
+        // $volunteerRole->syncPermissions($permissions);
+
         $superAdminRole->syncPermissions($permissions);
         $adminRole->syncPermissions($permissions);
         $leaderRole->syncPermissions($permissions);
