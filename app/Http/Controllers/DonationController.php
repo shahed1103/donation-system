@@ -70,7 +70,7 @@ class  DonationController extends Controller
                 $data = [] ;
         try{
             $data = $this->donationService->giftAdonation($request);
-           return Response::Success($data['donation'], $data['message']);
+           return Response::Success($data['gift'], $data['message']);
         }
         catch(Throwable $th){
             $message = $th->getMessage();

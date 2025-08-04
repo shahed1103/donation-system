@@ -29,9 +29,9 @@ class GiftDonationRequest extends FormRequest
     {
         return [
         'recipient_name' => 'required|string|max:255',
-        'recipient_phone' => ['required', 'regex:/^(?:\+963|0)?9\d{8}$/'],
+        'recipient_phone' => ['required', 'regex:/^\+49[1-9][0-9]{9,14}$/'],
         'message' => 'required|string',
-
+        'show_sender_name' => 'nullable|boolean',
         ];
     }
 

@@ -111,10 +111,21 @@ class DonationService
                $gift->update([
                   'donation_id' => $donation->id,
                ]);
-         }
-      }
-      }
+            $sms = app(SmsService::class);
+            $text = " تم إهداء تبرع لك من قبل أحد المحبين.\n";
+            if ($gift->message) {
+                $text .= " الرسالة: {$gift->message}\n";
+            }
 
+            if ($gift->show_sender_name && !empty($user->name)) {
+                  $text .= "المُهدي: {$gift->sender_name}\n";
+            }
+            $text .= " مع تحياتنا، فريق العمل.";
+
+            $sms->send($gift->recipient_phone, $text);
+      }
+    }  
+   }
       $campaign->updateStatus($campaignType);
 
       $message = 'donation for this campaign are done sucessfully';
@@ -171,7 +182,8 @@ class DonationService
     $gift = GiftDonation::create([
         'recipient_name' => $request['recipient_name'],
         'recipient_phone' => $request['recipient_phone'],
-        'message' => $request['message'] ?? null,
+        'message' => $request['message'],
+        'show_sender_name' => $request['show_sender_name'] ?? false,
         'token' => $token,
     ]);
       $message = 'gift details are done sucessfully';

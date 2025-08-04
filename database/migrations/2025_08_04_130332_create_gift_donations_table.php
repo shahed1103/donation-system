@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('recipient_name');
             $table->string('recipient_phone');
             $table->string('message');
+            $table->boolean('show_sender_name')->default(false);
             $table->string('token')->unique();
             $table->timestamps();
         });

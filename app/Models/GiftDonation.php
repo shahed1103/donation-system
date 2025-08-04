@@ -11,6 +11,7 @@ class GiftDonation extends Model
         'recipient_name',
         'recipient_phone',
         'message',
+        'show_sender_name',
         'token',
     ];
 
