@@ -137,6 +137,10 @@ class DonationService
    public function quickDonateWithWallet($request) : array{
       $user = Auth::user();
 
+      // if($user->wallet ?? null){
+      //       throw new Exception("create your wallet first", 401);
+      // }
+
       if( !Hash::check($request->wallet_password ,$user->wallet->wallet_password)){
             throw new Exception("the wallet password you entre is incorrect", 401);
       }

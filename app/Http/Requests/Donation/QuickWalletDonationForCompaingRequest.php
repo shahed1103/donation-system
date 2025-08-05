@@ -48,7 +48,11 @@ class QuickWalletDonationForCompaingRequest extends FormRequest
             'min:1000',
             function ($attribute, $value, $fail) {
                 
+            if(auth()->user()->wallet == null){
+            return $fail("create your wallet first");
+             }
                 $userWallet = auth()->user()->wallet->wallet_value;
+                
                     $campaignId = $this->input('campaign_id'); 
                     $campaignType = $this->input('campaign_type');  
 

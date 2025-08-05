@@ -20,15 +20,13 @@ class RolesPermissionsSeeder extends Seeder
 
         // 1. Create roles
         $superAdminRole = Role::create(['name' => 'superAdmin']);
-        $volunteerRole = Role::create(['name' => 'Volunteer']);
-        $donorRole = Role::create(['name' => 'Donor']);
+        $clientRole = Role::create(['name' => 'Client']);
         $adminRole = Role::create(['name' => 'Admin']);
         $leaderRole = Role::create(['name' => 'Leader']);
 
         // 2. Create permissions
         $permissions = [
-            'register', 'signin', 'userForgotPassword', 'userCheckCode', 'userResetPassword',
-            'logout', 'getClassification',
+ 'getClassification',
             'getUserCountsLastFiveYears', 'getTotalCampaignsCount', 'countAssociations', 'lastNewUsers' ,
             'myVoluntings' , 'updateVoluntingProfile' , 'showVoluntingProfile' , 'showVoluntingProfileDetails',
             'voluntingRequest' , 'upComingTasks' , 'editTaskStatus' ,'viewAssociationsCompaingsActive' , 'viewAssociationCompaingsComplete' , 'showAssociationDetails',
@@ -43,22 +41,16 @@ class RolesPermissionsSeeder extends Seeder
         }
 
       //assign permissions to roles
-
-        $donorRole->givePermissionTo(['viewAssociationsCompaingsActive' , 'viewAssociationCompaingsComplete' , 'showAssociationDetails',
+        $clientRole->syncPermissions(['viewAssociationsCompaingsActive' , 'viewAssociationCompaingsComplete' , 'showAssociationDetails',
         'showCampaignDetails' , 'donateWithPoints' , 'donateWithWallet' , 'quickDonateWithWallet' , 'createIndiviCompa' ,
         'viewMyIndiviCompa' , 'viewIndiviCompa' , 'showIndiviCampaignDetails' , 'searchCampaigns' , 'emergencyCompaings' ,
         'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' ,
-        'editPersonalInfo' , 'createWallet' , 'showWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails'
-        ]);
-
-        $volunteerRole->givePermissionTo(['myVoluntings' , 'updateVoluntingProfile' , 'showVoluntingProfile' , 'showVoluntingProfileDetails',
+        'editPersonalInfo' , 'createWallet' , 'showWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails',
+        'myVoluntings' , 'updateVoluntingProfile' , 'showVoluntingProfile' , 'showVoluntingProfileDetails',
         'voluntingRequest' , 'upComingTasks' , 'editTaskStatus'
         ]);
 
         // 3. Assign permissions
-        // $donorRole->syncPermissions($permissions);
-        // $volunteerRole->syncPermissions($permissions);
-
         $superAdminRole->syncPermissions($permissions);
         $adminRole->syncPermissions($permissions);
         $leaderRole->syncPermissions($permissions);
@@ -69,8 +61,8 @@ class RolesPermissionsSeeder extends Seeder
     Storage::disk('public')->put($targetPath, File::get($sourcePath));
     
         // 4. Create users for each role
-        $donorUser = User::factory()->create([
-            'role_id' => $donorRole->id,
+        $clientUser = User::factory()->create([
+            'role_id' => $clientRole->id,
             'gender_id' => 1,
             'phone' => '0954411753',
             'city_id' => 1,
@@ -82,40 +74,16 @@ class RolesPermissionsSeeder extends Seeder
         ]);
 
         $wallet = Wallet::create([
-          'user_id' => $donorUser->id,
+          'user_id' => $clientUser->id,
           'wallet_value' => 1000000,
           'wallet_password' => bcrypt('password') ,
         ]);
 
-        $donorUser->assignRole($donorRole);
+        $clientUser->assignRole($clientRole);
 
         //assign permissions with the role to the user
-        $permissions = $donorRole->permissions()->pluck('name')->toArray();
-        $donorUser->givePermissionTo ($permissions);
-
-        $volunteerUser = User::factory()->create([
-            'role_id' => $volunteerRole->id,
-            'gender_id' => 2,
-            'phone' => '09544117593',
-            'city_id' => 1,
-            'age' => '20',
-            'name' => 'Volunteer',
-            'email' => 'Volunteer@example.com',
-            'password' => bcrypt('password'),
-            'photo' => url(Storage::url($targetPath))
-
-        ]);
-
-       $wallet = Wallet::create([
-          'user_id' => $volunteerUser->id,
-          'wallet_value' => 1000000,
-          'wallet_password' => bcrypt('password') ,
-        ]);
-        $volunteerUser->assignRole($volunteerRole);
-
-        //assign permissions with the role to the user
-        $permissions = $volunteerRole->permissions()->pluck('name')->toArray();
-        $volunteerUser->givePermissionTo ($permissions);
+        $permissions = $clientRole->permissions()->pluck('name')->toArray();
+        $clientUser->givePermissionTo($permissions);
 
         
        $admin = User::factory()->create([
@@ -142,9 +110,6 @@ class RolesPermissionsSeeder extends Seeder
         $permissions = $adminRole->permissions()->pluck('name')->toArray();
         $admin->givePermissionTo ($permissions);
 
-
-
-
        $leader = User::factory()->create([
             'role_id' => $leaderRole->id,
             'gender_id' => 2,
@@ -170,7 +135,7 @@ class RolesPermissionsSeeder extends Seeder
 
 
         
-        // 5. Create additional Donor users
+        // 5. Create additional client users
         $names = ['shahed', 'dana', 'rama', 'yumna', 'rania', 'lana', 'rayan', 'mohammed', 'marwa', 'sawsan'];
         $nationalities = [1, 2, 3, 4, 5, 6, 7, 8, 3, 1];
         $ages = [20, 30, 25, 19, 21, 35, 29, 18, 29, 37];
@@ -185,7 +150,7 @@ class RolesPermissionsSeeder extends Seeder
         
         for ($i = 0; $i < 10; $i++) {
             $user = User::create([
-                'role_id' => $donorRole->id,
+                'role_id' => $clientRole->id,
                 'name' => $names[$i],
                 'city_id' => $nationalities[$i],
                 'age' => $ages[$i],
@@ -204,10 +169,10 @@ class RolesPermissionsSeeder extends Seeder
                 ]);
 
 
-            $user->assignRole($donorRole);
+            $user->assignRole($clientRole);
 
             //assign permissions with the role to the user
-            $permissions = $donorRole->permissions()->pluck('name')->toArray();
+            $permissions = $clientRole->permissions()->pluck('name')->toArray();
             $user->givePermissionTo ($permissions);
         }
     }

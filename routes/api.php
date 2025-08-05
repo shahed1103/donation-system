@@ -45,7 +45,7 @@ Route::controller(AuthController::class)->group(function(){
 Route::post('userCheckCode' , 'userCheckCode')
 ->name('user.password.code.check');
 
-Route::post('userResetPassword' , 'userResetPassword')
+Route::post('userResetPassword/{code}' , 'userResetPassword')
 ->name('user.password.reset');
 
 Route::middleware('auth:sanctum')->get('logout', [AuthController::class, 'logout'])->name('user.logout');
@@ -67,44 +67,56 @@ Route::get('getCities' , 'getCities')
 Route::get('getGender' , 'getGender')
 ->name('all.getGender');
 
-Route::middleware('auth:sanctum')->post('createIndiviCompa', [IndividualCompaignsController::class, 'createIndiviCompa'])->name('user.createIndiviCompa')->middleware('can:createIndiviCompa');
-Route::middleware('auth:sanctum')->get('viewMyIndiviCompa', [IndividualCompaignsController::class, 'viewMyIndiviCompa'])->name('user.viewMyIndiviCompa')->middleware('can:viewMyIndiviCompa');
+Route::middleware('auth:sanctum')->group(function () {
+
+Route::post('createIndiviCompa' , 'createIndiviCompa')
+     ->name('user.createIndiviCompa')->middleware('can:createIndiviCompa');
+
+Route::get('viewMyIndiviCompa', 'viewMyIndiviCompa')
+     ->name('user.viewMyIndiviCompa')->middleware('can:viewMyIndiviCompa');
+
 Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     ->name('user.viewIndiviCompa')->middleware('can:viewIndiviCompa');
+
     //individual campaign id
 Route::get('showIndiviCampaignDetails/{campaignId}' , 'showIndiviCampaignDetails')
     ->name('user.showIndiviCampaignDetails')->middleware('can:showIndiviCampaignDetails');
+   });
 });
 
-Route::controller(AssociationCompaignsController::class)->group(function(){
+Route::middleware('auth:sanctum')->controller(AssociationCompaignsController::class)->group(function () {
 
-    //classification id
-Route::middleware('auth:sanctum')->get('viewAssociationsCompaingsActive/{id}' , 'viewAssociationsCompaingsActive')
-    ->name('user.viewAssociationsCompaingsActive')->middleware('can:viewAssociationsCompaingsActive');
+    // classification id
+    Route::get('viewAssociationsCompaingsActive/{id}', 'viewAssociationsCompaingsActive')
+        ->name('user.viewAssociationsCompaingsActive')
+        ->middleware('can:viewAssociationsCompaingsActive');
 
-    //association id
-Route::get('viewAssociationCompaingsComplete/{id}' , 'viewAssociationCompaingsComplete')
-    ->name('user.viewAssociationCompaingsComplete')->middleware('can:viewAssociationCompaingsComplete');
+    // association id
+    Route::get('viewAssociationCompaingsComplete/{id}', 'viewAssociationCompaingsComplete')
+        ->name('user.viewAssociationCompaingsComplete')
+        ->middleware('can:viewAssociationCompaingsComplete');
 
-    //association id
-Route::get('showAssociationDetails/{id}' , 'showAssociationDetails')
-    ->name('user.showAssociationDetails')->middleware('can:showAssociationDetails');
+    // association id
+    Route::get('showAssociationDetails/{id}', 'showAssociationDetails')
+        ->name('user.showAssociationDetails')
+        ->middleware('can:showAssociationDetails');
 
-    //association campaign id
-Route::get('showCampaignDetails/{campaignId}' , 'showCampaignDetails')
-    ->name('user.showCampaignDetails')->middleware('can:showCampaignDetails');
-
-Route::middleware('auth:sanctum')->post('donateWithPoints/{id}', [AssociationCompaignsController::class, 'donateWithPoints'])->name('user.donateWithPoints')->middleware('can:donateWithPoints');
-
+    // association campaign id
+    Route::get('showCampaignDetails/{campaignId}', 'showCampaignDetails')
+        ->name('user.showCampaignDetails')
+        ->middleware('can:showCampaignDetails');
 });
 
-Route::controller(MobileHomeController::class)->group(function(){
-    Route::post('searchCampaigns' , 'searchCampaigns')
-        ->name('user.searchCampaigns')->middleware('can:searchCampaigns');
+Route::middleware('auth:sanctum')->controller(MobileHomeController::class)->group(function () {
+    Route::post('searchCampaigns', 'searchCampaigns')
+        ->name('user.searchCampaigns')
+        ->middleware('can:searchCampaigns');
 
-    Route::get('emergencyCompaings' , 'emergencyCompaings')
-        ->name('user.emergencyCompaings')->middleware('can:emergencyCompaings');
+    Route::get('emergencyCompaings', 'emergencyCompaings')
+        ->name('user.emergencyCompaings')
+        ->middleware('can:emergencyCompaings');
 });
+
 
 Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('miniIfo', [PersonalAccountController::class, 'miniIfo'])->name('user.miniIfo')->middleware('can:miniIfo');
@@ -122,26 +134,37 @@ Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->get('showWallet', [PersonalAccountController::class, 'showWallet'])->name('user.showWallet')->middleware('can:showWallet');
 });
 
-Route::controller(VoluntingController::class)->group(function(){
-    Route::get('getAllVoluntingCampigns' , 'getAllVoluntingCampigns')
-        ->name('user.getAllVoluntingCampigns')->middleware('can:getAllVoluntingCampigns');
+Route::middleware('auth:sanctum')->controller(VoluntingController::class)->group(function () {
 
-    //association campaign id
-    Route::get('getVoluntingCampigndetails/{id}' , 'getVoluntingCampigndetails')
-        ->name('user.getVoluntingCampigndetails')->middleware('can:getVoluntingCampigndetails');
+    Route::get('getAllVoluntingCampigns', 'getAllVoluntingCampigns')
+        ->name('user.getAllVoluntingCampigns')
+        ->middleware('can:getAllVoluntingCampigns');
 
-    //task id
-    Route::get('getTaskDetails/{id}' , 'getTaskDetails')
-        ->name('user.getTaskDetails')->middleware('can:getTaskDetails');
+    // association campaign id
+    Route::get('getVoluntingCampigndetails/{id}', 'getVoluntingCampigndetails')
+        ->name('user.getVoluntingCampigndetails')
+        ->middleware('can:getVoluntingCampigndetails');
 
-    //task id
-    Route::middleware('auth:sanctum')->get('voluntingRequest/{id}', [VoluntingController::class, 'voluntingRequest'])->name('user.voluntingRequest')->middleware('can:voluntingRequest');
+    // task id
+    Route::get('getTaskDetails/{id}', 'getTaskDetails')
+        ->name('user.getTaskDetails')
+        ->middleware('can:getTaskDetails');
 
-    Route::middleware('auth:sanctum')->get('upComingTasks', [VoluntingController::class, 'upComingTasks'])->name('user.upComingTasks')->middleware('can:upComingTasks');
+    // task id
+    Route::get('voluntingRequest/{id}', 'voluntingRequest')
+        ->name('user.voluntingRequest')
+        ->middleware('can:voluntingRequest');
 
-    //task id  
-    Route::middleware('auth:sanctum')->post('editTaskStatus/{id}', [VoluntingController::class, 'editTaskStatus'])->name('user.editTaskStatus')->middleware('can:editTaskStatus');
+    Route::get('upComingTasks', 'upComingTasks')
+        ->name('user.upComingTasks')
+        ->middleware('can:upComingTasks');
+
+    // task id  
+    Route::post('editTaskStatus/{id}', 'editTaskStatus')
+        ->name('user.editTaskStatus')
+        ->middleware('can:editTaskStatus');
 });
+
 
 Route::controller(DonationController::class)->group(function(){
 

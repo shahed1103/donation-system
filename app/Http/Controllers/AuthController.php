@@ -99,11 +99,11 @@ class AuthController extends Controller
         }
     }
 
-    public function userResetPassword(ResetPasswordRequest $request): JsonResponse {
+    public function userResetPassword(ResetPasswordRequest $request , $codeR): JsonResponse {
 
         $data = [];
        try{
-            $data = $this->userService->resetPassword($request);
+            $data = $this->userService->resetPassword($request , $codeR);
             return Response::Success($data['role'], $data['message'] , $data['code'] );
        }
 

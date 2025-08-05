@@ -30,7 +30,7 @@ class UserService
 {
 
     public function register($request): array{
-        $clientRole = Role::query()->firstWhere('name', 'Donor')->id;
+        $clientRole = Role::query()->firstWhere('name', 'Client')->id;
 
          $sourcePath = 'uploads/seeder_photos/defualtProfilePhoto.png';
          $targetPath = 'uploads/det/defualtProfilePhoto.png';
@@ -50,7 +50,7 @@ class UserService
     'photo' => url(Storage::url($targetPath))
         ]);
 
-        $clientRole = Role::query()->where('name', 'Donor')->first();
+        $clientRole = Role::query()->where('name', 'Client')->first();
         $user->assignRole($clientRole);
 
         $permissions = $clientRole->permissions()->pluck('name')->toArray();
@@ -154,7 +154,7 @@ class UserService
                 return ['verifyCode' => $verifyCode , 'message' => $message , 'code' => $code];
             }
 
-            public function resetPassword($request) : array{
+            public function resetPassword($request , $codeR) : array{
 
      // $storedVerifyCode = Session::get('stored_verify_code');
                //$storedVerifyCode = $_SESSION['stored_verify_code'];
@@ -164,7 +164,7 @@ class UserService
     // }
 
                 //find the code
-                $passwordReset = ResetCodePassword::query()->firstWhere('code' , $request['code']  );
+                $passwordReset = ResetCodePassword::query()->firstWhere('code' , $codeR);
                 // check if it is not expired: the time is one hour
                 if($passwordReset['created_at'] > now()->addHour()){
                    $passwordReset->delete();
