@@ -85,4 +85,18 @@ public function getDonationCountsByClassByYear($id , $year): JsonResponse {
     }
 }
 
+public function AssociationDetails($id ): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->getDonationCountsByClassByYear($id );
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+
+
 }

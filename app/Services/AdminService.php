@@ -166,4 +166,36 @@ public function getDonationCountsByClassByYear(int $associationId , int $year): 
         'message' => $message
     ];
 }
+
+
+public function AssociationDetails($id): array
+      {
+         $association = Association::findOrFail($id);
+         $campaignIds = SharedAssociationCampaign::where('association_id', $id)
+            ->pluck('association_campaign_id');
+
+         $totalCampaigns = $campaignIds->count();
+         $totalDonations = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
+            ->sum('amount');
+
+        //  $completedCampaigns = $this->getAssociationCompaingsComplete($id);
+        //  $activeCampaigns = $this->getAssociationsCampaignsActive($id);
+         $association_owner = User::find($association->association_owner_id);
+         $associationDet = [];
+
+        $associationDet[] = [
+            'association_name' => $association->name,
+            'association_description' => $association->description,
+            'location' => $association->location,
+            'association_owner' => $association_owner->name,
+            'date_start_working' => $association -> date_start_working,
+            'date_end_working' => $association -> date_end_working,
+            'total_donations' => $totalDonations,
+            // 'completed_campaigns' => $completedCampaigns,
+            // 'active_campaigns' => $activeCampaigns
+            ];
+            $message = 'association details are retrived sucessfully';
+
+         return ['association' => $associationDet , 'message' => $message];
+      }
 }

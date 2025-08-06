@@ -227,8 +227,7 @@ public function getCampaignDetails($campaignId): array
          $association_owner = User::find($association->association_owner_id);
          $associationDet = [];
 
-
-          $associationDet[] = [
+        $associationDet[] = [
             'association_name' => $association->name,
             'association_description' => $association->description,
             'location' => $association->location,

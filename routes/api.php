@@ -246,6 +246,9 @@ Route::middleware('auth:sanctum')->get('totalAssociationDonationsByYear/{id}/{ye
 Route::middleware('auth:sanctum')->get('getMonthlyDonationsByYear/{id}/{year}', [AdminController::class, 'getMonthlyDonationsByYear'])->name('admin.getMonthlyDonationsByYear');
 Route::middleware('auth:sanctum')->get('getActiveCampaignsCount/{id}/{year}', [AdminController::class, 'getActiveCampaignsCount'])->name('admin.getActiveCampaignsCount');
 Route::middleware('auth:sanctum')->get('getCompleteCampaignsCount/{id}/{year}', [AdminController::class, 'getCompleteCampaignsCount'])->name('admin.getCompleteCampaignsCount');
+Route::middleware('auth:sanctum')->get('AssociationDetails/{id}', [AdminController::class, 'AssociationDetails'])->name('admin.AssociationDetails');
+
+
 
 });
 
