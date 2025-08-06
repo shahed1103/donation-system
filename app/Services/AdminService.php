@@ -80,13 +80,40 @@ public function getMonthlyDonationsByYear(int $associationId, int $year): array
 
 
 
-public function getActiveAssociationCampaignsCount(int $associationId): array
+public function getActiveCampaignsCount(int $associationId , $year): array
 {
+    $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
+    $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
+
+
     $campaignIds = SharedAssociationCampaign::where('association_id', $associationId)
         ->pluck('association_campaign_id');
 
     $activeCampaignsCount = AssociationCampaign::whereIn('id', $campaignIds)
         ->where('campaign_status_id', 1)
+        ->whereBetween('created_at', [$startOfYear, $endOfYear])
+        ->count();
+
+    $message = 'Active campaigns count retrieved successfully';
+
+    return [
+        'count' => $activeCampaignsCount,
+        'message' => $message
+    ];
+}
+
+public function getCompleteCampaignsCount(int $associationId , $year): array
+{
+
+    $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
+    $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
+
+    $campaignIds = SharedAssociationCampaign::where('association_id', $associationId)
+        ->pluck('association_campaign_id');
+
+    $activeCampaignsCount = AssociationCampaign::whereIn('id', $campaignIds)
+        ->where('campaign_status_id', 3)
+        ->whereBetween('created_at', [$startOfYear, $endOfYear])
         ->count();
 
     $message = 'Active campaigns count retrieved successfully';
@@ -98,4 +125,45 @@ public function getActiveAssociationCampaignsCount(int $associationId): array
 }
 
 
+public function getDonationCountsByClassByYear(int $associationId , int $year): array
+{
+    $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
+    $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
+
+
+    $healthyCount = DonationAssociationCampaign::where('classification_id', 1)
+        -> where('association_id', $associationId)
+        ->whereBetween('created_at', [$startOfYear, $endOfYear])
+        ->count();
+
+    $EducationalCount = DonationAssociationCampaign::where('classification_id', 2)
+        -> where('association_id', $associationId)
+        ->whereBetween('created_at', [$startOfYear, $endOfYear])
+        ->count();
+
+    $cleanlinessCount = DonationAssociationCampaign::where('classification_id', 3)
+        -> where('association_id', $associationId)
+        ->whereBetween('created_at', [$startOfYear, $endOfYear])
+        ->count();
+
+    $environmentalCount = DonationAssociationCampaign::where('classification_id', 4)
+        -> where('association_id', $associationId)
+        ->whereBetween('created_at', [$startOfYear, $endOfYear])
+        ->count();
+
+
+    $data = [
+        'healthy' => $healthyCount,
+        'Educational'     => $EducationalCount,
+        'cleanliness'     => $cleanlinessCount,
+        'environmental'      => $environmentalCount,
+    ];
+
+    $message = "User counts by classification for year {$year} retrieved successfully";
+
+    return [
+        'data' => $data,
+        'message' => $message
+    ];
+}
 }

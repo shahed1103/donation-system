@@ -23,7 +23,66 @@ class AdminController extends Controller
     }
 
 
+public function totalAssociationDonationsByYear($id , $year): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->totalAssociationDonationsByYear($id ,$year);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 
 
+public function getMonthlyDonationsByYear($id ,$year): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->getMonthlyDonationsByYear($id ,$year);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+
+public function getActiveCampaignsCount($id ,$year): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->getActiveCampaignsCount($id,$year);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function getCompleteCampaignsCount($id , $year): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->getCompleteCampaignsCount($id , $year);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function getDonationCountsByClassByYear($id , $year): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->getDonationCountsByClassByYear($id , $year);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 
 }

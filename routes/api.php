@@ -12,6 +12,8 @@ use App\Http\Controllers\SuperAdminIndividualCompaignsController;
 use App\Http\Controllers\SuperAdminAssociationCompaignsController;
 use App\Http\Controllers\PersonalAccountController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\AdminController;
+
 
 // use App\Http\Requests\Auth\UserSignupRequest;
 // use App\Http\Requests\Auth\UserSigninRequest;
@@ -239,10 +241,27 @@ Route::middleware('auth:sanctum')->post('addLeaderForm/{id}', [LeaderController:
 
 
 
-Route::controller(LeaderController::class)->group(function(){
-    Route::post('addLeaderForm/{id}' , 'addLeaderForm')
-          ->name('user.addLeaderForm');
+Route::controller(AdminController::class)->group(function(){
+Route::middleware('auth:sanctum')->get('totalAssociationDonationsByYear/{id}/{year}', [AdminController::class, 'totalAssociationDonationsByYear'])->name('admin.totalAssociationDonationsByYear');
+Route::middleware('auth:sanctum')->get('getMonthlyDonationsByYear/{id}/{year}', [AdminController::class, 'getMonthlyDonationsByYear'])->name('admin.getMonthlyDonationsByYear');
+Route::middleware('auth:sanctum')->get('getActiveCampaignsCount/{id}/{year}', [AdminController::class, 'getActiveCampaignsCount'])->name('admin.getActiveCampaignsCount');
+Route::middleware('auth:sanctum')->get('getCompleteCampaignsCount/{id}/{year}', [AdminController::class, 'getCompleteCampaignsCount'])->name('admin.getCompleteCampaignsCount');
+
 });
+
+
+
+
+
+
+
+
+
+
+// Route::controller(LeaderController::class)->group(function(){
+//     Route::post('addLeaderForm/{id}' , 'addLeaderForm')
+//           ->name('user.addLeaderForm');
+// });
 
 
 
