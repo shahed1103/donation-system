@@ -97,6 +97,67 @@ public function AssociationDetails($id ): JsonResponse {
     }
 }
 
+public function getCampaignsStatus(): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->getCampaignsStatus();
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+
+public function HealthyAssociationsCampaigns($association_id , $campaignStatus): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->HealthyAssociationsCampaigns($association_id , $campaignStatus);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function EducationalAssociationsCampaigns($association_id , $campaignStatus): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->EducationalAssociationsCampaigns($association_id , $campaignStatus);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function CleanlinessAssociationsCampaigns($association_id , $campaignStatus): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->CleanlinessAssociationsCampaigns($association_id , $campaignStatus);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function EnvironmentalAssociationsCampaigns($association_id , $campaignStatus): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->EnvironmentalAssociationsCampaigns($association_id , $campaignStatus);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
 
 
 }

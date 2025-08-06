@@ -198,4 +198,152 @@ public function AssociationDetails($id): array
 
          return ['association' => $associationDet , 'message' => $message];
       }
+
+
+
+public function getCampaignsStatus(): array
+{
+        $status = CampaignStatus::select('id', 'name')->get()
+            ->map(function ($status) {
+                return [
+                    'id'   => $status->id,
+                    'name' => $status->name, ]; });
+        return [
+            'status' => $status,
+            'message' => 'done' ];
+}
+
+
+public function HealthyAssociationsCampaigns($association_id , $campaignStatus): array
+{
+         $campaignIds = SharedAssociationCampaign::where('association_id', $association_id)
+            ->pluck('association_campaign_id');
+
+         $campaigns = AssociationCampaign::with(['classification', 'campaignStatus'])
+            ->whereIn('id', $campaignIds)
+            ->where('campaign_status_id', $campaignStatus)
+            ->where('classification_id', 1)
+            ->get();
+
+         $compaingAll = [];
+
+         foreach ($campaigns as $campaign) {
+            $totalDonations = DonationAssociationCampaign::where('association_campaign_id', $campaign->id)
+                  ->sum('amount');
+
+            $compaingAll[] = [
+                  'id' =>  $campaign->association_id,
+                  'title' => $campaign->title,
+                  'photo' => url(Storage::url($campaign->photo)),
+                  'amount_required' => $campaign->amount_required,
+                  'donation_amount' => $totalDonations,
+                  'campaign_status_id' => [
+                     'id' => $campaign->campaign_status_id,
+                     'campaign_status_type' => $campaign->campaignStatus->status_type
+                  ],
+                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            ]; }
+            $message = 'Your campaign retrived sucessfully';
+         return ['campaign' => $compaingAll, 'message' => $message];
+}
+
+public function EducationalAssociationsCampaigns($association_id , $campaignStatus): array
+{
+         $campaignIds = SharedAssociationCampaign::where('association_id', $association_id)
+            ->pluck('association_campaign_id');
+
+         $campaigns = AssociationCampaign::with(['classification', 'campaignStatus'])
+            ->whereIn('id', $campaignIds)
+            ->where('campaign_status_id', $campaignStatus)
+            ->where('classification_id', 2)
+            ->get();
+
+         $compaingAll = [];
+
+         foreach ($campaigns as $campaign) {
+            $totalDonations = DonationAssociationCampaign::where('association_campaign_id', $campaign->id)
+                  ->sum('amount');
+
+            $compaingAll[] = [
+                  'id' =>  $campaign->association_id,
+                  'title' => $campaign->title,
+                  'photo' => url(Storage::url($campaign->photo)),
+                  'amount_required' => $campaign->amount_required,
+                  'donation_amount' => $totalDonations,
+                  'campaign_status_id' => [
+                     'id' => $campaign->campaign_status_id,
+                     'campaign_status_type' => $campaign->campaignStatus->status_type
+                  ],
+                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            ]; }
+            $message = 'Your campaign retrived sucessfully';
+         return ['campaign' => $compaingAll, 'message' => $message];
+}
+
+public function CleanlinessAssociationsCampaigns($association_id , $campaignStatus): array
+{
+         $campaignIds = SharedAssociationCampaign::where('association_id', $association_id)
+            ->pluck('association_campaign_id');
+
+         $campaigns = AssociationCampaign::with(['classification', 'campaignStatus'])
+            ->whereIn('id', $campaignIds)
+            ->where('campaign_status_id', $campaignStatus)
+            ->where('classification_id', 3)
+            ->get();
+
+         $compaingAll = [];
+
+         foreach ($campaigns as $campaign) {
+            $totalDonations = DonationAssociationCampaign::where('association_campaign_id', $campaign->id)
+                  ->sum('amount');
+
+            $compaingAll[] = [
+                  'id' =>  $campaign->association_id,
+                  'title' => $campaign->title,
+                  'photo' => url(Storage::url($campaign->photo)),
+                  'amount_required' => $campaign->amount_required,
+                  'donation_amount' => $totalDonations,
+                  'campaign_status_id' => [
+                     'id' => $campaign->campaign_status_id,
+                     'campaign_status_type' => $campaign->campaignStatus->status_type
+                  ],
+                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            ]; }
+            $message = 'Your campaign retrived sucessfully';
+         return ['campaign' => $compaingAll, 'message' => $message];
+}
+
+public function EnvironmentalAssociationsCampaigns($association_id , $campaignStatus): array
+{
+         $campaignIds = SharedAssociationCampaign::where('association_id', $association_id)
+            ->pluck('association_campaign_id');
+
+         $campaigns = AssociationCampaign::with(['classification', 'campaignStatus'])
+            ->whereIn('id', $campaignIds)
+            ->where('campaign_status_id', $campaignStatus)
+            ->where('classification_id', 4)
+            ->get();
+
+         $compaingAll = [];
+
+         foreach ($campaigns as $campaign) {
+            $totalDonations = DonationAssociationCampaign::where('association_campaign_id', $campaign->id)
+                  ->sum('amount');
+
+            $compaingAll[] = [
+                  'id' =>  $campaign->association_id,
+                  'title' => $campaign->title,
+                  'photo' => url(Storage::url($campaign->photo)),
+                  'amount_required' => $campaign->amount_required,
+                  'donation_amount' => $totalDonations,
+                  'campaign_status_id' => [
+                     'id' => $campaign->campaign_status_id,
+                     'campaign_status_type' => $campaign->campaignStatus->status_type
+                  ],
+                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            ]; }
+            $message = 'Your campaign retrived sucessfully';
+         return ['campaign' => $compaingAll, 'message' => $message];
+}
+
 }
