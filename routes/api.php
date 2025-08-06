@@ -159,7 +159,7 @@ Route::middleware('auth:sanctum')->controller(VoluntingController::class)->group
         ->name('user.upComingTasks')
         ->middleware('can:upComingTasks');
 
-    // task id  
+    // task id
     Route::post('editTaskStatus/{id}', 'editTaskStatus')
         ->name('user.editTaskStatus')
         ->middleware('can:editTaskStatus');
@@ -177,7 +177,6 @@ Route::middleware('auth:sanctum')->post('donateWithWallet/{campaignType}/{campai
 Route::middleware('auth:sanctum')->post('quickDonateWithWallet', [DonationController::class, 'quickDonateWithWallet'])->name('user.quickDonateWithWallet')->middleware('can:quickDonateWithWallet');
 
 Route::middleware('auth:sanctum')->post('giftAdonation', [DonationController::class, 'giftAdonation'])->name('user.giftAdonation'); //->middleware('can:quickDonateWithWallet');
-
 });
 
 
