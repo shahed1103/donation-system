@@ -12,6 +12,8 @@ use App\Http\Controllers\SuperAdminIndividualCompaignsController;
 use App\Http\Controllers\SuperAdminAssociationCompaignsController;
 use App\Http\Controllers\PersonalAccountController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\FcmController;
+
 
 // use App\Http\Requests\Auth\UserSignupRequest;
 // use App\Http\Requests\Auth\UserSigninRequest;
@@ -246,4 +248,8 @@ Route::controller(LeaderController::class)->group(function(){
 });
 
 
+
+
+Route::put('/update-device-token', [FcmController::class, 'updateDeviceToken']);
+Route::post('/send-notification', [FcmController::class, 'sendFcmNotification']);
 
