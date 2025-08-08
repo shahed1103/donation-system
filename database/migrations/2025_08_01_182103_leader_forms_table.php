@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('beneficiary_type');   //الفئة المستهدفة
             $table->string('need_type');  //نوع الاحتياج
 
-            $table->boolean('is_need_real'); // هل الاحتياج فعلي؟
             $table->boolean('has_other_support'); // هل توجد جهات أخرى داعمة؟
 
             $table->integer('marks_from_5'); // تقييم الحالة كم هي واقعية من 5
