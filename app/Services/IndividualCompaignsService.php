@@ -24,10 +24,13 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 use Carbon\Carbon;
+use App\Traits\GetUnderReviewIndiviCampaignDetailsMain;
+
 
 class IndividualCompaignsService
 {
-
+    use GetUnderReviewIndiviCampaignDetailsMain;
+    
     public function createIndiviCompa($request): array{
 
         $user= Auth::user()->id;
@@ -179,57 +182,105 @@ class IndividualCompaignsService
         return ['campaign' =>   $compaingAll , 'message' => $message];
      }
 
-      // Get individual campaign details
+    // Get individual campaign details
     public function showIndiviCampaignDetails($campaignId):array{
-    $compaign = IndCompaign::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
-    $total = $compaign->donations->sum('amount');
+        $compaign = IndCompaign::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
+        $total = $compaign->donations->sum('amount');
 
-    $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
-    $fullPath = url(Storage::url($photo));
+        $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
+        $fullPath = url(Storage::url($photo));
 
-    $lastDonation = $compaign->donations->sortByDesc('created_at')->first();
+        $lastDonation = $compaign->donations->sortByDesc('created_at')->first();
 
-    $targetPath = 'uploads/det/defualtProfilePhoto.png';
-    $userPhoto = $compaign->user->photo
-             ? url(Storage::url($compaign->user->photo))
-             : url(Storage::url($targetPath)) ;
+        $targetPath = 'uploads/det/defualtProfilePhoto.png';
+        $userPhoto = $compaign->user->photo
+                ? url(Storage::url($compaign->user->photo))
+                : url(Storage::url($targetPath)) ;
 
-         $compaingDet = [];
-         $compaingDet[] = [
-            'title' => $compaign->title,
-            'amount_required' => $compaign->amount_required,
-            'donation_amount' => $total,
-            'campaign_status' => [
-                  'id' => $compaign->campaign_status_id,
-                  'type' => $compaign->campaignStatus->status_type
-            ],
-            'photo_id' => [
-                  'id' =>$compaign->photo_id ,
-                  'photo' => $fullPath
-            ],
-            'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
-            'description' => $compaign->description,
-            'campaign_start_time' => $compaign->compaigns_start_time,
-            'campaign_end_time' => $compaign->compaigns_end_time,
-            'last_donation_time' => $lastDonation ? $lastDonation->created_at->diffForHumans() : 'no Donations yet',
-            'location' => $compaign->location,
-            'classification' => [
-                  'id' => $compaign->classification_id,
-                  'type' => $compaign->classification->classification_name
-            ],
-            'user' => [
-                'name' => $compaign->user->name,
-                'photo' => $userPhoto,
-            ],
-            'type' => 'individual',
-            'amount_to_Complete' => $compaign->amount_required - $total,
-    ];
+            $compaingDet = [];
+            $compaingDet[] = [
+                'title' => $compaign->title,
+                'amount_required' => $compaign->amount_required,
+                'donation_amount' => $total,
+                'campaign_status' => [
+                    'id' => $compaign->campaign_status_id,
+                    'type' => $compaign->campaignStatus->status_type
+                ],
+                'photo_id' => [
+                    'id' =>$compaign->photo_id ,
+                    'photo' => $fullPath
+                ],
+                'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                'description' => $compaign->description,
+                'campaign_start_time' => $compaign->compaigns_start_time,
+                'campaign_end_time' => $compaign->compaigns_end_time,
+                'last_donation_time' => $lastDonation ? $lastDonation->created_at->diffForHumans() : 'no Donations yet',
+                'location' => $compaign->location,
+                'classification' => [
+                    'id' => $compaign->classification_id,
+                    'type' => $compaign->classification->classification_name
+                ],
+                'user' => [
+                    'name' => $compaign->user->name,
+                    'photo' => $userPhoto,
+                ],
+                'type' => 'individual',
+                'amount_to_Complete' => $compaign->amount_required - $total,
+        ];
 
-        $message = 'individual campaign details are retrived sucessfully';
+            $message = 'individual campaign details are retrived sucessfully';
 
-         return ['campaign' => $compaingDet , 'message' => $message];
-}
+            return ['campaign' => $compaingDet , 'message' => $message];
+    }
 
+    // Get under review individual campaign details
+    public function getUnderReviewIndiviCampaignDetailsMob($campaignId):array{
+        return $this->getUnderReviewIndiviCampaignDetailsMain($campaignId);
+    }
+        
+    // Get rejected individual campaign details
+    public function showRejectedIndiviCampaignDetails($campaignId):array{
+        $compaign = IndCompaign::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);
+
+        $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
+        $fullPath = url(Storage::url($photo));
+
+        $targetPath = 'uploads/det/defualtProfilePhoto.png';
+        $userPhoto = $compaign->user->photo
+                ? url(Storage::url($compaign->user->photo))
+                : url(Storage::url($targetPath)) ;
+
+            $compaingDet = [];
+            $compaingDet[] = [
+                'title' => $compaign->title,
+                'amount_required' => $compaign->amount_required,
+                'campaign_status' => [
+                    'id' => $compaign->campaign_status_id,
+                    'type' => $compaign->campaignStatus->status_type
+                ],
+                'photo_id' => [
+                    'id' =>$compaign->photo_id ,
+                    'photo' => $fullPath
+                ],
+                'compaigns_time' => $compaign->compaigns_time,
+                'description' => $compaign->description,
+                'location' => $compaign->location,
+                'classification' => [
+                    'id' => $compaign->classification_id,
+                    'type' => $compaign->classification->classification_name
+                ],
+                'user' => [
+                    'name' => $compaign->user->name,
+                    'photo' => $userPhoto,
+                ],
+                'rejection_reason' => $compaign->rejection_reason,
+                'type' => 'individual',
+        ];
+
+            $message = 'rejected individual campaign details are retrived sucessfully';
+
+            return ['campaign' => $compaingDet , 'message' => $message];
+    }
      //1 view all classifications
     public function getClassification():array{
         $classifications = Classification::all();

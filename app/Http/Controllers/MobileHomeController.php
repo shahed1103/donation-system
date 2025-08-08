@@ -49,4 +49,45 @@ class MobileHomeController extends Controller
         }
     }
 
+    // count associations 
+    public function  countAssociationsMob(): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->mobileHomeService->countAssociationsMob();
+           return Response::Success($data['count'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+    // count of total campaigns
+    public function getEndedCampaignsCountByYearMob(): JsonResponse{
+        $data = [] ;
+        try{
+            $data = $this->mobileHomeService->getEndedCampaignsCountByYearMob();
+           return Response::Success($data['count'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+    public function totalDonationsByYearMob():  JsonResponse{
+        $data = [] ;
+        try{
+            $data = $this->mobileHomeService->totalDonationsByYearMob();
+           return Response::Success($data['total'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
 }
+

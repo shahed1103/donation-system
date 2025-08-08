@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Donation;
 use App\Models\IndCompaign;
 use App\Models\AssociationCampaign;
+use App\Models\DonationAssociationCampaign;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -22,18 +23,15 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
+use App\Traits\CountAssociationsMain;
 
 class SuperAdminService
 {
+    use CountAssociationsMain;
 
 public function countAssociations(): array
 {
-    $count = Association::count();
-
-    return [
-        'count' => $count,
-        'message' => 'Association count retrieved successfully'
-    ];
+   return $this->countAssociationsMain();
 }
 
 public function lastNewUsers(): array
@@ -154,8 +152,12 @@ public function totalDonationsByYear(int $year): array
     $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
     $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
 
-    $total = Donation::whereBetween('created_at', [$startOfYear, $endOfYear])
-                     ->sum('amount');
+        $totalIndivi = Donation::whereBetween('created_at', [$startOfYear, $endOfYear])
+                        ->sum('amount');
+
+        $totalassoci = DonationAssociationCampaign::whereBetween('created_at', [$startOfYear, $endOfYear])
+                        ->sum('amount');
+        $total = $totalIndivi + $totalassoci;
 
     return [
         'total' => $total,

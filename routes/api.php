@@ -55,8 +55,6 @@ Route::post('userResetPassword/{code}' , 'userResetPassword')
 Route::middleware('auth:sanctum')->get('logout', [AuthController::class, 'logout'])->name('user.logout');
 });
 
-// Route::middleware('auth:sanctum')->group(function () {
-
 Route::controller(IndividualCompaignsController::class)->group(function(){
 
 Route::get('getClassification' , 'getClassification')
@@ -85,7 +83,16 @@ Route::get('viewIndiviCompa/{id}' , 'viewIndiviCompa')
     //individual campaign id
 Route::get('showIndiviCampaignDetails/{campaignId}' , 'showIndiviCampaignDetails')
     ->name('user.showIndiviCampaignDetails')->middleware('can:showIndiviCampaignDetails');
+
+    //individual campaign id
+Route::get('getUnderReviewIndiviCampaignDetailsMob/{campaignId}' , 'getUnderReviewIndiviCampaignDetailsMob')
+    ->name('user.getUnderReviewIndiviCampaignDetailsMob')->middleware('can:getUnderReviewIndiviCampaignDetailsMob');
+
+        //individual campaign id
+Route::get('showRejectedIndiviCampaignDetails/{campaignId}' , 'showRejectedIndiviCampaignDetails')
+    ->name('user.showRejectedIndiviCampaignDetails')->middleware('can:showRejectedIndiviCampaignDetails');
    });
+
 });
 
 Route::middleware('auth:sanctum')->controller(AssociationCompaignsController::class)->group(function () {
@@ -119,6 +126,18 @@ Route::middleware('auth:sanctum')->controller(MobileHomeController::class)->grou
     Route::get('emergencyCompaings', 'emergencyCompaings')
         ->name('user.emergencyCompaings')
         ->middleware('can:emergencyCompaings');
+
+    Route::get('countAssociationsMob', 'countAssociationsMob')
+        ->name('user.countAssociationsMob')
+        ->middleware('can:countAssociationsMob');
+
+    Route::get('getEndedCampaignsCountByYearMob', 'getEndedCampaignsCountByYearMob')
+        ->name('user.getEndedCampaignsCountByYearMob')
+        ->middleware('can:getEndedCampaignsCountByYearMob');
+
+    Route::get('totalDonationsByYearMob', 'totalDonationsByYearMob')
+        ->name('user.totalDonationsByYearMob')
+        ->middleware('can:totalDonationsByYearMob');     
 });
 
 
@@ -180,7 +199,7 @@ Route::middleware('auth:sanctum')->post('donateWithWallet/{campaignType}/{campai
 
 Route::middleware('auth:sanctum')->post('quickDonateWithWallet', [DonationController::class, 'quickDonateWithWallet'])->name('user.quickDonateWithWallet')->middleware('can:quickDonateWithWallet');
 
-Route::middleware('auth:sanctum')->post('giftAdonation', [DonationController::class, 'giftAdonation'])->name('user.giftAdonation'); //->middleware('can:quickDonateWithWallet');
+Route::middleware('auth:sanctum')->post('giftAdonation', [DonationController::class, 'giftAdonation'])->name('user.giftAdonation')->middleware('can:giftAdonation');
 });
 
 
@@ -228,7 +247,7 @@ Route::middleware('auth:sanctum')->get('getActiveCompleteIndiviCampaignDetails/{
 Route::middleware('auth:sanctum')->post('updateAcceptanceStatus/{id}', [SuperAdminIndividualCompaignsController::class, 'updateAcceptanceStatus'])->name('super_admin.updateAcceptanceStatus');
 Route::middleware('auth:sanctum')->get('getClosedIndiviCampaignDetails/{id}', [SuperAdminIndividualCompaignsController::class, 'getClosedIndiviCampaignDetails'])->name('super_admin.getClosedIndiviCampaignDetails');
 Route::middleware('auth:sanctum')->get('getLeaderForm/{id}', [SuperAdminIndividualCompaignsController::class, 'getLeaderForm'])->name('super_admin.getLeaderForm');
-
+Route::middleware('auth:sanctum')->get('getUnderReviewIndiviCampaignDetails/{campaignId}', [SuperAdminIndividualCompaignsController::class, 'getUnderReviewIndiviCampaignDetails'])->name('super_admin.getUnderReviewIndiviCampaignDetails');
 
 
 });

@@ -26,9 +26,12 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
+use App\Traits\CountAssociationsMain;
 
 class MobileHomeService
 {
+    use CountAssociationsMain;
+
     //search campigns
     public function searchCampaigns(Request $request): array{
         $campaigns = [];
@@ -223,6 +226,55 @@ class MobileHomeService
 
      return ['emergency compaings' => $campaigns , 'message' => $message];
   } 
+
+    // count associations 
+    public function countAssociationsMob(): array{
+        return $this->countAssociationsMain();
+    }
+
+    // count of total campaigns
+    public function getEndedCampaignsCountByYearMob(): array{
+    $year = Carbon::now()->format('Y');    
+            echo $year;
+
+    $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
+    $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
+
+    $endedIndCampaigns = IndCompaign::whereBetween('compaigns_end_time', [$startOfYear, $endOfYear])
+        ->whereDate('compaigns_end_time', '<', Carbon::today())
+        ->count();
+
+    $endedAssociationCampaigns = AssociationCampaign::whereBetween('compaigns_end_time', [$startOfYear, $endOfYear])
+        ->whereDate('compaigns_end_time', '<', Carbon::today())
+        ->count();
+
+    $data = [
+        'individual_campaigns_ended'   => $endedIndCampaigns,
+        'association_campaigns_ended' => $endedAssociationCampaigns,
+        'total_ended'                 => $endedIndCampaigns + $endedAssociationCampaigns,
+    ];
+
+    $message = "Ended campaigns in year {$year} retrieved successfully";
+
+    return ['count' => $data , 'message' => $message];
+  }
+
+    public function totalDonationsByYearMob(): array{
+        $year = Carbon::now()->format('Y');    
+        $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
+
+        $totalIndivi = Donation::whereBetween('created_at', [$startOfYear, $endOfYear])
+                        ->sum('amount');
+
+        $totalassoci = DonationAssociationCampaign::whereBetween('created_at', [$startOfYear, $endOfYear])
+                        ->sum('amount');
+        $total = $totalIndivi + $totalassoci;
+
+    $message = "Total donations for year {$year} retrieved successfully";
+
+    return ['total' => $total, 'message' => $message];
+    }
 }
 
 

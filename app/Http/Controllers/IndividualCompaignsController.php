@@ -67,8 +67,8 @@ class IndividualCompaignsController extends Controller
     }
 
     // Get individual campaign details 
-    public function showIndiviCampaignDetails($campaignId){
-                $data = [] ;
+    public function showIndiviCampaignDetails($campaignId): JsonResponse{
+        $data = [] ;
         try{
             $data = $this->individualCompaignsService->showIndiviCampaignDetails($campaignId);
            return Response::Success($data['campaign'], $data['message']);
@@ -80,7 +80,35 @@ class IndividualCompaignsController extends Controller
         }
     }
 
-     // view all
+    // Get under review individual campaign details
+    public function getUnderReviewIndiviCampaignDetailsMob($campaignId):JsonResponse{
+        $data = [] ;
+        try{
+            $data = $this->individualCompaignsService->getUnderReviewIndiviCampaignDetailsMob($campaignId);
+           return Response::Success($data['campaign'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+    // Get rejected individual campaign details
+    public function showRejectedIndiviCampaignDetails($campaignId):JsonResponse{
+        $data = [] ;
+        try{
+            $data = $this->individualCompaignsService->showRejectedIndiviCampaignDetails($campaignId);
+           return Response::Success($data['campaign'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+    // view all
     //1 view all classifications
     public function getClassification(): JsonResponse {
         $data = [] ;
