@@ -33,27 +33,18 @@ class SuperAssociationCompaignsService
 
 public function getAssociations(): array
 {
-    try {
         $associations = Association::select('id', 'name')->get()
             ->map(function ($association) {
                 return [
                     'id'   => $association->id,
-                    'name' => $association->name,
-                ];
-            });
-
+                    'name' => $association->name, ]; });
         return [
             'associations' => $associations,
-            'message' => 'done'
-        ];
-    } catch (Throwable $th) {
-        throw $th;
-    }
+            'message' => 'done' ];
 }
 
 public function getAssociationsCampaignsActive($association_id): array
 {
-
          $campaignIds = SharedAssociationCampaign::where('association_id', $association_id)
             ->pluck('association_campaign_id');
 
@@ -79,8 +70,7 @@ public function getAssociationsCampaignsActive($association_id): array
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
                   // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
-            ];
-         }
+            ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
 }
@@ -227,8 +217,7 @@ public function getCampaignDetails($campaignId): array
          $association_owner = User::find($association->association_owner_id);
          $associationDet = [];
 
-
-          $associationDet[] = [
+        $associationDet[] = [
             'association_name' => $association->name,
             'association_description' => $association->description,
             'location' => $association->location,

@@ -12,6 +12,8 @@ use App\Http\Controllers\SuperAdminIndividualCompaignsController;
 use App\Http\Controllers\SuperAdminAssociationCompaignsController;
 use App\Http\Controllers\PersonalAccountController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\FcmController;
 
 
@@ -161,7 +163,7 @@ Route::middleware('auth:sanctum')->controller(VoluntingController::class)->group
         ->name('user.upComingTasks')
         ->middleware('can:upComingTasks');
 
-    // task id  
+    // task id
     Route::post('editTaskStatus/{id}', 'editTaskStatus')
         ->name('user.editTaskStatus')
         ->middleware('can:editTaskStatus');
@@ -179,7 +181,6 @@ Route::middleware('auth:sanctum')->post('donateWithWallet/{campaignType}/{campai
 Route::middleware('auth:sanctum')->post('quickDonateWithWallet', [DonationController::class, 'quickDonateWithWallet'])->name('user.quickDonateWithWallet')->middleware('can:quickDonateWithWallet');
 
 Route::middleware('auth:sanctum')->post('giftAdonation', [DonationController::class, 'giftAdonation'])->name('user.giftAdonation'); //->middleware('can:quickDonateWithWallet');
-
 });
 
 
@@ -242,10 +243,29 @@ Route::middleware('auth:sanctum')->post('addLeaderForm/{id}', [LeaderController:
 
 
 
-Route::controller(LeaderController::class)->group(function(){
-    Route::post('addLeaderForm/{id}' , 'addLeaderForm')
-          ->name('user.addLeaderForm');
+Route::controller(AdminController::class)->group(function(){
+Route::middleware('auth:sanctum')->get('totalAssociationDonationsByYear/{id}/{year}', [AdminController::class, 'totalAssociationDonationsByYear'])->name('admin.totalAssociationDonationsByYear');
+Route::middleware('auth:sanctum')->get('getMonthlyDonationsByYear/{id}/{year}', [AdminController::class, 'getMonthlyDonationsByYear'])->name('admin.getMonthlyDonationsByYear');
+Route::middleware('auth:sanctum')->get('getActiveCampaignsCount/{id}/{year}', [AdminController::class, 'getActiveCampaignsCount'])->name('admin.getActiveCampaignsCount');
+Route::middleware('auth:sanctum')->get('getCompleteCampaignsCount/{id}/{year}', [AdminController::class, 'getCompleteCampaignsCount'])->name('admin.getCompleteCampaignsCount');
+Route::middleware('auth:sanctum')->get('AssociationDetails/{id}', [AdminController::class, 'AssociationDetails'])->name('admin.AssociationDetails');
+Route::middleware('auth:sanctum')->get('HealthyAssociationsCampaigns/{association_id}/{campaignStatus}', [AdminController::class, 'HealthyAssociationsCampaigns'])->name('admin.HealthyAssociationsCampaigns');
+Route::middleware('auth:sanctum')->get('EducationalAssociationsCampaigns/{association_id}/{campaignStatus}', [AdminController::class, 'EducationalAssociationsCampaigns'])->name('admin.EducationalAssociationsCampaigns');
+
+Route::middleware('auth:sanctum')->get('CleanlinessAssociationsCampaigns/{association_id}/{campaignStatus}', [AdminController::class, 'CleanlinessAssociationsCampaigns'])->name('admin.CleanlinessAssociationsCampaigns');
+
+Route::middleware('auth:sanctum')->get('EnvironmentalAssociationsCampaigns/{association_id}/{campaignStatus}', [AdminController::class, 'EnvironmentalAssociationsCampaigns'])->name('admin.EnvironmentalAssociationsCampaigns');
+
+
+
+
 });
+
+
+// Route::controller(LeaderController::class)->group(function(){
+//     Route::post('addLeaderForm/{id}' , 'addLeaderForm')
+//           ->name('user.addLeaderForm');
+// });
 
 
 
