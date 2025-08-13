@@ -81,8 +81,22 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LeaderFormSeeder::class,
         ]);
-        
-}
+
+////
+        $this->call([
+            CentersSeeder::class]);
+
+        $this->call([
+            DonationTypesSeeder::class]);
+
+        $this->call([
+            InkindDonationPhotosSeeder::class]);
+
+        $this->call([
+            InkindDonationsSeeder::class]);
+
+        $this->call([
+            StatusOfDonationsSeeder::class]);}
 
 
 }
