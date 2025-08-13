@@ -158,6 +158,17 @@ public function EnvironmentalAssociationsCampaigns($association_id , $campaignSt
     }
 }
 
+public function AssociationAdmin($association_id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->AssociationAdmin($association_id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 
 
 }

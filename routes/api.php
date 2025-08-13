@@ -332,10 +332,8 @@ Route::middleware('auth:sanctum')->get('HealthyAssociationsCampaigns/{associatio
 Route::middleware('auth:sanctum')->get('EducationalAssociationsCampaigns/{association_id}/{campaignStatus}', [AdminController::class, 'EducationalAssociationsCampaigns'])->name('admin.EducationalAssociationsCampaigns');
 
 Route::middleware('auth:sanctum')->get('CleanlinessAssociationsCampaigns/{association_id}/{campaignStatus}', [AdminController::class, 'CleanlinessAssociationsCampaigns'])->name('admin.CleanlinessAssociationsCampaigns');
-
 Route::middleware('auth:sanctum')->get('EnvironmentalAssociationsCampaigns/{association_id}/{campaignStatus}', [AdminController::class, 'EnvironmentalAssociationsCampaigns'])->name('admin.EnvironmentalAssociationsCampaigns');
-
-
+Route::middleware('auth:sanctum')->get('AssociationAdmin/{association_id}', [AdminController::class, 'AssociationAdmin'])->name('admin.AssociationAdmin');
 
 
 });
