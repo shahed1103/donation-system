@@ -203,7 +203,11 @@ Route::middleware('auth:sanctum')->post('giftAdonation', [DonationController::cl
 });
 
 
+Route::controller(InkindDonationController::class)->group(function(){
 
+Route::middleware('auth:sanctum')->post('showAllInkindDonations', [InkindDonationController::class, 'showAllInkindDonations'])->name('user.showAllInkindDonations')->middleware('can:showAllInkindDonations');
+
+});
 
 
 Route::controller(SuperAdminController::class)->group(function(){

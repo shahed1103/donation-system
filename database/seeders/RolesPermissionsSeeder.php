@@ -32,7 +32,7 @@ class RolesPermissionsSeeder extends Seeder
             'voluntingRequest' , 'upComingTasks' , 'editTaskStatus' ,'viewAssociationsCompaingsActive' , 'viewAssociationCompaingsComplete' , 'showAssociationDetails',
             'showCampaignDetails' , 'donateWithPoints' , 'donateWithWallet' , 'quickDonateWithWallet' , 'createIndiviCompa' , 'getEndedCampaignsCountByYearMob',
             'viewMyIndiviCompa' , 'viewIndiviCompa' , 'showIndiviCampaignDetails' , 'searchCampaigns' , 'emergencyCompaings' , 'totalDonationsByYearMob',
-            'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' ,
+            'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' , 'showAllInkindDonations',
             'editPersonalInfo' , 'createWallet' , 'showWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails'
         ];
 
@@ -44,7 +44,7 @@ class RolesPermissionsSeeder extends Seeder
         $clientRole->syncPermissions(['viewAssociationsCompaingsActive' , 'viewAssociationCompaingsComplete' , 'showAssociationDetails',
         'showCampaignDetails' , 'donateWithPoints' , 'donateWithWallet' , 'quickDonateWithWallet' , 'createIndiviCompa' , 'getEndedCampaignsCountByYearMob',
         'viewMyIndiviCompa' , 'viewIndiviCompa' , 'showIndiviCampaignDetails' , 'searchCampaigns' , 'emergencyCompaings' , 'totalDonationsByYearMob',
-        'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' ,
+        'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' , 'showAllInkindDonations',
         'editPersonalInfo' , 'createWallet' , 'showWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails',
         'myVoluntings' , 'updateVoluntingProfile' , 'showVoluntingProfile' , 'showVoluntingProfileDetails', 'giftAdonation' , 'countAssociationsMob',
         'voluntingRequest' , 'upComingTasks' , 'editTaskStatus' , 'getUnderReviewIndiviCampaignDetailsMob' , 'showRejectedIndiviCampaignDetails'
