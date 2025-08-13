@@ -23,6 +23,7 @@ class InkindDonationController extends Controller
         $this->inkindDonationService = $inkindDonationService;
     }
 
+    //show all in-kind donations
     public function showAllInkindDonations(): JsonResponse {
         $data = [] ;
         try{
@@ -35,4 +36,47 @@ class InkindDonationController extends Controller
             return Response::Error($data , $message , $errors);
         }
     }
-}
+
+    //show details for in-kind donation
+    public function showInkindDonationDetails($id): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->inkindDonationService->showInkindDonationDetails($id);
+           return Response::Success($data['Inkind Donation Details'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+    //show details for in-kind donation
+    public function searchForNearestInkindDonation($location): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->inkindDonationService->searchForNearestInkindDonation($location);
+           return Response::Success($data['Inkind Donations All'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+    //add in-kind donation
+    public function addInkindDonation($request): JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->inkindDonationService->addInkindDonation($request);
+           return Response::Success($data['Inkind Donation'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+    }

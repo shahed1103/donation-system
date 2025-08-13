@@ -24,7 +24,7 @@ class LeaderFormSeeder extends Seeder
                 'number_of_beneficiaries' => rand(10, 100),
                 'beneficiary_type' => $beneficiaryTypes[array_rand($beneficiaryTypes)],
                 'need_type' => $needTypes[array_rand($needTypes)],
-                'is_need_real' => (bool)rand(0, 1),
+                // 'is_need_real' => (bool)rand(0, 1),
                 'has_other_support' => (bool)rand(0, 1),
                 'marks_from_5' => rand(1, 5),
                 'notes' => 'ملاحظة إضافية رقم ' . $i,

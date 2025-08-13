@@ -14,6 +14,8 @@ use App\Http\Controllers\PersonalAccountController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\AdminController;
 
+use App\Http\Controllers\InkindDonationController;
+
 use App\Http\Controllers\FcmController;
 
 
@@ -205,8 +207,15 @@ Route::middleware('auth:sanctum')->post('giftAdonation', [DonationController::cl
 
 Route::controller(InkindDonationController::class)->group(function(){
 
-Route::middleware('auth:sanctum')->post('showAllInkindDonations', [InkindDonationController::class, 'showAllInkindDonations'])->name('user.showAllInkindDonations')->middleware('can:showAllInkindDonations');
+Route::middleware('auth:sanctum')->get('showAllInkindDonations', [InkindDonationController::class, 'showAllInkindDonations'])->name('user.showAllInkindDonations')->middleware('can:showAllInkindDonations');
 
+//in-kind donation id
+Route::middleware('auth:sanctum')->get('showInkindDonationDetails/{id}', [InkindDonationController::class, 'showInkindDonationDetails'])->name('user.showInkindDonationDetails')->middleware('can:showInkindDonationDetails');
+
+//location name
+Route::middleware('auth:sanctum')->get('searchForNearestInkindDonation/{location}', [InkindDonationController::class, 'searchForNearestInkindDonation'])->name('user.searchForNearestInkindDonation')->middleware('can:searchForNearestInkindDonation');
+
+Route::middleware('auth:sanctum')->post('addInkindDonation', [InkindDonationController::class, 'addInkindDonation'])->name('user.addInkindDonation')->middleware('can:addInkindDonation');
 });
 
 
