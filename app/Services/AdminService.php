@@ -346,4 +346,21 @@ public function EnvironmentalAssociationsCampaigns($association_id , $campaignSt
          return ['campaign' => $compaingAll, 'message' => $message];
 }
 
+public function AssociationAdmin ($association_id) {
+    $association = Association:: firstWhere('id', $association_id);
+    $admin_id = $association -> association_owner_id;
+    $admin = User:: firstWhere('id', $admin_id );
+
+ $adminDet = [];
+ $adminDet[] = [
+                  'id' =>  $admin->id,
+                  'name' => $admin->name,
+                  'email' => $admin->email,
+                  'phone' => $admin->phone,
+ ];
+
+        $message = 'Your admin retrived sucessfully';
+        return ['admin' => $adminDet, 'message' => $message];
+}
+
 }
