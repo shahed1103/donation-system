@@ -43,10 +43,6 @@ class AssociationCompaignsService
             }
 
             $campaigns = $allAssocCampaigns->where('campaign_status_id', 1);
-            //  $campaigns = AssociationCampaign::with(['classification', 'campaignStatus'])
-            // ->where('campaign_status_id', 1)
-            // ->where('classification_id', $id)
-            // ->get();
 
          $compaingAll = [];
 

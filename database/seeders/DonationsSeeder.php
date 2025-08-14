@@ -8,12 +8,14 @@ use App\Models\Donation;
 class DonationsSeeder extends Seeder
 {
     public function run(): void
-    {
-        for ($i = 0; $i < 30; $i++) {
+    {//8 50000
+        $campaign_id = [1,2,2,4,1,6,4,8,9,10,9];
+        $amount = [1000 , 1000 , 1100 , 10000 , 1000 , 2000 , 10000 , 50000 , 2000 , 1000 , 3000];
+        for ($i = 0; $i < 11; $i++) {
             Donation::create([
                 'user_id' => rand(1, 5),
-                'campaign_id' => rand(1, 11), 
-                'amount' => rand(10, 500),
+                'campaign_id' =>  $campaign_id[$i], 
+                'amount' => $amount[$i],
             ]);
         }
     }

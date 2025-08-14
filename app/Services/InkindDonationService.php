@@ -109,7 +109,8 @@ class InkindDonationService
          'status_of_donation_id' => $request->status_of_donation_id,
          'center_id' => $request->center_id,
          'amount' => $request->amount,
-         'owner_id' => $user->id
+         'owner_id' => $user->id ,
+         'inkindDonation_acceptence_id' => 1
       ]);
 
         $inlinkindDonationDet = [];

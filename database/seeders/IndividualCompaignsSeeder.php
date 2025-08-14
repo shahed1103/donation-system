@@ -66,6 +66,8 @@ class IndividualCompaignsSeeder extends Seeder
         $acceptance_status_ids = [1, 2, 3 , 2 , 1, 2, 3 , 2 , 1, 2, 3]; // Under review, Approved, Rejected
         $campaign_status_ids = [2, 1, 2 , 3 , 2, 1, 2 , 3 , 2, 1, 2 ]; // Active, Closed, Complete
         $emergency_level = [1,2,2,5,3,2,3,5,4,1,4];
+        $amount_required = [70000,50000,100000,20000,30000,20000,30000,50000,40000,100000,40000];
+
 
         for ($i = 0; $i < 11; $i++) {
         $startTime = null;
@@ -81,7 +83,7 @@ class IndividualCompaignsSeeder extends Seeder
                 'description' => $descriptions[$i],
                 'classification_id' => $classification_ids[$i],
                 'location' => $locations[$i],
-                'amount_required' => rand(500, 10000),
+                'amount_required' => $amount_required[$i],
                 'user_id' => rand(1, 5),
                 'photo_id' => rand(...$photoRanges[$classification_ids[$i]]),
                 'acceptance_status_id' => $acceptance_status_ids[$i],
@@ -91,7 +93,6 @@ class IndividualCompaignsSeeder extends Seeder
                 'compaigns_time' => rand(7, 30),
                 'emergency_level' => $emergency_level[$i],
 
-                
             ]);
         }
     }

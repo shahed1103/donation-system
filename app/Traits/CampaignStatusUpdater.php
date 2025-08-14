@@ -8,6 +8,10 @@ trait CampaignStatusUpdater
 {
     public function updateStatus($type)
     {
+        if ($type === 'individual' && !in_array($this->acceptance_status_id, [2])) {
+        return;
+        }
+
         if ($type === 'individual') {
             $donated = $this->donations()->sum('amount');
         } elseif ($type === 'association') {

@@ -16,17 +16,17 @@ class DonationAssociationCampaignsSeeder extends Seeder
     public function run(): void
     {
         $userIds = User::pluck('id')->toArray();
-        $campaignIds = AssociationCampaign::pluck('id')->toArray();
+        $campaignIds = [1,2,3,4];
 
         if (empty($userIds) || empty($campaignIds)) {
             return;
         }
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             DonationAssociationCampaign::create([
                 'user_id' => $userIds[array_rand($userIds)],
-                'association_campaign_id' => $campaignIds[array_rand($campaignIds)],
-                'amount' => rand(100, 1000),
+                'association_campaign_id' => $campaignIds[$i],
+                'amount' => rand(500, 1000),
             ]);
         }
     }

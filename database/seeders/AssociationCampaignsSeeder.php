@@ -66,7 +66,7 @@ class AssociationCampaignsSeeder extends Seeder
             'Riyadh', 'Jeddah', 'Dammam', 'Mecca',
         ];
 
-        $amounts = [5000, 3000, 2000, 4000];
+        $amounts = [50000, 30000, 20000, 40000];
         $emergency_level = [1,2,2,5];
 
         $classificationIds = [1, 1, 3, 4]; 
