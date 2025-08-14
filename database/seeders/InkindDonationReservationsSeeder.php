@@ -16,15 +16,21 @@ class InkindDonationReservationsSeeder extends Seeder
         ];
 
         $inkind_donation_id = [
-            1,
-            1,
+            2,
+            3,
             2
         ];
 
         $status_id = [
             1, // قيد الانتظار
-            2, // تمت الموافقة
+            2, // تم الاستلام
             1  // قيد الانتظار
+        ];
+
+        $amount = [
+            1,
+            2,
+            3
         ];
 
         for ($i = 0; $i < count($user_id); $i++) {
@@ -32,6 +38,7 @@ class InkindDonationReservationsSeeder extends Seeder
                 'user_id'            => $user_id[$i],
                 'inkind_donation_id' => $inkind_donation_id[$i],
                 'status_id'          => $status_id[$i],
+                'amount'             => $amount[$i]
             ]);
         }
     }

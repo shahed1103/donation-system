@@ -16,6 +16,7 @@ return new class extends Migration
         $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         $table->foreignId('inkind_donation_id')->constrained('inkind_donations')->onDelete('cascade');
         $table->foreignId('status_id')->constrained('reservation_statuses')->onDelete('cascade');
+        $table->string('amount');
         $table->timestamps();
 
         $table->unique(['user_id', 'inkind_donation_id']);

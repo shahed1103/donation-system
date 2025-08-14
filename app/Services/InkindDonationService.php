@@ -22,7 +22,7 @@ class InkindDonationService
    public function showAllInkindDonations(): array{
      $InkindDonationsAll = [];
 
-     $allInkindDonations = InkindDonation::all();
+     $allInkindDonations = InkindDonation::where('inkindDonation_acceptence_id' , 2)->get();
         foreach ($allInkindDonations as $allInkindDonation) {
             $photos = [];
 
@@ -56,6 +56,7 @@ class InkindDonationService
                      'photo' => url(Storage::url($inkindDonationPhoto->photo)), 
                   ];
             }
+         $reserved_amount = $inkindDonation->reservations->sum('amount');
 
                $inkindDonationDet[] = [
                   'donation_type_id' => ['id' => $inkindDonation->donation_type_id , 'donation_type' => $inkindDonation->donationType->donation_Type ],
@@ -64,6 +65,8 @@ class InkindDonationService
                   'status_of_donation_id' => ['id' => $inkindDonation->status_of_donation_id , 'status_of_donation' => $inkindDonation->statusOfDonation->status ],
                   'center_id' => ['id' => $inkindDonation->center_id , 'center_name' => $inkindDonation->center->center_name],
                   'amount' => $inkindDonation->amount,
+                  'reserved_amount' => $reserved_amount,
+                  'unreserved_amount' => $inkindDonation->amount - $reserved_amount ,
                   'photo' => $photos
                ];        
 
@@ -71,11 +74,11 @@ class InkindDonationService
          return ['Inkind Donation Details' => $inkindDonationDet, 'message' => $message];
    }
 
-    //show details for in-kind donation
+    //search for in-kind donation
     public function searchForNearestInkindDonation($location): array{
       $centers = Center::where('location', 'like', '%' . $location . '%')->pluck('id');
 
-      $inlinkindDonations = InkindDonation::whereIn('center_id' , $centers)->get();
+      $inlinkindDonations = InkindDonation::whereIn('center_id' , $centers)->where('inkindDonation_acceptence_id' , 2)->get();
       $InkindDonationsAll = [];
 
       foreach ($inlinkindDonations as $inlinkindDonation) {
@@ -137,12 +140,13 @@ class InkindDonationService
       }
 
     //reserve in-kind donation
-    public function reserveInkindDonation($id): array{
+    public function reserveInkindDonation($request , $id): array{
       $user = Auth::user();
 
       $reserveInkinfDonation = InkindDonationReservation::create([
          'user_id' => $user->id,
          'inkind_donation_id' => $id,
+         'amount' => $request->amount,
          'status_id' => 1,
       ]);
 

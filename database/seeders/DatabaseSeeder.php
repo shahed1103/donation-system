@@ -94,7 +94,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             StatusOfDonationsSeeder::class]);
-            
+
+        $this->call([
+            InkindDonationAcceptenceStatusesSeeder::class]); 
+                       
         $this->call([
             InkindDonationsSeeder::class]);
 

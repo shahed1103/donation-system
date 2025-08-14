@@ -16,7 +16,8 @@ class InkindDonation extends Model
         'description',
         'status_of_donation_id',
         'center_id',
-        'owner_id'
+        'owner_id',
+        'inkindDonation_acceptence_id'
     ];
 
     public function donationType(){
@@ -29,6 +30,10 @@ class InkindDonation extends Model
 
     public function statusOfDonation(){
         return $this->belongsTo(StatusOfDonation::class);
+    }
+
+    public function statusOfAcceptence(){
+        return $this->belongsTo(InkindDonationAcceptence::class);
     }
 
     public function inkindDonationPhotos(){

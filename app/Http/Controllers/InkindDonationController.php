@@ -9,6 +9,7 @@ use App\Services\InkindDonationService;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
 use App\Http\Requests\InkindDonation\AddInkindDonationRequest;
+use App\Http\Requests\InkindDonation\ReserveInkindDonationAmountRequest;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
 
@@ -81,10 +82,10 @@ class InkindDonationController extends Controller
     }
 
     //reserve in-kind donation
-    public function reserveInkindDonation($id):JsonResponse {
+    public function reserveInkindDonation(ReserveInkindDonationAmountRequest $request , $id):JsonResponse {
         $data = [] ;
         try{
-            $data = $this->inkindDonationService->reserveInkindDonation($id);
+            $data = $this->inkindDonationService->reserveInkindDonation($request , $id);
            return Response::Success($data['Inkind Donation'], $data['message']);
         }
         catch(Throwable $th){

@@ -20,6 +20,9 @@ return new class extends Migration
             $table->foreignId('status_of_donation_id')->constrained('status_of_donations')->onDelete('cascade');
             $table->foreignId('center_id')->constrained('centers')->onDelete('cascade');
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade'); 
+            $table->foreignId('inkindDonation_acceptence_id')->constrained('inkind_donation_acceptences')->onDelete('cascade'); 
+
+            
             $table->timestamps();
         });
     }

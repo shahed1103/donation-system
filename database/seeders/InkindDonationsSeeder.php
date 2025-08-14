@@ -27,7 +27,7 @@ class InkindDonationsSeeder extends Seeder
         $amount = [
             40,
             25,
-            5,
+            23,
         ];
 
         $description = [
@@ -54,6 +54,8 @@ class InkindDonationsSeeder extends Seeder
             7,
         ];
 
+        $inkindDonation_acceptence_id = [1,2,2];
+
         for ($i = 0; $i < count($donation_type_id); $i++) {
             InkindDonation::create([
                 'donation_type_id'      => $donation_type_id[$i],
@@ -62,7 +64,9 @@ class InkindDonationsSeeder extends Seeder
                 'description'           => $description[$i],
                 'status_of_donation_id' => $status_of_donation_id[$i],
                 'center_id'             => $center_id[$i],
-                'owner_id'              => $owner_id[$i]
+                'owner_id'              => $owner_id[$i],
+                'inkindDonation_acceptence_id' => $inkindDonation_acceptence_id[$i]
+                
             ]);
         }
     }
