@@ -19,7 +19,7 @@ return new class extends Migration
         $table->string('amount');
         $table->timestamps();
 
-        $table->unique(['user_id', 'inkind_donation_id']);
+        // $table->unique(['user_id', 'inkind_donation_id']);
         });
     }
 

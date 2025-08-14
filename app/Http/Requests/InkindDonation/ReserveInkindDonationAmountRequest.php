@@ -34,14 +34,14 @@ class ReserveInkindDonationAmountRequest extends FormRequest
             'min:1',
             function ($attribute, $value, $fail) {
 
-                $inkindDonationId = $this->route('id');
+                $inkindDonationId =  $this->route('id');  
 
                 $inkindDonation = InkindDonation::with('reservations')->find($inkindDonationId);
                 $amountReserved = $inkindDonation->reservations->sum('amount');
                 $amountUnReserved = $inkindDonation->amount -  $amountReserved;          
      
              if ($value > $amountUnReserved) {
-                    return $fail("there is only $amountUnReserve amount , reserve with this amount or less");
+                    return $fail("there is only $amountUnReserved amount , reserve with this amount or less");
                 }
             },
 

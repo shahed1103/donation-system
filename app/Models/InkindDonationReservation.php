@@ -4,15 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\InkindDonationReservationUpdater;
+
 
 class InkindDonationReservation extends Model
 {
     use HasFactory;
+    use InkindDonationReservationUpdater;
 
     protected $fillable = [
         'user_id',
         'inkind_donation_id',
         'status_id',
+        'amount'
     ];
 
     public function user() {

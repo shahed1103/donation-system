@@ -213,7 +213,7 @@ Route::middleware('auth:sanctum')->get('showAllInkindDonations', [InkindDonation
 Route::middleware('auth:sanctum')->get('showInkindDonationDetails/{id}', [InkindDonationController::class, 'showInkindDonationDetails'])->name('user.showInkindDonationDetails')->middleware('can:showInkindDonationDetails');
 
 //in-kind donation id
-Route::middleware('auth:sanctum')->get('reserveInkindDonation/{id}', [InkindDonationController::class, 'reserveInkindDonation'])->name('user.reserveInkindDonation')->middleware('can:reserveInkindDonation');
+Route::middleware('auth:sanctum')->post('reserveInkindDonation/{id}', [InkindDonationController::class, 'reserveInkindDonation'])->name('user.reserveInkindDonation')->middleware('can:reserveInkindDonation');
 
 //location name
 Route::middleware('auth:sanctum')->get('searchForNearestInkindDonation/{location}', [InkindDonationController::class, 'searchForNearestInkindDonation'])->name('user.searchForNearestInkindDonation')->middleware('can:searchForNearestInkindDonation');

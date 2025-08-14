@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\InkindDonationUpdater;
 
 class InkindDonation extends Model
 {
          use HasFactory;
-
+         use InkindDonationUpdater;
+         
         protected $fillable = [
         'donation_type_id',
         'name_of_donation',

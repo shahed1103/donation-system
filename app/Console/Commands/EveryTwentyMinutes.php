@@ -4,7 +4,9 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\IndCompaign;
+use App\Models\InkindDonation;
 use App\Models\AssociationCampaign;
+use App\Models\InkindDonationReservation;
 
 class EveryTwentyMinutes extends Command
 {
@@ -34,6 +36,14 @@ class EveryTwentyMinutes extends Command
     AssociationCampaign::all()->each(function ($campaign) {
         $campaign->updateStatus('association');
     });
-            \Log::info('تم تشغيل المهمة المجدولة كل 20 دقيقة');
+
+    InkindDonation::all()->each(function ($inkindDonation) {
+        $inkindDonation->updateinkindDonations();
+    });
+
+    InkindDonationReservation::all()->each(function ($inkindDonationReservation) {
+        $inkindDonationReservation->updateinkindDonationsReservation();
+    });
+    
     }
 }

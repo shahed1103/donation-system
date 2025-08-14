@@ -14,9 +14,9 @@ class InkindDonationAcceptenceStatusesSeeder extends Seeder
      */
     public function run(): void
     {
-        $status = ['قيد الانتظار' , 'مقبول' ];
+        $status = ['قيد الانتظار' , 'مقبول' , 'منتهي'];
 
-        for ($i=0; $i < 2 ; $i++) {
+        for ($i=0; $i < 3 ; $i++) {
             InkindDonationAcceptence::query()->create([
            'status' => $status[$i] ,
             ]); }

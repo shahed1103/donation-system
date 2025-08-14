@@ -12,7 +12,6 @@ class ReservationStatusesSeeder extends Seeder
         $names = [
             'قيد الانتظار',  // pending
             'تم الاستلام'  ,   // received
-            'ملغي',           // cancelled
         ];
 
         for ($i = 0; $i < count($names); $i++) {
