@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('inkind_donations', function (Blueprint $table) {
             $table->id();
-            $table->integer('donation_type_id')->unsigned();
+            $table->foreignId('donation_type_id')->constrained('donation_types')->onDelete('cascade');
             $table->string('name_of_donation');
             $table->integer('amount');
             $table->text('description');
-            $table->integer('status_of_donation_id')->unsigned();
-            $table->integer('center_id')->unsigned();
+            $table->foreignId('status_of_donation_id')->constrained('status_of_donations')->onDelete('cascade');
+            $table->foreignId('center_id')->constrained('centers')->onDelete('cascade');
+            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade'); 
             $table->timestamps();
         });
     }

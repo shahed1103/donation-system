@@ -4,6 +4,12 @@ namespace App\Services;
 
 
 use App\Models\InkindDonation;
+use Illuminate\Support\Facades\Auth;
+use App\Models\InkindDonationPhoto;
+use App\Models\InkindDonationReservation;
+use App\Models\StatusOfDonation;
+use App\Models\DonationType;
+
 use App\Models\Center;
 
 use Storage;
@@ -95,6 +101,7 @@ class InkindDonationService
 
     //add in-kind donation
     public function addInkindDonation($request): array{
+      $user = Auth::user();
       $inlinkindDonation = InkindDonation::create([
          'donation_type_id' => $request->donation_type_id,
          'name_of_donation' => $request->name_of_donation,
@@ -102,11 +109,15 @@ class InkindDonationService
          'status_of_donation_id' => $request->status_of_donation_id,
          'center_id' => $request->center_id,
          'amount' => $request->amount,
+         'owner_id' => $user->id
       ]);
 
+        $inlinkindDonationDet = [];
+        $inlinkindDonationDet ['in-kind donation'] = $inlinkindDonation;
+
         $photo_paths = [];
-        if ($request->hasFile('photo')) {
-            foreach ($request->file('photo') as $photo) {
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
                 $path = $photo->store('uploads/inkindDonations', 'public');
                 $fullPath = url(Storage::url($path));
 
@@ -117,8 +128,58 @@ class InkindDonationService
 
                 $photo_paths [] = $fullPath;
             }
+         $inlinkindDonationDet ['photos'] = $photo_paths;
+
         }
          $message = 'in-kind donation added successfully';
-         return ['Inkind Donation' => $inlinkindDonation + $photo_paths , 'message' => $message];
+         return ['Inkind Donation' => $inlinkindDonationDet  , 'message' => $message];
       }
+
+    //reserve in-kind donation
+    public function reserveInkindDonation($id): array{
+      $user = Auth::user();
+
+      $reserveInkinfDonation = InkindDonationReservation::create([
+         'user_id' => $user->id,
+         'inkind_donation_id' => $id,
+         'status_id' => 1,
+      ]);
+
+      $message = 'in-kind donation reserved successfully';
+      return ['Inkind Donation' => $reserveInkinfDonation  , 'message' => $message];
+
    }
+
+    //1 view all centers
+    public function getCenter():array{
+        $center = Center::all();
+        foreach ($center as $cent) {
+            $center_name [] = ['id' => $cent->id  , 'center_name' => $cent->center_name];
+        }
+        $message = 'all centers are retrived successfully';
+
+        return ['center' =>  $center_name , 'message' => $message];
+     }
+
+    //2 view all in-kind donations types
+    public function getInkindDonationTypes():array{
+        $donationType = DonationType::all();
+        foreach ($donationType as $donationTy) {
+            $donation_type [] = ['id' => $donationTy->id  , 'donation_type' => $donationTy->donation_Type];
+        }
+        $message = 'all in-kind donations types are retrived successfully';
+
+        return ['donation_type' =>  $donation_type , 'message' => $message];
+     }
+
+    //3 view all in-kind donation statues of object
+    public function getStatusOfDonation():array{
+        $statusOfDonation = StatusOfDonation::all();
+        foreach ($statusOfDonation as $StatusOfDonat) {
+            $status_Of_donation [] = ['id' => $StatusOfDonat->id  , 'status_Of_donation' => $StatusOfDonat->status];
+        }
+        $message = 'all status Of donation are retrived successfully';
+
+        return ['status_Of_donation' =>  $status_Of_donation , 'message' => $message];
+     }
+}

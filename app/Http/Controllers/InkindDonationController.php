@@ -8,6 +8,7 @@ use App\Http\Responses\response;
 use App\Services\InkindDonationService;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
+use App\Http\Requests\InkindDonation\AddInkindDonationRequest;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
 
@@ -66,7 +67,7 @@ class InkindDonationController extends Controller
     }
 
     //add in-kind donation
-    public function addInkindDonation($request): JsonResponse {
+    public function addInkindDonation(AddInkindDonationRequest $request): JsonResponse {
         $data = [] ;
         try{
             $data = $this->inkindDonationService->addInkindDonation($request);
@@ -79,4 +80,59 @@ class InkindDonationController extends Controller
         }
     }
 
+    //reserve in-kind donation
+    public function reserveInkindDonation($id):JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->inkindDonationService->reserveInkindDonation($id);
+           return Response::Success($data['Inkind Donation'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
     }
+
+    //1 view all centers
+    public function getCenter():JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->inkindDonationService->getCenter();
+           return Response::Success($data['center'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+    //2 view all in-kind donations types
+    public function getInkindDonationTypes():JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->inkindDonationService->getInkindDonationTypes();
+           return Response::Success($data['donation_type'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+
+    //3 view all in-kind donation statues of object
+    public function getStatusOfDonation():JsonResponse {
+        $data = [] ;
+        try{
+            $data = $this->inkindDonationService->getStatusOfDonation();
+           return Response::Success($data['status_Of_donation'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+}

@@ -16,6 +16,7 @@ class InkindDonation extends Model
         'description',
         'status_of_donation_id',
         'center_id',
+        'owner_id'
     ];
 
     public function donationType(){
@@ -32,5 +33,22 @@ class InkindDonation extends Model
 
     public function inkindDonationPhotos(){
         return $this->hasMany(InkindDonationPhoto::class);
+    }
+
+    public function owner() {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function reservations() {
+        return $this->hasMany(InkindDonationReservation::class, 'inkind_donation_id');
+    }
+    
+    public function reservers() {
+        return $this->belongsToMany(
+            User::class,
+            'inkind_donation_reservations',
+            'inkind_donation_id',
+            'user_id'
+        );
     }
 }

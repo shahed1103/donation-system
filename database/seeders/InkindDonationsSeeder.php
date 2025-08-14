@@ -48,6 +48,12 @@ class InkindDonationsSeeder extends Seeder
             1, // مركز الهلال الأحمر
         ];
 
+        $owner_id = [
+            5,
+            6,
+            7,
+        ];
+
         for ($i = 0; $i < count($donation_type_id); $i++) {
             InkindDonation::create([
                 'donation_type_id'      => $donation_type_id[$i],
@@ -56,6 +62,7 @@ class InkindDonationsSeeder extends Seeder
                 'description'           => $description[$i],
                 'status_of_donation_id' => $status_of_donation_id[$i],
                 'center_id'             => $center_id[$i],
+                'owner_id'              => $owner_id[$i]
             ]);
         }
     }

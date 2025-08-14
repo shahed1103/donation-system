@@ -100,4 +100,20 @@ use HasApiTokens, HasFactory, Notifiable , HasRoles;
         return $this->hasOne(Wallet::class);
     }
 
+    public function addedInkindDonations() {
+    return $this->hasMany(InkindDonation::class, 'owner_id');
+    }
+
+    public function reservedInkindDonations() {
+        return $this->belongsToMany(
+            InkindDonation::class,
+            'inkind_donation_reservations',
+            'user_id',
+            'inkind_donation_id'
+        );
+    }
+
+    public function reservations() {
+        return $this->hasMany(InkindDonationReservation::class, 'user_id');
+    }
 }

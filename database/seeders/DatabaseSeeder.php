@@ -93,10 +93,16 @@ class DatabaseSeeder extends Seeder
             InkindDonationPhotosSeeder::class]);
 
         $this->call([
+            StatusOfDonationsSeeder::class]);
+            
+        $this->call([
             InkindDonationsSeeder::class]);
 
         $this->call([
-            StatusOfDonationsSeeder::class]);}
-
+            ReservationStatusesSeeder::class]);
+        
+        $this->call([
+            InkindDonationReservationsSeeder::class]);
+        }
 
 }

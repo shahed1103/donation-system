@@ -34,7 +34,7 @@ class RolesPermissionsSeeder extends Seeder
             'viewMyIndiviCompa' , 'viewIndiviCompa' , 'showIndiviCampaignDetails' , 'searchCampaigns' , 'emergencyCompaings' , 'totalDonationsByYearMob',
             'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' , 'showAllInkindDonations',
             'editPersonalInfo' , 'createWallet' , 'showWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails' , 'showInkindDonationDetails',
-            'searchForNearestInkindDonation' , 'addInkindDonation'
+            'searchForNearestInkindDonation' , 'addInkindDonation' , 'reserveInkindDonation' , 'getCenter' , 'getInkindDonationTypes' , 'getStatusOfDonation'
         ];
 
         foreach ($permissions as $permissionName) {
@@ -49,7 +49,7 @@ class RolesPermissionsSeeder extends Seeder
         'editPersonalInfo' , 'createWallet' , 'showWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails',
         'myVoluntings' , 'updateVoluntingProfile' , 'showVoluntingProfile' , 'showVoluntingProfileDetails', 'giftAdonation' , 'countAssociationsMob',
         'voluntingRequest' , 'upComingTasks' , 'editTaskStatus' , 'getUnderReviewIndiviCampaignDetailsMob' , 'showRejectedIndiviCampaignDetails' , 'showInkindDonationDetails',
-        'searchForNearestInkindDonation' , 'addInkindDonation'
+        'searchForNearestInkindDonation' , 'addInkindDonation' , 'reserveInkindDonation'
         ]);
 
         // 3. Assign permissions

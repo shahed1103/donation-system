@@ -212,10 +212,23 @@ Route::middleware('auth:sanctum')->get('showAllInkindDonations', [InkindDonation
 //in-kind donation id
 Route::middleware('auth:sanctum')->get('showInkindDonationDetails/{id}', [InkindDonationController::class, 'showInkindDonationDetails'])->name('user.showInkindDonationDetails')->middleware('can:showInkindDonationDetails');
 
+//in-kind donation id
+Route::middleware('auth:sanctum')->get('reserveInkindDonation/{id}', [InkindDonationController::class, 'reserveInkindDonation'])->name('user.reserveInkindDonation')->middleware('can:reserveInkindDonation');
+
 //location name
 Route::middleware('auth:sanctum')->get('searchForNearestInkindDonation/{location}', [InkindDonationController::class, 'searchForNearestInkindDonation'])->name('user.searchForNearestInkindDonation')->middleware('can:searchForNearestInkindDonation');
 
 Route::middleware('auth:sanctum')->post('addInkindDonation', [InkindDonationController::class, 'addInkindDonation'])->name('user.addInkindDonation')->middleware('can:addInkindDonation');
+
+Route::get('getCenter' , 'getCenter')
+->name('all.getCenter');
+
+Route::get('getInkindDonationTypes' , 'getInkindDonationTypes')
+->name('all.getInkindDonationTypes');
+
+Route::get('getStatusOfDonation' , 'getStatusOfDonation')
+->name('all.getStatusOfDonation');
+
 });
 
 
