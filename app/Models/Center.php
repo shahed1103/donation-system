@@ -12,6 +12,8 @@ class Center extends Model
         protected $fillable = [
         'center_name',
         'location',
+              'space' ,
+                'have_frez' 
     ];
 
     public function inkindDonations(){

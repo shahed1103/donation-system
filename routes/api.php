@@ -232,73 +232,90 @@ Route::get('getStatusOfDonation' , 'getStatusOfDonation')
 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Route::controller(SuperAdminController::class)->group(function(){
 Route::get('countAssociations' , 'countAssociations')
-    ->name('super_admin.countAssociations');
+    ->name('superAdmin.countAssociations');
 
 Route::get('lastNewUsers' , 'lastNewUsers')
-->name('super_admin.lastNewUsers');
+->name('superAdmin.lastNewUsers');
 
 Route::get('getUserCountsLastFiveYears' , 'getUserCountsLastFiveYears')
-->name('super_admin.getUserCountsLastFiveYears');
+->name('superAdmin.getUserCountsLastFiveYears');
 
 Route::get('getTotalCampaignsCountByYear/{year}' , 'getTotalCampaignsCountByYear')
-->name('super_admin.getTotalCampaignsCountByYear');
+->name('superAdmin.getTotalCampaignsCountByYear');
 
 Route::get('getUserCountsByRoleByYear/{year}' , 'getUserCountsByRoleByYear')
-->name('super_admin.getUserCountsByRoleByYear');
+->name('superAdmin.getUserCountsByRoleByYear');
 
 Route::get('usersCountByYear/{year}' , 'usersCountByYear')
-->name('super_admin.usersCountByYear');
+->name('superAdmin.usersCountByYear');
 
 Route::get('totalDonationsByYear/{year}' , 'totalDonationsByYear')
-->name('super_admin.totalDonationsByYear');
+->name('superAdmin.totalDonationsByYear');
 
 Route::get('getCityDonationPercentagesByYear/{year}' , 'getCityDonationPercentagesByYear')
-->name('super_admin.getCityDonationPercentagesByYear');
+->name('superAdmin.getCityDonationPercentagesByYear');
 
 Route::get('getMonthlyDonationsByYear/{year}' , 'getMonthlyDonationsByYear')
-->name('super_admin.getMonthlyDonationsByYear');
+->name('superAdmin.getMonthlyDonationsByYear');
 
 Route::get('getEndedCampaignsCountByYear/{year}' , 'getEndedCampaignsCountByYear')
-->name('super_admin.getEndedCampaignsCountByYear');
+->name('superAdmin.getEndedCampaignsCountByYear');
 
-Route::get('getDonorsAndVolunteers/{year}' , 'getDonorsAndVolunteers')
-->name('super_admin.getDonorsAndVolunteers');
+Route::get('getClients' , 'getClients')
+->name('superAdmin.getClients');
 
 Route::get('getTeamLeaders' , 'getTeamLeaders')
-->name('super_admin.getTeamLeaders');
+->name('superAdmin.getTeamLeaders');
 
 Route::post('createLeader' , 'createLeader')
-->name('super_admin.createLeader');
+->name('superAdmin.createLeader');
 
 Route::get('deleteLeader/{id}' , 'deleteLeader')
-->name('super_admin.deleteLeader');
+->name('superAdmin.deleteLeader');
 
 });
 
 
 Route::controller(SuperAdminAssociationCompaignsController::class)->group(function(){
     Route::get('getAssociations' , 'getAssociations')
-->name('super_admin.getAssociations');
+->name('superAdmin.getAssociations');
 
     Route::get('getAssociationsCampaignsActive/{id}' , 'getAssociationsCampaignsActive')
-->name('super_admin.getAssociationsCampaignsActive');
+->name('superAdmin.getAssociationsCampaignsActive');
 
     Route::get('getAssociationCompaingsComplete/{id}' , 'getAssociationCompaingsComplete')
-->name('super_admin.getAssociationCompaingsComplete');
+->name('superAdmin.getAssociationCompaingsComplete');
 
     Route::get('getAssociationCompaingsClosed/{id}' , 'getAssociationCompaingsClosed')
-->name('super_admin.getAssociationCompaingsClosed');
+->name('superAdmin.getAssociationCompaingsClosed');
 
     Route::get('getCampaignDetails/{id}' , 'getCampaignDetails')
-->name('super_admin.getCampaignDetails');
+->name('superAdmin.getCampaignDetails');
 
     Route::get('getDetails/{id}' , 'getDetails')
-->name('super_admin.getDetails');
+->name('superAdmin.getDetails');
 
     Route::post('addAssociation' , 'addAssociation')
-->name('super_admin.addAssociation');
+->name('superAdmin.addAssociation');
 
 
 });
@@ -308,31 +325,31 @@ Route::controller(SuperAdminAssociationCompaignsController::class)->group(functi
 Route::controller(SuperAdminIndividualCompaignsController::class)->group(function(){
 
     Route::get('getClosedRejectedIndiviCampaigns' , 'getClosedRejectedIndiviCampaigns')
-->name('super_admin.getClosedRejectedIndiviCampaigns');
+->name('superAdmin.getClosedRejectedIndiviCampaigns');
 
     Route::get('getClosedPendingIndiviCampaigns' , 'getClosedPendingIndiviCampaigns')
-->name('super_admin.getClosedPendingIndiviCampaigns');
+->name('superAdmin.getClosedPendingIndiviCampaigns');
 
     Route::get('getCompleteIndiviCompaign' , 'getCompleteIndiviCompaign')
-->name('super_admin.getCompleteIndiviCompaign');
+->name('superAdmin.getCompleteIndiviCompaign');
 
     Route::get('getActiveIndiviCompaign' , 'getActiveIndiviCompaign')
-->name('super_admin.getActiveIndiviCompaign');
+->name('superAdmin.getActiveIndiviCompaign');
 
     Route::get('getActiveCompleteIndiviCampaignDetails/{id}' , 'getActiveCompleteIndiviCampaignDetails')
-->name('super_admin.getActiveCompleteIndiviCampaignDetails');
+->name('superAdmin.getActiveCompleteIndiviCampaignDetails');
 
     Route::post('updateAcceptanceStatus/{id}' , 'updateAcceptanceStatus')
-->name('super_admin.updateAcceptanceStatus');
+->name('superAdmin.updateAcceptanceStatus');
 
     Route::get('getClosedIndiviCampaignDetails/{id}' , 'getClosedIndiviCampaignDetails')
-->name('super_admin.getClosedIndiviCampaignDetails');
+->name('superAdmin.getClosedIndiviCampaignDetails');
 
     Route::get('getLeaderForm/{id}' , 'getLeaderForm')
-->name('super_admin.getLeaderForm');
+->name('superAdmin.getLeaderForm');
 
     Route::get('getUnderReviewIndiviCampaignDetails/{campaignId}' , 'getUnderReviewIndiviCampaignDetails')
-->name('super_admin.getUnderReviewIndiviCampaignDetails');
+->name('superAdmin.getUnderReviewIndiviCampaignDetails');
 
 
 
@@ -340,8 +357,8 @@ Route::controller(SuperAdminIndividualCompaignsController::class)->group(functio
 
 
 Route::controller(LeaderController::class)->group(function(){
-Route::middleware('auth:sanctum')->get('UnderReviewIndiviCompaign', [LeaderController::class, 'UnderReviewIndiviCompaign'])->name('super_admin.UnderReviewIndiviCompaign');
-Route::middleware('auth:sanctum')->post('addLeaderForm/{id}', [LeaderController::class, 'addLeaderForm'])->name('super_admin.addLeaderForm');
+Route::middleware('auth:sanctum')->get('UnderReviewIndiviCompaign', [LeaderController::class, 'UnderReviewIndiviCompaign'])->name('superAdmin.UnderReviewIndiviCompaign');
+Route::middleware('auth:sanctum')->post('addLeaderForm/{id}', [LeaderController::class, 'addLeaderForm'])->name('superAdmin.addLeaderForm');
 
 });
 

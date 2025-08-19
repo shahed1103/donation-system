@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('centers', function (Blueprint $table) {
+        Schema::create('centers', function (Blueprint $table)
+         {
             $table->id();
             $table->string('center_name');
             $table->string('location');
+            $table->integer('space')->default(100);
+            $table-> boolean ('have_frez');
             $table->timestamps();
         });
     }

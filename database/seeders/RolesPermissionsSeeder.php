@@ -26,6 +26,7 @@ class RolesPermissionsSeeder extends Seeder
 
         // 2. Create permissions
         $permissions = [
+            'countAssociations', 'getTotalCampaignsCountByYear', 'getUserCountsByRoleByYear',
             'getClassification', 'getUnderReviewIndiviCampaignDetails', 'showRejectedIndiviCampaignDetails', 'giftAdonation',
             'getUserCountsLastFiveYears', 'getTotalCampaignsCount', 'countAssociations', 'lastNewUsers' , 'countAssociationsMob',
             'myVoluntings' , 'updateVoluntingProfile' , 'showVoluntingProfile' , 'showVoluntingProfileDetails', 'getUnderReviewIndiviCampaignDetailsMob',
@@ -61,7 +62,7 @@ class RolesPermissionsSeeder extends Seeder
          $targetPath = 'uploads/det/defualtProfilePhoto.png';
 
     Storage::disk('public')->put($targetPath, File::get($sourcePath));
-    
+
         // 4. Create users for each role
         $clientUser = User::factory()->create([
             'role_id' => $clientRole->id,
@@ -87,7 +88,7 @@ class RolesPermissionsSeeder extends Seeder
         $permissions = $clientRole->permissions()->pluck('name')->toArray();
         $clientUser->givePermissionTo($permissions);
 
-        
+
        $admin = User::factory()->create([
             'role_id' => $adminRole->id,
             'gender_id' => 2,
@@ -136,7 +137,7 @@ class RolesPermissionsSeeder extends Seeder
         $leader->givePermissionTo ($permissions);
 
 
-        
+
         // 5. Create additional client users
         $names = ['shahed', 'dana', 'rama', 'yumna', 'rania', 'lana', 'rayan', 'mohammed', 'marwa', 'sawsan'];
         $nationalities = [1, 2, 3, 4, 5, 6, 7, 8, 3, 1];
@@ -149,7 +150,7 @@ class RolesPermissionsSeeder extends Seeder
         $passwords = ['123456789shahed', '123456789dana', '123456789rama', '123456789yumna',
                       '123456789rania', '123456789lana', '123456789rayan', '123456789mohammed',
                       '123456789marwa', '123456789sawsan'];
-        
+
         for ($i = 0; $i < 10; $i++) {
             $user = User::create([
                 'role_id' => $clientRole->id,

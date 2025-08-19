@@ -101,15 +101,15 @@ public function getUserCountsByRoleByYear(int $year): array
     $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
     $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
 
-    $volunteerRoleId = Role::where('name', 'Volunteer')->value('id');
-    $donorRoleId = Role::where('name', 'Donor')->value('id');
+    $clientRole = Role::where('name', 'Client')->value('id');
+    $leaderRole = Role::where('name', 'Leader')->value('id');
     $adminRoleId = Role::where('name', 'Admin')->value('id');
 
-    $volunteerCount = User::where('role_id', $volunteerRoleId)
+    $clientCount = User::where('role_id', $clientRole)
         ->whereBetween('created_at', [$startOfYear, $endOfYear])
         ->count();
 
-    $donorCount = User::where('role_id', $donorRoleId)
+    $leaderCount = User::where('role_id', $leaderRole)
         ->whereBetween('created_at', [$startOfYear, $endOfYear])
         ->count();
 
@@ -118,10 +118,10 @@ public function getUserCountsByRoleByYear(int $year): array
         ->count();
 
     $data = [
-        'volunteers' => $volunteerCount,
-        'donors'     => $donorCount,
+        'client' => $clientCount,
+        'leader'     => $leaderCount,
         'admins'     => $adminCount,
-        'total'      => $volunteerCount + $donorCount + $adminCount,
+        'total'      => $clientCount + $leaderCount + $adminCount,
     ];
 
     $message = "User counts by role for year {$year} retrieved successfully";
@@ -174,11 +174,11 @@ public function getCityDonationPercentagesByYear(int $year): array
     $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
     $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
 
-    $donorRoleId = Role::where('name', 'Donor')->value('id');
+    $clientRoleId = Role::where('name', 'Client')->value('id');
 
     $donations = Donation::join('users', 'donations.user_id', '=', 'users.id')
         ->join('cities', 'users.city_id', '=', 'cities.id')
-        ->where('users.role_id', $donorRoleId)
+        ->where('users.role_id', $clientRoleId)
         ->whereBetween('donations.created_at', [$startOfYear, $endOfYear])
         ->select('cities.name as city_name', DB::raw('SUM(donations.amount) as total'))
         ->groupBy('cities.name')
@@ -229,14 +229,6 @@ public function getMonthlyDonationsByYear(int $year): array
     ];
 }
 
-
-
-
-
-
-
-
-
 ////عدد المستفيدين
 public function getEndedCampaignsCountByYear(int $year): array
 {
@@ -266,16 +258,21 @@ public function getEndedCampaignsCountByYear(int $year): array
 }
 
 
-public function getDonorsAndVolunteers(): array
-{
-    $volunteerRoleId = Role::where('name', 'Volunteer')->value('id');
-    $donorRoleId = Role::where('name', 'Donor')->value('id');
 
-    $users = User::whereIn('role_id', [$volunteerRoleId, $donorRoleId])
+
+
+
+
+
+public function getClients(): array
+{
+    $clientRoleId = Role::where('name', 'Client')->value('id');
+
+    $users = User::whereIn('role_id', [$clientRoleId])
         ->select('name', 'email', 'phone')
         ->get();
 
-    $message = 'Donors and volunteers retrieved successfully';
+    $message = 'clients retrieved successfully';
 
     return [
         'users' => $users,

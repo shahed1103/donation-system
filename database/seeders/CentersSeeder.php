@@ -24,10 +24,23 @@ class CentersSeeder extends Seeder
             'حمص - شارع الدبلان',
         ];
 
+        $space = [
+            '200',
+            '222',
+            '800'
+         ];
+        $have_frez = [
+            '1',
+            '1',
+            '0'
+         ];
+
         for ($i = 0; $i < count($names); $i++) {
             Center::create([
                 'center_name' => $names[$i],
                 'location'    => $locations[$i],
+                'space' => $space[$i],
+                'have_frez' => $have_frez[$i]
             ]);
         }
     }

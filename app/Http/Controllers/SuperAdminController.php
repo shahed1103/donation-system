@@ -65,7 +65,7 @@ public function getUserCountsLastFiveYears(): JsonResponse {
 public function getTotalCampaignsCountByYear($year): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminService->getTotalCampaignsCount($year);
+        $data = $this->superAdminService->getTotalCampaignsCountByYear($year);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -147,10 +147,15 @@ public function getEndedCampaignsCountByYear($year): JsonResponse {
     }
 }
 
-public function getDonorsAndVolunteers(): JsonResponse {
+
+
+
+
+
+public function getClients(): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminService->getDonorsAndVolunteers();
+        $data = $this->superAdminService->getClients();
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
