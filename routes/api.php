@@ -311,11 +311,12 @@ Route::controller(SuperAdminAssociationCompaignsController::class)->group(functi
     Route::get('getCampaignDetails/{id}' , 'getCampaignDetails')
 ->name('superAdmin.getCampaignDetails');
 
-    Route::get('getDetails/{id}' , 'getDetails')
-->name('superAdmin.getDetails');
+    Route::get('getAssociationDetails/{id}' , 'getAssociationDetails')
+->name('superAdmin.getAssociationDetails');
 
     Route::post('addAssociation' , 'addAssociation')
 ->name('superAdmin.addAssociation');
+
 
 
 });

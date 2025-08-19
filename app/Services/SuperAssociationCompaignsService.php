@@ -60,7 +60,8 @@ public function getAssociationsCampaignsActive($association_id): array
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                  'id' =>  $campaign->id,
+                  'association_id' => $association_id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -92,7 +93,8 @@ public function getAssociationCompaingsComplete($association_id): array
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                      'id' =>  $campaign->id,
+                  'association_id' => $association_id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -126,7 +128,8 @@ public function getAssociationCompaingsClosed($association_id): array
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                      'id' =>  $campaign->id,
+                  'association_id' => $association_id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -250,7 +253,6 @@ public function addAssociation($request): array{
                 'location' => $request['location'],
                 'date_start_working' =>  $request['date_start_working'],
                 'date_end_working' => $request['date_end_working'],
-                'compaigns_time' =>  $request['compaigns_time'],
                 'association_owner_id' => $association_owner -> id
        ]);
 
@@ -261,7 +263,6 @@ public function addAssociation($request): array{
                 'location' => $request['location'],
                 'date_start_working' =>  $request['date_start_working'],
                 'date_end_working' => $request['date_end_working'],
-                'compaigns_time' =>  $request['compaigns_time'],
                 'association_owner' => $association_owner->name,
        ];
         $message = 'Your association created sucessfully';
