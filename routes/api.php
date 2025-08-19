@@ -328,8 +328,8 @@ Route::controller(SuperAdminIndividualCompaignsController::class)->group(functio
     Route::get('getClosedRejectedIndiviCampaigns' , 'getClosedRejectedIndiviCampaigns')
 ->name('superAdmin.getClosedRejectedIndiviCampaigns');
 
-    Route::get('getClosedPendingIndiviCampaigns' , 'getClosedPendingIndiviCampaigns')
-->name('superAdmin.getClosedPendingIndiviCampaigns');
+    Route::get('getClosedUnderReviewIndiviCompaign' , 'getClosedUnderReviewIndiviCompaign')
+->name('superAdmin.getClosedUnderReviewIndiviCompaign');
 
     Route::get('getCompleteIndiviCompaign' , 'getCompleteIndiviCompaign')
 ->name('superAdmin.getCompleteIndiviCompaign');

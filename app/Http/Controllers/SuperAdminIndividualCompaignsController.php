@@ -50,10 +50,10 @@ public function getCompleteIndiviCompaign(): JsonResponse {
     }
 }
 
-public function getClosedRejectedIndiviCompaign(): JsonResponse {
+public function getClosedRejectedIndiviCampaigns(): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminCompaignsService->getClosedRejectedIndiviCompaign();
+        $data = $this->superAdminCompaignsService->getClosedRejectedIndiviCampaigns();
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();

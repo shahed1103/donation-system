@@ -214,9 +214,9 @@ public function getCampaignDetails($campaignId): array
          $totalDonations = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
             ->sum('amount');
 
-         $completedCampaigns = $this->getAssociationCompaingsComplete($id);
-         $closedCampaigns = $this->getAssociationCompaingsClosed($id);
-         $activeCampaigns = $this->getAssociationsCampaignsActive($id);
+$completedCampaignsCount = count($this->getAssociationCompaingsComplete($id));
+$closedCampaignsCount = count($this->getAssociationCompaingsClosed($id));
+$activeCampaignsCount = count($this->getAssociationsCampaignsActive($id));
          $association_owner = User::find($association->association_owner_id);
          $associationDet = [];
 
@@ -228,9 +228,9 @@ public function getCampaignDetails($campaignId): array
             'date_start_working' => $association -> date_start_working,
             'date_end_working' => $association -> date_end_working,
             'total_donations' => $totalDonations,
-            'closed_campaigns' => $closedCampaigns,
-            'completed_campaigns' => $completedCampaigns,
-            'active_campaigns' => $activeCampaigns
+            'closed_campaigns' => $closedCampaignsCount,
+            'completed_campaigns' => $completedCampaignsCount,
+            'active_campaigns' => $activeCampaignsCount
             ];
             $message = 'association details are retrived sucessfully';
 
