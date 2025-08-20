@@ -261,6 +261,7 @@ public function addAssociation($request): array{
        $association->refresh();
        $association_dett = [
                  'id' => $association->id,
+                 'owner_id' => $association_owner->id,
                 'name' =>  $request['name'],
                 'description' => $request['description'],
                 'location' => $request['location'],
