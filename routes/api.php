@@ -292,6 +292,19 @@ Route::post('createLeader' , 'createLeader')
 Route::get('deleteLeader/{id}' , 'deleteLeader')
 ->name('superAdmin.deleteLeader');
 
+Route::get('getCenters' , 'getCenters')
+->name('superAdmin.getCenters');
+
+Route::post('createCenter' , 'createCenter')
+->name('superAdmin.createCenter');
+
+Route::get('deleteCenter/{id}' , 'deleteCenter')
+->name('superAdmin.deleteCenter');
+
+Route::get('getInkindDonation' , 'getInkindDonation')
+->name('superAdmin.getInkindDonation');
+
+
 });
 
 
@@ -362,7 +375,6 @@ Route::middleware('auth:sanctum')->get('UnderReviewIndiviCompaign', [LeaderContr
 Route::middleware('auth:sanctum')->post('addLeaderForm/{id}', [LeaderController::class, 'addLeaderForm'])->name('superAdmin.addLeaderForm');
 
 });
-
 
 
 

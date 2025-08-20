@@ -13,7 +13,7 @@ class Center extends Model
         'center_name',
         'location',
               'space' ,
-                'have_frez' 
+                'have_frez'
     ];
 
     public function inkindDonations(){

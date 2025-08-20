@@ -10,7 +10,13 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Models\Association;
 use App\Models\User;
+use App\Models\Center;
 use App\Models\Donation;
+use App\Models\DonationType;
+use App\Models\StatusOfDonation;
+use App\Models\InkindDonationAcceptence;
+use App\Models\InkindDonation;
+
 use App\Models\IndCompaign;
 use App\Models\AssociationCampaign;
 use App\Models\DonationAssociationCampaign;
@@ -352,6 +358,102 @@ public function deleteLeader($id): array
         'message' => 'Leader deleted successfully'
     ];
 }
+
+
+
+
+
+////////////////////////////////////
+
+
+public function getCenters(): array
+{
+    $centers = Center::All()->map(function ($center) {
+            return [
+                'center_name'     => $center->center_name,
+                'location'    => $center->location,
+                'space'    => $center->space,
+                'have_frez'     => $center->have_frez,
+
+            ];
+        });
+
+    $message = 'centers retrieved successfully';
+
+    return [
+        'centers' => $centers,
+        'message' => $message
+    ];
+}
+
+
+public function createCenter(Request $request): array
+{
+
+    $validated = $request->validate([
+        'center_name'      => 'required|string',
+        'location'     => 'required|string',
+        'space'     => 'nullable|integer',
+        'have_frez'  => 'required|boolean',
+
+    ]);
+
+    $center = Center::create([
+        'center_name'      => $validated['center_name'],
+        'location'     => $validated['location'],
+        'space'     => $validated['space'] ?? null,
+        'have_frez'  => $validated['have_frez'],
+
+    ]);
+
+    return [
+        'center' => $center,
+        'message' => 'Center created successfully'
+    ];
+}
+
+public function deleteCenter($id): array
+{
+    $center = Center::findOrFail($id);
+    $center->delete();
+
+    return [
+        'message' => 'Center deleted successfully'
+    ];
+}
+
+
+
+public function getInkindDonation(): array
+{
+    $inkindDonations = InkindDonation::All()->map(function ($inkindDonation) {
+            return [
+                'donation_type'     => DonationType::where('id', $inkindDonation->donation_type_id)
+                ->pluck('donation_Type'),
+                'name_of_donation'     => $inkindDonation->center_name,
+                'amount'    => $inkindDonation->amount,
+                'description'    => $inkindDonation->description,
+                'status_of_donation'     => StatusOfDonation::where('id', $inkindDonation->status_of_donation_id)
+                ->pluck('status'),
+                'center'     => Center::where('id', $inkindDonation->center_id)
+                ->pluck('center_name'),
+                'owner'     => User::where('id', $inkindDonation->owner_id)
+                ->pluck('name'),
+                'inkindDonation_acceptence'     => InkindDonationAcceptence::where('id', $inkindDonation->inkindDonation_acceptence_id)
+                ->pluck('status'),
+
+
+            ];
+        });
+
+    $message = 'inkindDonations retrieved successfully';
+
+    return [
+        'inkindDonations' => $inkindDonations,
+        'message' => $message
+    ];
+}
+
 
 
 }

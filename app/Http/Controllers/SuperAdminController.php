@@ -200,5 +200,53 @@ public function deleteLeader($id): JsonResponse {
     }
 }
 
+public function getCenters(): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->getCenters();
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function createCenter(Request $request): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->createCenter($request);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function deleteCenter( $id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->deleteCenter($id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function getInkindDonation( ): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->getInkindDonation();
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
 
 }
