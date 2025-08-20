@@ -140,6 +140,11 @@ Route::middleware('auth:sanctum')->controller(MobileHomeController::class)->grou
     Route::get('totalDonationsByYearMob', 'totalDonationsByYearMob')
         ->name('user.totalDonationsByYearMob')
         ->middleware('can:totalDonationsByYearMob');
+
+    Route::get('totalInkindDonationsByYearMob', 'totalInkindDonationsByYearMob')
+        ->name('user.totalInkindDonationsByYearMob')
+        ->middleware('can:totalInkindDonationsByYearMob');
+        
 });
 
 

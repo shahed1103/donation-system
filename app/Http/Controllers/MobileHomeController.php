@@ -89,5 +89,19 @@ class MobileHomeController extends Controller
             return Response::Error($data , $message , $errors);
         }
     }
+
+        public function totalInkindDonationsByYearMob():  JsonResponse{
+        $data = [] ;
+        try{
+            $data = $this->mobileHomeService->totalInkindDonationsByYearMob();
+           return Response::Success($data['total'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
+    
 }
 

@@ -17,6 +17,7 @@ use App\Models\IndCompaign;
 use App\Models\Classification;
 use App\Models\AssociationCampaign;
 use App\Models\IndCompaigns_photo;
+use App\Models\InkindDonation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -275,6 +276,21 @@ class MobileHomeService
 
     return ['total' => $total, 'message' => $message];
     }
+
+        public function totalInkindDonationsByYearMob(): array{
+        $year = Carbon::now()->format('Y');    
+        $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
+
+        $totalInkindDonations = InkindDonation::whereBetween('inkindDonation_acceptence_id' , [2,3])->whereBetween('created_at', [$startOfYear, $endOfYear])
+                        ->sum('amount');
+
+  
+    $message = "Total Inkind donations for year {$year} retrieved successfully";
+
+    return ['total' => $totalInkindDonations, 'message' => $message];
+    }
+
 }
 
 
