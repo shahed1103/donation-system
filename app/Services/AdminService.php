@@ -30,8 +30,9 @@ use Carbon\Carbon;
 class AdminService
 {
 
-public function totalAssociationDonationsByYear(int $associationId, int $year): array
+public function totalAssociationDonationsByYear(int $owner_id, int $year): array
 {
+    $association = Association::where('association_owner_id' , $owner_id ) ->first();
     $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
     $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
 
