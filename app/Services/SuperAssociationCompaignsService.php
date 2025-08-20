@@ -60,7 +60,8 @@ public function getAssociationsCampaignsActive($association_id): array
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                  'id' =>  $campaign->id,
+                  'association_id' => $association_id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -92,7 +93,8 @@ public function getAssociationCompaingsComplete($association_id): array
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                      'id' =>  $campaign->id,
+                  'association_id' => $association_id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -126,7 +128,8 @@ public function getAssociationCompaingsClosed($association_id): array
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                      'id' =>  $campaign->id,
+                  'association_id' => $association_id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -211,13 +214,14 @@ public function getCampaignDetails($campaignId): array
          $totalDonations = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
             ->sum('amount');
 
-         $completedCampaigns = $this->getAssociationCompaingsComplete($id);
-         $closedCampaigns = $this->getAssociationCompaingsClosed($id);
-         $activeCampaigns = $this->getAssociationsCampaignsActive($id);
+   $completedCampaignsCount = count($this->getAssociationCompaingsComplete($id));
+   $closedCampaignsCount = count($this->getAssociationCompaingsClosed($id));
+   $activeCampaignsCount = count($this->getAssociationsCampaignsActive($id));
          $association_owner = User::find($association->association_owner_id);
          $associationDet = [];
 
         $associationDet[] = [
+            'id' => $association->id,
             'association_name' => $association->name,
             'association_description' => $association->description,
             'location' => $association->location,
@@ -225,9 +229,9 @@ public function getCampaignDetails($campaignId): array
             'date_start_working' => $association -> date_start_working,
             'date_end_working' => $association -> date_end_working,
             'total_donations' => $totalDonations,
-            'closed_campaigns' => $closedCampaigns,
-            'completed_campaigns' => $completedCampaigns,
-            'active_campaigns' => $activeCampaigns
+            'closed_campaigns' => $closedCampaignsCount,
+            'completed_campaigns' => $completedCampaignsCount,
+            'active_campaigns' => $activeCampaignsCount
             ];
             $message = 'association details are retrived sucessfully';
 
@@ -250,19 +254,24 @@ public function addAssociation($request): array{
                 'location' => $request['location'],
                 'date_start_working' =>  $request['date_start_working'],
                 'date_end_working' => $request['date_end_working'],
-                'compaigns_time' =>  $request['compaigns_time'],
-                'association_owner_id' => $association_owner -> id
+                'association_owner_id' => $association_owner -> id ,
+
        ]);
 
        $association->refresh();
        $association_dett = [
+                 'id' => $association->id,
+                 'owner_id' => $association_owner->id,
                 'name' =>  $request['name'],
                 'description' => $request['description'],
                 'location' => $request['location'],
                 'date_start_working' =>  $request['date_start_working'],
                 'date_end_working' => $request['date_end_working'],
-                'compaigns_time' =>  $request['compaigns_time'],
                 'association_owner' => $association_owner->name,
+                'total_donations' => 0,
+                'closed_campaigns' => 0,
+                'completed_campaigns' => 0,
+                'active_campaigns' => 0
        ];
         $message = 'Your association created sucessfully';
 

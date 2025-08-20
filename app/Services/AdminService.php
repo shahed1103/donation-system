@@ -30,19 +30,20 @@ use Carbon\Carbon;
 class AdminService
 {
 
-public function totalAssociationDonationsByYear(int $associationId, int $year): array
+public function totalAssociationDonationsByYear(int $owner_id, int $year): array
 {
+    $association = Association::where('association_owner_id' , $owner_id ) ->first();
+    $sharedAssociation = SharedAssociationCampaign:: where('association_id' ,$association->id ) ->first();
+
     $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
     $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
 
-    $total = DonationAssociationCampaign::whereHas('associationCampaign', function ($query) use ($associationId) {
-            $query->where('association_id', $associationId);
-        })
+    $total = DonationAssociationCampaign::where('association_campaign_id',
+     $sharedAssociation->association_campaign_id)
         ->whereBetween('created_at', [$startOfYear, $endOfYear])
         ->sum('amount');
 
     $message = "Total donations for year {$year} retrieved successfully";
-
     return [
         'total' => $total,
         'message' => $message
@@ -50,11 +51,13 @@ public function totalAssociationDonationsByYear(int $associationId, int $year): 
 }
 
 
-public function getMonthlyDonationsByYear(int $associationId, int $year): array
+public function getMonthlyDonationsByYear(int $owner_id, int $year): array
 {
-    $donationsByMonth = DonationAssociationCampaign::whereHas('associationCampaign', function ($query) use ($associationId) {
-            $query->where('association_id', $associationId);
-        })
+    $association = Association::where('association_owner_id' , $owner_id ) ->first();
+    $sharedAssociation = SharedAssociationCampaign:: where('association_id' ,$association->id ) ->first();
+
+    $donationsByMonth = DonationAssociationCampaign::where('association_campaign_id',
+     $sharedAssociation->association_campaign_id)
         ->whereYear('created_at', $year)
         ->selectRaw('MONTH(created_at) as month, SUM(amount) as total')
         ->groupBy('month')
@@ -69,7 +72,6 @@ public function getMonthlyDonationsByYear(int $associationId, int $year): array
     foreach ($donationsByMonth as $row) {
         $monthlyTotals[(int)$row->month] = (float)$row->total;
     }
-
     $message = "Monthly donation totals for year {$year} retrieved successfully";
 
     return [
@@ -80,13 +82,16 @@ public function getMonthlyDonationsByYear(int $associationId, int $year): array
 
 
 
-public function getActiveCampaignsCount(int $associationId , $year): array
+public function getActiveCampaignsCount(int $owner_id , $year): array
 {
+
+    $association = Association::where('association_owner_id' , $owner_id ) ->first();
+
     $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
     $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
 
 
-    $campaignIds = SharedAssociationCampaign::where('association_id', $associationId)
+    $campaignIds = SharedAssociationCampaign::where('association_id', $association->id)
         ->pluck('association_campaign_id');
 
     $activeCampaignsCount = AssociationCampaign::whereIn('id', $campaignIds)
@@ -102,13 +107,14 @@ public function getActiveCampaignsCount(int $associationId , $year): array
     ];
 }
 
-public function getCompleteCampaignsCount(int $associationId , $year): array
+public function getCompleteCampaignsCount(int $owner_id , $year): array
 {
 
+    $association = Association::where('association_owner_id' , $owner_id ) ->first();
     $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
     $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
 
-    $campaignIds = SharedAssociationCampaign::where('association_id', $associationId)
+    $campaignIds = SharedAssociationCampaign::where('association_id', $association->id)
         ->pluck('association_campaign_id');
 
     $activeCampaignsCount = AssociationCampaign::whereIn('id', $campaignIds)
@@ -124,42 +130,30 @@ public function getCompleteCampaignsCount(int $associationId , $year): array
     ];
 }
 
-
-public function getDonationCountsByClassByYear(int $associationId , int $year): array
+public function getDonationCountsByClassByYear(int $owner_id, int $year): array
 {
+    $association = Association::where('association_owner_id', $owner_id)->firstOrFail();
+
     $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
-    $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
+    $endOfYear   = Carbon::createFromDate($year, 12, 31)->endOfDay();
 
-
-    $healthyCount = DonationAssociationCampaign::where('classification_id', 1)
-        -> where('association_id', $associationId)
-        ->whereBetween('created_at', [$startOfYear, $endOfYear])
-        ->count();
-
-    $EducationalCount = DonationAssociationCampaign::where('classification_id', 2)
-        -> where('association_id', $associationId)
-        ->whereBetween('created_at', [$startOfYear, $endOfYear])
-        ->count();
-
-    $cleanlinessCount = DonationAssociationCampaign::where('classification_id', 3)
-        -> where('association_id', $associationId)
-        ->whereBetween('created_at', [$startOfYear, $endOfYear])
-        ->count();
-
-    $environmentalCount = DonationAssociationCampaign::where('classification_id', 4)
-        -> where('association_id', $associationId)
-        ->whereBetween('created_at', [$startOfYear, $endOfYear])
-        ->count();
+    $campaignIds = $association->associationCampaigns()->pluck('association_campaigns.id');
+$counts = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
+    ->whereBetween('donation_association_campaigns.created_at', [$startOfYear, $endOfYear]) // <-- هنا التحديد
+    ->selectRaw('association_campaigns.classification_id, COUNT(*) as total')
+    ->join('association_campaigns', 'donation_association_campaigns.association_campaign_id', '=', 'association_campaigns.id')
+    ->groupBy('association_campaigns.classification_id')
+    ->pluck('total', 'association_campaigns.classification_id');
 
 
     $data = [
-        'healthy' => $healthyCount,
-        'Educational'     => $EducationalCount,
-        'cleanliness'     => $cleanlinessCount,
-        'environmental'      => $environmentalCount,
+        'healthy'       => $counts[1] ?? 0,
+        'Educational'   => $counts[2] ?? 0,
+        'cleanliness'   => $counts[3] ?? 0,
+        'environmental' => $counts[4] ?? 0,
     ];
 
-    $message = "User counts by classification for year {$year} retrieved successfully";
+    $message = "Donation counts by classification for year {$year} retrieved successfully";
 
     return [
         'data' => $data,
@@ -168,10 +162,10 @@ public function getDonationCountsByClassByYear(int $associationId , int $year): 
 }
 
 
-public function AssociationDetails($id): array
+public function AssociationDetails($owner_id): array
       {
-         $association = Association::findOrFail($id);
-         $campaignIds = SharedAssociationCampaign::where('association_id', $id)
+         $association = Association::where('association_owner_id', $owner_id)->firstOrFail();
+         $campaignIds = SharedAssociationCampaign::where('association_id', $association->id)
             ->pluck('association_campaign_id');
 
          $totalCampaigns = $campaignIds->count();
@@ -184,6 +178,7 @@ public function AssociationDetails($id): array
          $associationDet = [];
 
         $associationDet[] = [
+            'id' => $association->id,
             'association_name' => $association->name,
             'association_description' => $association->description,
             'location' => $association->location,
@@ -201,13 +196,21 @@ public function AssociationDetails($id): array
 
 
 
+
+
+
+
+
+
+
+
 public function getCampaignsStatus(): array
 {
-        $status = CampaignStatus::select('id', 'name')->get()
+        $status = CampaignStatus::select('id', 'status_type')->get()
             ->map(function ($status) {
                 return [
                     'id'   => $status->id,
-                    'name' => $status->name, ]; });
+                    'status_type' => $status->status_type, ]; });
         return [
             'status' => $status,
             'message' => 'done' ];
@@ -232,7 +235,7 @@ public function HealthyAssociationsCampaigns($association_id , $campaignStatus):
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                  'id' =>  $campaign->id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -241,7 +244,7 @@ public function HealthyAssociationsCampaigns($association_id , $campaignStatus):
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
@@ -265,7 +268,7 @@ public function EducationalAssociationsCampaigns($association_id , $campaignStat
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                  'id' =>  $campaign->id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -274,7 +277,7 @@ public function EducationalAssociationsCampaigns($association_id , $campaignStat
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
@@ -298,7 +301,7 @@ public function CleanlinessAssociationsCampaigns($association_id , $campaignStat
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                  'id' =>  $campaign->id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -307,7 +310,7 @@ public function CleanlinessAssociationsCampaigns($association_id , $campaignStat
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
@@ -331,7 +334,7 @@ public function EnvironmentalAssociationsCampaigns($association_id , $campaignSt
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                  'id' =>  $campaign->id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -340,16 +343,28 @@ public function EnvironmentalAssociationsCampaigns($association_id , $campaignSt
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
 }
 
-public function AssociationAdmin ($association_id) {
-    $association = Association:: firstWhere('id', $association_id);
-    $admin_id = $association -> association_owner_id;
-    $admin = User:: firstWhere('id', $admin_id );
+
+
+
+
+
+
+
+
+
+
+
+public function AssociationAdmin ($owner_id) {
+    // $association = Association:: firstWhere('id', $association_id);
+    // $admin_id = $association -> association_owner_id;
+    
+    $admin = User:: firstWhere('id', $owner_id );
 
  $adminDet = [];
  $adminDet[] = [

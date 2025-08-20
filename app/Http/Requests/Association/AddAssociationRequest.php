@@ -22,8 +22,6 @@ class AddAssociationRequest extends FormRequest
             'location' => 'required|string|min:5',
             'date_start_working' => 'required|date',
             'date_end_working' => 'required|date|after:date_start_working',
-            'compaigns_time' => 'required|date_format:H:i:s',
-
             'owner_name' => 'required|string|min:3',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',

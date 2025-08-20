@@ -14,6 +14,8 @@ use App\Models\Classification;
 use App\Models\AcceptanceStatus;
 use App\Models\CampaignStatus;
 use App\Models\IndCompaigns_photo;
+use App\Models\Leader_form;
+
 
 use App\Models\SharedAssociationCampaign;
 use App\Models\DonationAssociationCampaign;
@@ -114,7 +116,7 @@ public function getCompleteIndiviCompaign(): array
 }
 
 
-public function getClosedRejectedIndiviCompaign(): array
+public function getClosedRejectedIndiviCampaigns(): array
 {
     $closedStatusId = CampaignStatus::where('status_type', 'Closed')->pluck('id');
     $rejectedStatusId = AcceptanceStatus::where('status_type', 'Rejected')->pluck('id');
@@ -268,7 +270,6 @@ public function updateAcceptanceStatus(array $request, int $campaignId): array
     }
 
     $campaign->acceptance_status_id = $status->id;
-
     if ($request['status'] === 'Rejected') {
         $campaign->rejection_reason = $request['rejection_reason'];
     } else {
@@ -354,7 +355,6 @@ public function getLeaderForm($campaignId):array{
 
                 'beneficiary_type' =>  $form->beneficiary_type,
                 'need_type' =>  $form->need_type,
-                'is_need_real' =>  $form->is_need_real,
                 'has_other_support' =>  $form->has_other_support,
                 'marks_from_5' =>  $form->marks_from_5,
 
