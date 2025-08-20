@@ -196,13 +196,21 @@ public function AssociationDetails($owner_id): array
 
 
 
+
+
+
+
+
+
+
+
 public function getCampaignsStatus(): array
 {
-        $status = CampaignStatus::select('id', 'name')->get()
+        $status = CampaignStatus::select('id', 'status_type')->get()
             ->map(function ($status) {
                 return [
                     'id'   => $status->id,
-                    'name' => $status->name, ]; });
+                    'status_type' => $status->status_type, ]; });
         return [
             'status' => $status,
             'message' => 'done' ];
@@ -227,7 +235,7 @@ public function HealthyAssociationsCampaigns($association_id , $campaignStatus):
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                  'id' =>  $campaign->id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -236,7 +244,7 @@ public function HealthyAssociationsCampaigns($association_id , $campaignStatus):
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
@@ -260,7 +268,7 @@ public function EducationalAssociationsCampaigns($association_id , $campaignStat
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                  'id' =>  $campaign->id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -269,7 +277,7 @@ public function EducationalAssociationsCampaigns($association_id , $campaignStat
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
@@ -293,7 +301,7 @@ public function CleanlinessAssociationsCampaigns($association_id , $campaignStat
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                  'id' =>  $campaign->id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -302,7 +310,7 @@ public function CleanlinessAssociationsCampaigns($association_id , $campaignStat
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
@@ -326,7 +334,7 @@ public function EnvironmentalAssociationsCampaigns($association_id , $campaignSt
                   ->sum('amount');
 
             $compaingAll[] = [
-                  'id' =>  $campaign->association_id,
+                  'id' =>  $campaign->id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
@@ -335,16 +343,28 @@ public function EnvironmentalAssociationsCampaigns($association_id , $campaignSt
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
 }
 
-public function AssociationAdmin ($association_id) {
-    $association = Association:: firstWhere('id', $association_id);
-    $admin_id = $association -> association_owner_id;
-    $admin = User:: firstWhere('id', $admin_id );
+
+
+
+
+
+
+
+
+
+
+
+public function AssociationAdmin ($owner_id) {
+    // $association = Association:: firstWhere('id', $association_id);
+    // $admin_id = $association -> association_owner_id;
+    
+    $admin = User:: firstWhere('id', $owner_id );
 
  $adminDet = [];
  $adminDet[] = [
