@@ -214,9 +214,9 @@ public function getCampaignDetails($campaignId): array
          $totalDonations = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
             ->sum('amount');
 
-$completedCampaignsCount = count($this->getAssociationCompaingsComplete($id));
-$closedCampaignsCount = count($this->getAssociationCompaingsClosed($id));
-$activeCampaignsCount = count($this->getAssociationsCampaignsActive($id));
+   $completedCampaignsCount = count($this->getAssociationCompaingsComplete($id));
+   $closedCampaignsCount = count($this->getAssociationCompaingsClosed($id));
+   $activeCampaignsCount = count($this->getAssociationsCampaignsActive($id));
          $association_owner = User::find($association->association_owner_id);
          $associationDet = [];
 
@@ -254,11 +254,8 @@ public function addAssociation($request): array{
                 'location' => $request['location'],
                 'date_start_working' =>  $request['date_start_working'],
                 'date_end_working' => $request['date_end_working'],
-                'association_owner_id' => $association_owner -> id,
-                  'total_donations' => 0,
-                'closed_campaigns' => 0,
-            'completed_campaigns' => 0,
-            'active_campaigns' => 0
+                'association_owner_id' => $association_owner -> id ,
+
        ]);
 
        $association->refresh();
@@ -269,10 +266,10 @@ public function addAssociation($request): array{
                 'date_start_working' =>  $request['date_start_working'],
                 'date_end_working' => $request['date_end_working'],
                 'association_owner' => $association_owner->name,
-                        'total_donations' => 0,
+                'total_donations' => 0,
                 'closed_campaigns' => 0,
-            'completed_campaigns' => 0,
-            'active_campaigns' => 0
+                'completed_campaigns' => 0,
+                'active_campaigns' => 0
        ];
         $message = 'Your association created sucessfully';
 

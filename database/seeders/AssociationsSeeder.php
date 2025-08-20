@@ -30,7 +30,7 @@ class AssociationsSeeder extends Seeder
             'Delivers essential healthcare services to the most vulnerable communities.',
         ];
 
-         $association_owner = [
+         $association_owner_id = [
                     2,
                     2,
                     2        ];
@@ -44,7 +44,7 @@ class AssociationsSeeder extends Seeder
                 'name' => $names[$i],
                 'location' => $locations[$i],
                 'description' => $descriptions[$i],
-                'association_owner_id' => $association_owner[$i],
+                'association_owner_id' => $association_owner_id[$i],
                 'date_start_working' => $date_start_working[$i],
                 'date_end_working' => $date_end_working [$i]
             ]);
