@@ -23,10 +23,10 @@ class AdminController extends Controller
     }
 
 
-public function totalAssociationDonationsByYear($id , $year): JsonResponse {
+public function totalAssociationDonationsByYear($owner_id , $year): JsonResponse {
     $data = [];
     try {
-        $data = $this->adminService->totalAssociationDonationsByYear($id ,$year);
+        $data = $this->adminService->totalAssociationDonationsByYear($owner_id ,$year);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -36,10 +36,10 @@ public function totalAssociationDonationsByYear($id , $year): JsonResponse {
 }
 
 
-public function getMonthlyDonationsByYear($id ,$year): JsonResponse {
+public function getMonthlyDonationsByYear($owner_id ,$year): JsonResponse {
     $data = [];
     try {
-        $data = $this->adminService->getMonthlyDonationsByYear($id ,$year);
+        $data = $this->adminService->getMonthlyDonationsByYear($owner_id ,$year);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -49,10 +49,10 @@ public function getMonthlyDonationsByYear($id ,$year): JsonResponse {
 }
 
 
-public function getActiveCampaignsCount($id ,$year): JsonResponse {
+public function getActiveCampaignsCount($owner_id ,$year): JsonResponse {
     $data = [];
     try {
-        $data = $this->adminService->getActiveCampaignsCount($id,$year);
+        $data = $this->adminService->getActiveCampaignsCount($owner_id,$year);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -61,10 +61,10 @@ public function getActiveCampaignsCount($id ,$year): JsonResponse {
     }
 }
 
-public function getCompleteCampaignsCount($id , $year): JsonResponse {
+public function getCompleteCampaignsCount($owner_id , $year): JsonResponse {
     $data = [];
     try {
-        $data = $this->adminService->getCompleteCampaignsCount($id , $year);
+        $data = $this->adminService->getCompleteCampaignsCount($owner_id , $year);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -73,10 +73,10 @@ public function getCompleteCampaignsCount($id , $year): JsonResponse {
     }
 }
 
-public function getDonationCountsByClassByYear($id , $year): JsonResponse {
+public function getDonationCountsByClassByYear($owner_id , $year): JsonResponse {
     $data = [];
     try {
-        $data = $this->adminService->getDonationCountsByClassByYear($id , $year);
+        $data = $this->adminService->getDonationCountsByClassByYear($owner_id , $year);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -85,10 +85,10 @@ public function getDonationCountsByClassByYear($id , $year): JsonResponse {
     }
 }
 
-public function AssociationDetails($id ): JsonResponse {
+public function AssociationDetails($owner_id ): JsonResponse {
     $data = [];
     try {
-        $data = $this->adminService->getDonationCountsByClassByYear($id );
+        $data = $this->adminService->AssociationDetails($owner_id );
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();

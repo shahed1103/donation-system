@@ -31,9 +31,9 @@ class AssociationsSeeder extends Seeder
         ];
 
          $association_owner = [
-                    3,
-                    3,
-                    3        ];
+                    2,
+                    2,
+                    2        ];
 
          $date_start_working = ['2020-01-01' , ' 2020-01-01' , '2020-01-01'];
          $date_end_working = ['2020-01-01' , ' 2020-01-01' , '2020-01-01'];
