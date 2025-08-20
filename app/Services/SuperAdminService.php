@@ -363,6 +363,8 @@ public function deleteLeader($id): array
 
 
 
+
+
 ////////////////////////////////////
 
 
@@ -439,10 +441,6 @@ public function getInkindDonation(): array
                 ->pluck('center_name'),
                 'owner'     => User::where('id', $inkindDonation->owner_id)
                 ->pluck('name'),
-                'inkindDonation_acceptence'     => InkindDonationAcceptence::where('id', $inkindDonation->inkindDonation_acceptence_id)
-                ->pluck('status'),
-
-
             ];
         });
 

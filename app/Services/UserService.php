@@ -69,7 +69,6 @@ class UserService
 
     public function signin($request): array{
      $user = User::query()->where('email',$request['email'])->first();
-
      if (!is_null($user)){
         if(!Auth::attempt($request->only(['email' , 'password']))){
         throw new Exception("User email & password does not with our record.", 401 );
@@ -82,7 +81,6 @@ class UserService
             $code = 200;
         }
      }
-
      else {
         throw new Exception("User not found.",  404);
      }

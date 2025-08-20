@@ -221,6 +221,7 @@ $activeCampaignsCount = count($this->getAssociationsCampaignsActive($id));
          $associationDet = [];
 
         $associationDet[] = [
+            'id' => $association->id,
             'association_name' => $association->name,
             'association_description' => $association->description,
             'location' => $association->location,

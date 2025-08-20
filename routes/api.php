@@ -370,16 +370,9 @@ Route::controller(SuperAdminIndividualCompaignsController::class)->group(functio
 });
 
 
-Route::controller(LeaderController::class)->group(function(){
-Route::middleware('auth:sanctum')->get('UnderReviewIndiviCompaign', [LeaderController::class, 'UnderReviewIndiviCompaign'])->name('superAdmin.UnderReviewIndiviCompaign');
-Route::middleware('auth:sanctum')->post('addLeaderForm/{id}', [LeaderController::class, 'addLeaderForm'])->name('superAdmin.addLeaderForm');
-
-});
-
-
 
 Route::controller(AdminController::class)->group(function(){
-Route::middleware('auth:sanctum')->get('totalAssociationDonationsByYear/{id}/{year}', [AdminController::class, 'totalAssociationDonationsByYear'])->name('admin.totalAssociationDonationsByYear');
+Route::middleware('auth:sanctum')->get('totalAssociationDonationsByYear/{id}/{year}', [AdminController::class, 'totalAssociationDonationsByYear'])->name('Admin.totalAssociationDonationsByYear');
 Route::middleware('auth:sanctum')->get('getMonthlyDonationsByYear/{id}/{year}', [AdminController::class, 'getMonthlyDonationsByYear'])->name('admin.getMonthlyDonationsByYear');
 Route::middleware('auth:sanctum')->get('getActiveCampaignsCount/{id}/{year}', [AdminController::class, 'getActiveCampaignsCount'])->name('admin.getActiveCampaignsCount');
 Route::middleware('auth:sanctum')->get('getCompleteCampaignsCount/{id}/{year}', [AdminController::class, 'getCompleteCampaignsCount'])->name('admin.getCompleteCampaignsCount');
@@ -395,6 +388,13 @@ Route::middleware('auth:sanctum')->get('AssociationAdmin/{association_id}', [Adm
 });
 
 
+
+
+Route::controller(LeaderController::class)->group(function(){
+Route::middleware('auth:sanctum')->get('UnderReviewIndiviCompaign', [LeaderController::class, 'UnderReviewIndiviCompaign'])->name('superAdmin.UnderReviewIndiviCompaign');
+Route::middleware('auth:sanctum')->post('addLeaderForm/{id}', [LeaderController::class, 'addLeaderForm'])->name('superAdmin.addLeaderForm');
+
+});
 
 
 

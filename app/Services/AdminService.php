@@ -35,7 +35,7 @@ public function totalAssociationDonationsByYear(int $associationId, int $year): 
     $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
     $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
 
-    $total = DonationAssociationCampaign::whereHas('associationCampaign', function ($query) use ($associationId) {
+    $total = DonationAssociationCampaign::whereHas('associationCompaigns', function ($query) use ($associationId) {
             $query->where('association_id', $associationId);
         })
         ->whereBetween('created_at', [$startOfYear, $endOfYear])
