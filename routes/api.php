@@ -428,6 +428,12 @@ Route::middleware('auth:sanctum')->post('createAssociationCampaign',
  [AdminController::class, 'createAssociationCampaign'])->name('Admin.createAssociationCampaign');
 
 
+Route::middleware('auth:sanctum')->get('getVolunteersByTask/{task_id}',
+ [AdminController::class, 'getVolunteersByTask'])->name('Admin.getVolunteersByTask');
+
+Route::middleware('auth:sanctum')->post('updateAcceptanceVolunteerStatus/{task_id}',
+ [AdminController::class, 'updateAcceptanceVolunteerStatus'])->name('Admin.updateAcceptanceVolunteerStatus');
+
 
 
 });

@@ -11,6 +11,9 @@ use App\Models\CampaignStatus;
 use App\Models\DonationAssociationCampaign;
 use App\Models\Donation;
 use App\Models\VolunteerTask;
+use App\Models\TaskStatus;
+use App\Models\VolunteerProfile;
+use App\Models\TaskVolunteerProfile;
 
 use App\Models\SharedAssociationCampaign;
 use App\Models\AssociationCampaign;
@@ -444,22 +447,6 @@ public function getVoluntingCampigns($campaignStatus) : array{
          return ['Volunting campaign' => $det , 'message' => $message];
    }
 
-   //get task details
-   public function getTaskDetails($taskID) : array{
-     $task = VolunteerTask::findOrFail($taskID);
-
-     $taskDet = [
-      'task_name' => $task->name,
-      'description' => $task->description,
-      'hours' => $task->hours,
-      'number_volunter_need' => $task->number_volunter_need,
-     ];
-
-      $message = 'task details are retrived sucessfully';
-
-      return ['task' => $taskDet , 'message' => $message];
-   }
-
 
 
 
@@ -467,6 +454,7 @@ public function getVoluntingCampigns($campaignStatus) : array{
 
     public function createAssociationCampaign($request): array
     {
+        
     if ($request->hasFile('photo')) {
              $photo = $request->file('photo');
              $path = $photo->store('uploads/profilePhoto', 'public');
@@ -530,5 +518,60 @@ public function getVoluntingCampigns($campaignStatus) : array{
 
         return ['campaign' => $campaign_dett, 'message' => $message];
     }
+
+
+public function getVolunteersByTask($taskId) : array
+{
+
+    $taskVolunteers = TaskVolunteerProfile::with('volunteerProfile.user')
+        ->where('volunteer_task_id', $taskId)
+        -> where ('status_id' , 4)
+        ->get();
+
+       $volunteers = $taskVolunteers->map(function ($taskVol) {
+        $profile = $taskVol->volunteerProfile;
+
+
+        return [
+            'id' => $profile->id,
+            'name' => $profile->user->name ?? 'بدون اسم',
+            'phone' => $profile -> user -> phone,
+            'skills' => $profile->skills,
+            'availability_hours' => $profile->availability_hours,
+            'preferred_tasks' => $profile->preferred_tasks,
+            'academic_major' => $profile->academic_major,
+            'previous_volunteer_work' => $profile->previous_volunteer_work,
+            'status_id' => $taskVol->status_id
+        ];
+    })->toArray();
+
+    $message = 'Volunteers for the task are retrieved successfully';
+
+    return ['volunteers' => $volunteers, 'message' => $message];
+}
+
+
+public function updateAcceptanceVolunteerStatus(array $request, int $task_id): array
+{
+    $task = TaskVolunteerProfile::firstWhere('volunteer_task_id', $task_id);
+    $status = TaskStatus::where('name', $request['status'])->first();
+    if (!$status) {
+        throw new InvalidArgumentException('Invalid acceptance status type.');
+    }
+    $task->status_id = $status->id;
+    $task->save();
+    $task->refresh();
+    $taskDetails = [
+        'id' => $task->id,
+        'status' => $status->name,
+    ];
+
+    $message = 'done';
+    return [
+        'task' => $taskDetails,
+        'message' => $message,
+    ];
+}
+
 }
 

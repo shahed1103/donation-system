@@ -8,6 +8,8 @@ use App\Http\Responses\response;
 use App\Services\AdminService;
 use App\Http\Requests\Donation\DonationForCompaingRequest;
 use App\Http\Requests\Association\StoreCampaignRequest;
+use App\Http\Requests\Association\UpdateTaskStatusRequest;
+
 use App\Http\Requests\Donation\WalletDonationForCompaingRequest;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
@@ -209,6 +211,29 @@ public function createAssociationCampaign(StoreCampaignRequest $request): JsonRe
 }
 
 
+public function getVolunteersByTask( $id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->getVolunteersByTask($id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function updateAcceptanceVolunteerStatus(UpdateTaskStatusRequest $request, $id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->updateAcceptanceVolunteerStatus($request->validated() ,$id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 
 
 }
