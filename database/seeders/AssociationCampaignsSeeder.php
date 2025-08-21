@@ -35,7 +35,7 @@ class AssociationCampaignsSeeder extends Seeder
                     '3.jpg',
                     '4.jpg',
                 ];
-        
+
         $tasks_start_time = ['08:00:00' , '10:30:00', '13:00:00', '15:45:00'];
 
         $tasks_end_time = ['09:30:00' , '12:00:00' , '14:30:00' , '17:00:00'];
@@ -69,8 +69,10 @@ class AssociationCampaignsSeeder extends Seeder
         $amounts = [50000, 30000, 20000, 40000];
         $emergency_level = [1,2,2,5];
 
-        $classificationIds = [1, 1, 3, 4]; 
-        $statusIds = [1, 2, 1 , 1]; 
+        $classificationIds = [1, 1, 3, 4];
+        $statusIds = [1, 2, 1 , 1];
+
+        $compaigns_time = [1, 2, 1 , 1];
 
         for ($i = 0; $i < 4; $i++) {
             AssociationCampaign::create([
@@ -84,6 +86,7 @@ class AssociationCampaignsSeeder extends Seeder
                 'tasks_start_time' => $tasks_start_time[$i],
                 'tasks_end_time' => $tasks_end_time[$i],
                 'emergency_level' => $emergency_level[$i],
+                'compaigns_time' => $compaigns_time[$i],
                 'compaigns_start_time' => Carbon::now()->subDays(rand(1, 10)),
                 'compaigns_end_time' => Carbon::now()->addDays(rand(10, 30)),
             ]);

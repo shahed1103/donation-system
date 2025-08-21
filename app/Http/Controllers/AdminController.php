@@ -195,4 +195,15 @@ public function getVoluntingCompDetails($compaign_id): JsonResponse {
 }
 
 
+public function createAssociationCampaign(StoreCampaignRequest $data): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->createAssociationCampaign($data);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 }

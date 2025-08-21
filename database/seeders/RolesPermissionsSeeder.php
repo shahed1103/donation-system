@@ -55,7 +55,7 @@ class RolesPermissionsSeeder extends Seeder
 
         // 3. Assign permissions
         $superAdminRole->syncPermissions($permissions);
-        $adminRole->syncPermissions(['totalAssociationDonationsByYear']);
+        $adminRole->syncPermissions($permissions);
         $leaderRole->syncPermissions($permissions);
 
          $sourcePath = public_path('uploads/seeder_photos/defualtProfilePhoto.png');

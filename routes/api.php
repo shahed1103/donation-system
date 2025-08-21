@@ -424,6 +424,11 @@ Route::middleware('auth:sanctum')->get('getVoluntingCampigns/{status_id}',
 Route::middleware('auth:sanctum')->get('getVoluntingCompDetails/{compaign_id}',
  [AdminController::class, 'getVoluntingCompDetails'])->name('Admin.getVoluntingCompDetails');
 
+Route::middleware('auth:sanctum')->post('createAssociationCampaign',
+ [AdminController::class, 'createAssociationCampaign'])->name('Admin.createAssociationCampaign');
+
+
+
 
 });
 

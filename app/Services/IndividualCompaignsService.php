@@ -30,8 +30,8 @@ use App\Traits\GetUnderReviewIndiviCampaignDetailsMain;
 class IndividualCompaignsService
 {
     use GetUnderReviewIndiviCampaignDetailsMain;
-    
-    public function createIndiviCompa($request): array{
+
+public function createIndiviCompa($request): array{
 
         $user= Auth::user()->id;
 
@@ -237,7 +237,7 @@ class IndividualCompaignsService
     public function getUnderReviewIndiviCampaignDetailsMob($campaignId):array{
         return $this->getUnderReviewIndiviCampaignDetailsMain($campaignId);
     }
-        
+
     // Get rejected individual campaign details
     public function showRejectedIndiviCampaignDetails($campaignId):array{
         $compaign = IndCompaign::with(['user', 'classification' , 'campaignStatus' , 'donations'])->findOrFail($campaignId);

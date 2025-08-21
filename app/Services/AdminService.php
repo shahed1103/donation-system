@@ -12,7 +12,6 @@ use App\Models\DonationAssociationCampaign;
 use App\Models\Donation;
 use App\Models\VolunteerTask;
 
-
 use App\Models\SharedAssociationCampaign;
 use App\Models\AssociationCampaign;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -402,7 +401,7 @@ public function getVoluntingCampigns($campaignStatus) : array{
          $message = 'Volunting campaigns are retrived sucessfully';
 
          return ['Volunting campaigns' => $det , 'message' => $message];
-   }
+}
 
 
 
@@ -435,6 +434,7 @@ public function getVoluntingCampigns($campaignStatus) : array{
             'tasks' => $taskDet,
             'campaign_start_time' => $campaign->compaigns_start_time,
             'campaign_end_time' => $campaign->compaigns_end_time,
+            'compaigns_time' => $campaign ->compaigns_time,
             'tasks_time' => "$campaign->tasks_start_time - $campaign->tasks_end_time",
 
          ];
@@ -460,4 +460,75 @@ public function getVoluntingCampigns($campaignStatus) : array{
       return ['task' => $taskDet , 'message' => $message];
    }
 
+
+
+
+
+
+    public function createAssociationCampaign(array $data): array
+    {
+
+        if (isset($data['photo']) && $data['photo'] instanceof \Illuminate\Http\UploadedFile) {
+            $path = $data['photo']->store('campaigns', 'public');
+            $data['photo'] = $path;
+        }
+
+        $campaign = AssociationCampaign::create([
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'location' => $data['location'],
+            'classification_id' => $data['classification_id'],
+            'amount_required' => $data['amount_required'],
+            'campaign_status_id' => 1,
+            'photo' => $data['photo'],
+            'compaigns_start_time' => $data['compaigns_start_time'],
+            'compaigns_end_time' => $data['compaigns_end_time'],
+            'compaigns_time' => $data['compaigns_time'],
+            'emergency_level' => $data['emergency_level'],
+        ]);
+
+
+        $campaign->refresh();
+        if (!empty($data['tasks'])) {
+            foreach ($data['tasks'] as $task) {
+                VolunteerTask::create([
+                    'name' => $task['name'],
+                    'description' => $task['description'],
+                    'number_volunter_need' => $task['number_volunter_need'],
+                    'hours' => $task['hours'],
+                    'association_campaign_id' => $campaign->id,
+                ]);
+            }
+        }
+
+
+    $classification_name = Classification::find($campaign->classification_id)->classification_name ?? null;
+    $campaign_status_type = CampaignStatus::find(1)->status_type ?? null;
+
+        $campaign_dett = [
+            'id' => $campaign->id,
+            'title' => $campaign->title,
+            'description' => $campaign->description,
+            'classification_id' => [
+                'id' => $campaign->classification_id,
+                'classification_name' => $classification_name
+            ],
+            'photo' => $campaign->photo ? url(Storage::url($campaign->photo)) : null,
+            'location' => $campaign->location,
+            'amount_required' => $campaign->amount_required,
+            'campaign_status_id' => [
+                'id' => $campaign->campaign_status_id,
+                'campaign_status_type' => $campaign_status_type
+            ],
+            'compaigns_start_time' => $campaign->compaigns_start_time,
+            'compaigns_end_time' => $campaign->compaigns_end_time,
+            'emergency_level' => $campaign->emergency_level,
+            'tasks' => $campaign->volunteerTasks()->get(['id', 'name', 'description', 'number_volunter_need', 'hours']),
+        ];
+
+        $message = 'Your campaign created successfully';
+
+        return ['campaign' => $campaign_dett, 'message' => $message];
+    }
 }
+
