@@ -465,32 +465,32 @@ public function getVoluntingCampigns($campaignStatus) : array{
 
 
 
-    public function createAssociationCampaign(array $data): array
+    public function createAssociationCampaign($request): array
     {
-
-        if (isset($data['photo']) && $data['photo'] instanceof \Illuminate\Http\UploadedFile) {
-            $path = $data['photo']->store('campaigns', 'public');
-            $data['photo'] = $path;
-        }
+    if ($request->hasFile('photo')) {
+             $photo = $request->file('photo');
+             $path = $photo->store('uploads/profilePhoto', 'public');
+             $fullPath = url(Storage::url($path));
+     }
 
         $campaign = AssociationCampaign::create([
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'location' => $data['location'],
-            'classification_id' => $data['classification_id'],
-            'amount_required' => $data['amount_required'],
+            'title' => $request['title'],
+            'description' => $request['description'],
+            'location' => $request['location'],
+            'classification_id' => $request['classification_id'],
+            'amount_required' => $request['amount_required'],
             'campaign_status_id' => 1,
-            'photo' => $data['photo'],
-            'compaigns_start_time' => $data['compaigns_start_time'],
-            'compaigns_end_time' => $data['compaigns_end_time'],
-            'compaigns_time' => $data['compaigns_time'],
-            'emergency_level' => $data['emergency_level'],
+            'photo' => $request['photo'],
+            'compaigns_start_time' => $request['compaigns_start_time'],
+            'compaigns_end_time' => $request['compaigns_end_time'],
+            'compaigns_time' => $request['compaigns_time'],
+            'emergency_level' => $request['emergency_level'],
         ]);
 
 
         $campaign->refresh();
-        if (!empty($data['tasks'])) {
-            foreach ($data['tasks'] as $task) {
+        if (!empty($request['tasks'])) {
+            foreach ($request['tasks'] as $task) {
                 VolunteerTask::create([
                     'name' => $task['name'],
                     'description' => $task['description'],
