@@ -128,7 +128,7 @@ public function getAssociationCompaingsClosed($association_id): array
                   ->sum('amount');
 
             $compaingAll[] = [
-                      'id' =>  $campaign->id,
+                  'id' =>  $campaign->id,
                   'association_id' => $association_id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
@@ -143,7 +143,7 @@ public function getAssociationCompaingsClosed($association_id): array
          }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
-      }
+}
 
 
 public function getCampaignDetails($campaignId): array
@@ -214,9 +214,15 @@ public function getCampaignDetails($campaignId): array
          $totalDonations = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
             ->sum('amount');
 
-   $completedCampaignsCount = count($this->getAssociationCompaingsComplete($id));
-   $closedCampaignsCount = count($this->getAssociationCompaingsClosed($id));
-   $activeCampaignsCount = count($this->getAssociationsCampaignsActive($id));
+$response1 = $this->getAssociationCompaingsClosed($id);
+$closedCampaignsCount = count($response1['campaign']);
+
+$response2 = $this->getAssociationCompaingsComplete($id);
+$completedCampaignsCount = count($response2['campaign']);
+
+$response2 = $this->getAssociationsCampaignsActive($id);
+$activeCampaignsCount = count($response2['campaign']);
+
          $association_owner = User::find($association->association_owner_id);
          $associationDet = [];
 
@@ -230,7 +236,7 @@ public function getCampaignDetails($campaignId): array
             'date_end_working' => $association -> date_end_working,
             'total_donations' => $totalDonations,
             'closed_campaigns' => $closedCampaignsCount,
-            'completed_campaigns' => $completedCampaignsCount,
+            'completed_campaigns' =>  $completedCampaignsCount,
             'active_campaigns' => $activeCampaignsCount
             ];
             $message = 'association details are retrived sucessfully';
