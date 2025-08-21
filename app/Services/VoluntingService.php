@@ -39,7 +39,6 @@ class VoluntingService
     foreach ($voluntings as $volunting) {
         $campaign = $volunting->associationCampaigns;
         $taskCount = $voluntings->where('associationCampaigns.id', $campaign->id)->count();
-
         if ($campaign && !in_array($campaign->id, $seenCampaigns) && $campaign->campaign_status_id == 1) {
 
              $tasksC = $campaign->volunteerTasks->sum('number_volunter_need');
@@ -94,9 +93,9 @@ class VoluntingService
             'number_of_tasks' => $campaign->volunteerTasks->count(),
             'tasks' => $taskDet,
             'campaign_start_time' => $campaign->compaigns_start_time,
-            'campaign_end_time' => $campaign->compaigns_end_time, 
+            'campaign_end_time' => $campaign->compaigns_end_time,
             'tasks_time' => "$campaign->tasks_start_time - $campaign->tasks_end_time",
-     
+
          ];
 
          $message = 'Volunting campaign details are retrived sucessfully';
@@ -139,7 +138,7 @@ class VoluntingService
       return ['volunting request' => $voluntingRequest , 'message' => $message];
    }
 
-   //all upcoming tasks for user 
+   //all upcoming tasks for user
    public function upComingTasks() : array{
       $user = Auth::user();
       $tasks = $user->volunteerProfile->tasks;
@@ -166,10 +165,10 @@ class VoluntingService
 
       $message = 'Your upComing Tasks retrivrd successfully';
 
-      return ['upComing Tasks' => $det , 'message' => $message];  
+      return ['upComing Tasks' => $det , 'message' => $message];
     }
 
-   //edit task status  
+   //edit task status
    public function editTaskStatus($request , $taskId) : array{
       $user = Auth::user();
       $TaskIn =  TaskVolunteerProfile::with('status')
@@ -188,7 +187,7 @@ class VoluntingService
       $TaskIn->load('status');
       $message = ' Task Status updated successfully';
 
-      return ['Task' => $TaskIn , 'message' => $message];  
+      return ['Task' => $TaskIn , 'message' => $message];
    }
 
    }

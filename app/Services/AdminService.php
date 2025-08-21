@@ -10,6 +10,9 @@ use App\Models\Association;
 use App\Models\CampaignStatus;
 use App\Models\DonationAssociationCampaign;
 use App\Models\Donation;
+use App\Models\VolunteerTask;
+
+
 use App\Models\SharedAssociationCampaign;
 use App\Models\AssociationCampaign;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -199,11 +202,6 @@ public function AssociationDetails($owner_id): array
 
 
 
-
-
-
-
-
 public function getCampaignsStatus(): array
 {
         $status = CampaignStatus::select('id', 'status_type')->get()
@@ -352,19 +350,11 @@ public function EnvironmentalAssociationsCampaigns($association_id , $campaignSt
 
 
 
-
-
-
-
-
-
-
-
 public function AssociationAdmin ($owner_id) {
     // $association = Association:: firstWhere('id', $association_id);
     // $admin_id = $association -> association_owner_id;
-    
-    $admin = User:: firstWhere('id', $owner_id );
+
+ $admin = User:: firstWhere('id', $owner_id );
 
  $adminDet = [];
  $adminDet[] = [
@@ -377,5 +367,97 @@ public function AssociationAdmin ($owner_id) {
         $message = 'Your admin retrived sucessfully';
         return ['admin' => $adminDet, 'message' => $message];
 }
+
+
+
+
+public function getVoluntingCampigns($campaignStatus) : array{
+    $voluntings = VolunteerTask::with('associationCampaigns.classification' , 'associationCampaigns.campaignStatus')->get();
+    $seenCampaigns = [];
+    $det = [];
+
+    foreach ($voluntings as $volunting) {
+        $campaign = $volunting->associationCampaigns;
+        $taskCount = $voluntings->where('associationCampaigns.id', $campaign->id)->count();
+        if ($campaign && !in_array($campaign->id, $seenCampaigns) && $campaign->campaign_status_id == $campaignStatus) {
+             $tasksC = $campaign->volunteerTasks->sum('number_volunter_need');
+
+             if($tasksC <= 0){
+               continue;
+             }
+
+            $seenCampaigns[] = $campaign->id;
+
+            $det[] = [
+                'id' => $campaign->id,
+                'title' => $campaign->title,
+                'classification_id' => ['id' => $campaign->classification_id , 'classification_name' => $campaign->classification->classification_name],
+                'photo' => url(Storage::url($campaign->photo)) ,
+                'campaign_status_id' => ['id' => $campaign->campaign_status_id , 'campaign_status_type' =>  $campaign->campaignStatus->status_type],
+                'number_of_tasks' => $taskCount,
+            ];
+        }
+    }
+
+         $message = 'Volunting campaigns are retrived sucessfully';
+
+         return ['Volunting campaigns' => $det , 'message' => $message];
+   }
+
+
+
+
+   public function getVoluntingCompDetails($campaignId) : array{
+   $campaign = AssociationCampaign::with('classification' , 'campaignStatus' , 'volunteerTasks')->findOrFail($campaignId);
+
+   $taskDet = [];
+   $det = [];
+    foreach ($campaign->volunteerTasks as $task) {
+        if ($task->number_volunter_need > 0) {
+            $taskDet[] = [
+                'id' => $task->id,
+                'task_name' => $task->name,
+                'number_volunter_need' => $task->number_volunter_need,
+                'description' => $task->description,
+                'hours' => $task -> hours
+            ];
+        }
+    }
+
+      $det[] = [
+            'id' => $campaign->id,
+            'title' => $campaign->title,
+            'description' => $campaign->description,
+            'location' => $campaign->location,
+            'classification_id' => ['id' => $campaign->classification_id , 'classification_name' => $campaign->classification->classification_name],
+            'photo' => url(Storage::url($campaign->photo)) ,
+            'campaign_status_id' => ['id' => $campaign->campaign_status_id , 'campaign_status_type' =>  $campaign->campaignStatus->status_type],
+            'tasks' => $taskDet,
+            'campaign_start_time' => $campaign->compaigns_start_time,
+            'campaign_end_time' => $campaign->compaigns_end_time,
+            'tasks_time' => "$campaign->tasks_start_time - $campaign->tasks_end_time",
+
+         ];
+
+         $message = 'Volunting campaign details are retrived sucessfully';
+
+         return ['Volunting campaign' => $det , 'message' => $message];
+   }
+
+   //get task details
+   public function getTaskDetails($taskID) : array{
+     $task = VolunteerTask::findOrFail($taskID);
+
+     $taskDet = [
+      'task_name' => $task->name,
+      'description' => $task->description,
+      'hours' => $task->hours,
+      'number_volunter_need' => $task->number_volunter_need,
+     ];
+
+      $message = 'task details are retrived sucessfully';
+
+      return ['task' => $taskDet , 'message' => $message];
+   }
 
 }

@@ -144,7 +144,7 @@ Route::middleware('auth:sanctum')->controller(MobileHomeController::class)->grou
     Route::get('totalInkindDonationsByYearMob', 'totalInkindDonationsByYearMob')
         ->name('user.totalInkindDonationsByYearMob')
         ->middleware('can:totalInkindDonationsByYearMob');
-        
+
 });
 
 
@@ -402,13 +402,27 @@ Route::middleware('auth:sanctum')->get('getCampaignsStatus',
 
 
 
-Route::middleware('auth:sanctum')->get('HealthyAssociationsCampaigns/{association_id}/{campaignStatus}', [AdminController::class, 'HealthyAssociationsCampaigns'])->name('Admin.HealthyAssociationsCampaigns');
-Route::middleware('auth:sanctum')->get('EducationalAssociationsCampaigns/{association_id}/{campaignStatus}', [AdminController::class, 'EducationalAssociationsCampaigns'])->name('Admin.EducationalAssociationsCampaigns');
-Route::middleware('auth:sanctum')->get('CleanlinessAssociationsCampaigns/{association_id}/{campaignStatus}', [AdminController::class, 'CleanlinessAssociationsCampaigns'])->name('Admin.CleanlinessAssociationsCampaigns');
-Route::middleware('auth:sanctum')->get('EnvironmentalAssociationsCampaigns/{association_id}/{campaignStatus}', [AdminController::class, 'EnvironmentalAssociationsCampaigns'])->name('Admin.EnvironmentalAssociationsCampaigns');
+Route::middleware('auth:sanctum')->get('HealthyAssociationsCampaigns/{association_id}/{campaignStatus}',
+[AdminController::class, 'HealthyAssociationsCampaigns'])->name('Admin.HealthyAssociationsCampaigns');
+
+Route::middleware('auth:sanctum')->get('EducationalAssociationsCampaigns/{association_id}/{campaignStatus}',
+[AdminController::class, 'EducationalAssociationsCampaigns'])->name('Admin.EducationalAssociationsCampaigns');
+
+Route::middleware('auth:sanctum')->get('CleanlinessAssociationsCampaigns/{association_id}/{campaignStatus}',
+[AdminController::class, 'CleanlinessAssociationsCampaigns'])->name('Admin.CleanlinessAssociationsCampaigns');
+
+Route::middleware('auth:sanctum')->get('EnvironmentalAssociationsCampaigns/{association_id}/{campaignStatus}',
+ [AdminController::class, 'EnvironmentalAssociationsCampaigns'])->name('Admin.EnvironmentalAssociationsCampaigns');
 
 
-Route::middleware('auth:sanctum')->get('AssociationAdmin/{owner_id}', [AdminController::class, 'AssociationAdmin'])->name('Admin.AssociationAdmin');
+Route::middleware('auth:sanctum')->get('AssociationAdmin/{owner_id}',
+ [AdminController::class, 'AssociationAdmin'])->name('Admin.AssociationAdmin');
+
+Route::middleware('auth:sanctum')->get('getVoluntingCampigns/{status_id}',
+ [AdminController::class, 'getVoluntingCampigns'])->name('Admin.getVoluntingCampigns');
+
+Route::middleware('auth:sanctum')->get('getVoluntingCompDetails/{compaign_id}',
+ [AdminController::class, 'getVoluntingCompDetails'])->name('Admin.getVoluntingCompDetails');
 
 
 });
