@@ -378,6 +378,11 @@ class PersonalAccountService
      //show wallet
      public function showWallet(): array{
         $user = Auth::user();
+
+        if($user->wallet == null){
+            throw new Exception("You do not have wallet yet create a wallet", 400);
+        }
+
         $wallet = [
         'wallet_value' => $user->wallet->wallet_value,
         'wallet_careated_date' => $user->wallet->created_at->format('Y-m-d')
