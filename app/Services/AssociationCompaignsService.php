@@ -149,9 +149,6 @@ class AssociationCompaignsService
          $totalDonors = $campaign->donationAssociationCampaigns()
                                  ->distinct('user_id')
                                  ->count('user_id');
-         $totalDonors = $campaign->donationAssociationCampaigns()
-                        ->distinct('user_id')
-                        ->count('user_id');
 
          $compaingDet = [];
          $compaingDet[] = [

@@ -197,6 +197,10 @@ public function createIndiviCompa($request): array{
                 ? url(Storage::url($compaign->user->photo))
                 : url(Storage::url($targetPath)) ;
 
+        $totalDonors = $compaign->donations()
+                        ->distinct('user_id')
+                        ->count('user_id');
+
             $compaingDet = [];
             $compaingDet[] = [
                 'title' => $compaign->title,
@@ -210,6 +214,7 @@ public function createIndiviCompa($request): array{
                     'id' =>$compaign->photo_id ,
                     'photo' => $fullPath
                 ],
+                'totalDonors' => $totalDonors,
                 'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
                 'description' => $compaign->description,
                 'campaign_start_time' => $compaign->compaigns_start_time,
