@@ -16,7 +16,7 @@ use App\Models\DonationType;
 use App\Models\StatusOfDonation;
 use App\Models\InkindDonationAcceptence;
 use App\Models\InkindDonation;
-
+use Storage;
 use App\Models\IndCompaign;
 use App\Models\AssociationCampaign;
 use App\Models\DonationAssociationCampaign;
@@ -434,6 +434,7 @@ public function getInkindDonation(): array
                 ->pluck('donation_Type'),
                 'name_of_donation'     => $inkindDonation->center_name,
                 'amount'    => $inkindDonation->amount,
+                'photo' => url(Storage::url($inkindDonation->photo)),
                 'description'    => $inkindDonation->description,
                 'status_of_donation'     => StatusOfDonation::where('id', $inkindDonation->status_of_donation_id)
                 ->pluck('status'),

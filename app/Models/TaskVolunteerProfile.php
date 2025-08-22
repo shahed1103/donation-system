@@ -16,4 +16,9 @@ class TaskVolunteerProfile extends Model
     {
         return $this->belongsTo(TaskStatus::class);
     }
+
+    public function volunteerProfile()
+{
+    return $this->belongsTo(VolunteerProfile::class, 'volunteer_profile_id');
+}
 }

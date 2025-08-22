@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Responses\response;
 use App\Services\AdminService;
 use App\Http\Requests\Donation\DonationForCompaingRequest;
+use App\Http\Requests\Association\StoreCampaignRequest;
+use App\Http\Requests\Association\UpdateTaskStatusRequest;
+
 use App\Http\Requests\Donation\WalletDonationForCompaingRequest;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
@@ -195,10 +198,10 @@ public function getVoluntingCompDetails($compaign_id): JsonResponse {
 }
 
 
-public function createAssociationCampaign(StoreCampaignRequest $data): JsonResponse {
+public function createAssociationCampaign(StoreCampaignRequest $request): JsonResponse {
     $data = [];
     try {
-        $data = $this->adminService->createAssociationCampaign($data);
+        $data = $this->adminService->createAssociationCampaign($request);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -206,4 +209,31 @@ public function createAssociationCampaign(StoreCampaignRequest $data): JsonRespo
         return Response::Error($data, $message, $errors);
     }
 }
+
+
+public function getVolunteersByTask( $id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->getVolunteersByTask($id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function updateAcceptanceVolunteerStatus(UpdateTaskStatusRequest $request, $id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->updateAcceptanceVolunteerStatus($request->validated() ,$id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+
 }

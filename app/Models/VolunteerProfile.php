@@ -16,10 +16,10 @@ class VolunteerProfile extends Model
         'previous_volunteer_work',
     ];
 
-    public function user()
-    {
-    return $this->belongsTo(User::class , 'user_id');
-    }
+  public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
 
     public function availabilityType()
     {
