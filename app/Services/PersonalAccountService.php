@@ -154,51 +154,54 @@ class PersonalAccountService
 
     //4 - the most campigns that user donate for it 
     public function mostDonationFor(): array{
-    $userId = Auth::user()->id;
-    $topDonation = [];
-    $topDonation[] = Donation::select('campaign_id', DB::raw('SUM(amount) as tamount'))
+      $userId = Auth::user()->id;
+        $topDonation = [];
+        $topDonationDet = [];
+
+        $topDonation[] = Donation::select('campaign_id', DB::raw('SUM(amount) as tamount'))
                                 ->where('user_id', $userId)
                                 ->groupBy('campaign_id')
                                 ->orderByDesc('tamount')
                                 ->with('IndCompaigns')
                                 ->first();
 
-    $topDonation []  = DonationAssociationCampaign::select('association_campaign_id', DB::raw('SUM(amount) as tamount'))
+        $topDonation []  = DonationAssociationCampaign::select('association_campaign_id', DB::raw('SUM(amount) as tamount'))
                                                     ->where('user_id', $userId)
                                                     ->groupBy('association_campaign_id')
                                                     ->orderByDesc('tamount')
                                                     ->with('associationCompaigns')
                                                     ->first();
 
-                    usort($topDonation, function ($a, $b) {
+        $topDonation = array_filter($topDonation);
+
+                    usort($topDonation , function ($a, $b) {
                     return $b['tamount'] <=> $a['tamount'];
                 });
 
-    if ($topDonation) {
+        if (!empty($topDonation)) {
 
-    if($topDonation[0]->association_campaign_id){
-    $firstDonation = DonationAssociationCampaign::where('user_id', $userId)
-        ->where('association_campaign_id', $topDonation[0]->association_campaign_id)
-        ->orderBy('created_at', 'desc') 
-        ->first();
+        if($topDonation[0]->association_campaign_id){
+            $firstDonation = DonationAssociationCampaign::where('user_id', $userId)
+                        ->where('association_campaign_id', $topDonation[0]->association_campaign_id)
+                        ->orderBy('created_at', 'desc') 
+                        ->first();
         }
         else{
-    $firstDonation = Donation::where('user_id', $userId)
-        ->where('campaign_id', $topDonation[0]->campaign_id)
-        ->orderBy('created_at', 'desc') 
-        ->first();
+            $firstDonation = Donation::where('user_id', $userId)
+                        ->where('campaign_id', $topDonation[0]->campaign_id)
+                        ->orderBy('created_at', 'desc') 
+                        ->first();
+            }
+        
+        $name = $topDonation[0]->associationCompaigns->title ?? $topDonation[0]->IndCompaigns->title;
+        $topDonationDet = [
+            'campiagn name' => $name,
+            'donation time' => $firstDonation->created_at->format('Y-m-d')
+            ];
         }
-    }
-    $topDonationDet = [];
-    $name = $topDonation[0]->associationCompaigns->title ?? $topDonation[0]->IndCompaigns->title;
-    $topDonationDet = [
-         'campiagn name' => $name,
-        'donation time' => $firstDonation->created_at->format('Y-m-d')
-    ];
+        $message = 'the most campaign I donation for are retrived sucessfully';
 
-    $message = 'the most campaign I donation for are retrived sucessfully';
-
-    return ['most campaign donation for' => $topDonationDet, 'message' => $message];
+        return ['most campaign donation for' => $topDonationDet, 'message' => $message];
     }
 
     // Create Volunting Profile
