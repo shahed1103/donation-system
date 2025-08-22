@@ -127,7 +127,8 @@ class AssociationCompaignsService
             'association_location' => $association->location,
             'total_donations' => $totalDonations,
             'total_campaigns' => $totalCampaigns,
-            'completed_campaigns' => $completedCampaigns
+            'completed_campaigns' => $completedCampaigns,
+            'photo' => url(Storage::url($association->photo)),
             ];
             $message = 'association details are retrived sucessfully';
 

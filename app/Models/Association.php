@@ -17,7 +17,9 @@ class Association extends Model
         'description',
         'association_owner_id',
         'date_start_working',
-        'date_end_working'
+        'date_end_working',
+        'photo',
+
 
     ];
 
