@@ -360,7 +360,7 @@ class PersonalAccountService
     //create wallet for user
     public function createWallet($request): array{
         $user = Auth::user();
-        if($user->wallet->exists()){
+        if($user->wallet != null){
             throw new Exception("You cannot create a wallet because you already have one", 400);
         }
         
