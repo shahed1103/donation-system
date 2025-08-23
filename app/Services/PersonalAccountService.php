@@ -336,7 +336,7 @@ class PersonalAccountService
         $userIfon->update([
         'name' => $request['name'] ?? $userIfon->name,
         'city_id' => $request['city_id'] ?? $userIfon->city_id ,
-        'phone_number' => $request['phone_number'] ?? $userIfon ->phone,
+        'phone' => $request['phone'] ?? $userIfon ->phone,
         'age' => $request['age'] ?? $userIfon->age,
         'gender_id' =>  $request['gender_id'] ?? $userIfon->gender_id ,
         'photo' => $fullPath ?? $userIfon->photo
@@ -347,7 +347,7 @@ class PersonalAccountService
         $userDett = [
         'name' => $userIfon->name,
         'city_id' => ['id' => $userIfon->city_id , 'city_name' => $userIfon->city->name  ?? null],
-        'phone_number' =>  $userIfon ->phone,
+        'phone' =>  $userIfon ->phone,
         'age' => $userIfon->age,
         'gender_id' => ['id' => $userIfon->gender_id , 'gender_type' => $userIfon->gender->type ?? null ],
         'photo' => $userIfon->photo
