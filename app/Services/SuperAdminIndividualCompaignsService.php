@@ -56,6 +56,10 @@ public function getActiveIndiviCompaign(): array
         $campaignAll[] = [
             'id' => $campaign->id,
             'title' => $campaign->title,
+            'classification_id' => [
+                'id' => $campaign->classification_id,
+                 'campaign_classification' => optional($campaign->classification)->classification_name,
+            ],
             'amount_required' => $campaign->amount_required,
             'donation_amount' => $totalDonations,
             'campaign_status_id' => [
@@ -97,6 +101,10 @@ public function getCompleteIndiviCompaign(): array
             'title' => $campaign->title,
             'amount_required' => $campaign->amount_required,
             'donation_amount' => $totalDonations,
+            'classification_id' => [
+                'id' => $campaign->classification_id,
+                 'campaign_classification' => optional($campaign->classification)->classification_name,
+            ],
             'campaign_status_id' => [
                 'id' => $campaign->campaign_status_id,
                 'campaign_status_type' => optional($campaign->campaignStatus)->status_type,
@@ -138,6 +146,10 @@ public function getClosedRejectedIndiviCampaigns(): array
             'title' => $campaign->title,
             'amount_required' => $campaign->amount_required,
             'donation_amount' => $totalDonations,
+            'classification_id' => [
+                'id' => $campaign->classification_id,
+                 'campaign_classification' => optional($campaign->classification)->classification_name,
+            ],
             'campaign_status_id' => [
                 'id' => $campaign->campaign_status_id,
                 'campaign_status_type' => optional($campaign->campaignStatus)->status_type,
@@ -186,6 +198,10 @@ public function getClosedUnderReviewIndiviCompaign(): array
             'campaign_status_id' => [
                 'id' => $campaign->campaign_status_id,
                 'campaign_status_type' => optional($campaign->campaignStatus)->status_type,
+            ],
+            'classification_id' => [
+                'id' => $campaign->classification_id,
+                 'campaign_classification' => optional($campaign->classification)->classification_name,
             ],
             'acceptance_status_id' => [
                 'id' => $campaign->acceptance_status_id,

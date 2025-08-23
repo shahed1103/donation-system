@@ -66,6 +66,10 @@ public function getAssociationsCampaignsActive($association_id): array
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
                   'donation_amount' => $totalDonations,
+                  'classification_id' => [
+                'id' => $campaign->classification_id,
+                 'campaign_classification' => optional($campaign->classification)->classification_name,
+            ],
                   'campaign_status_id' => [
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
@@ -99,6 +103,10 @@ public function getAssociationCompaingsComplete($association_id): array
                   'photo' => url(Storage::url($campaign->photo)),
                   'amount_required' => $campaign->amount_required,
                   'donation_amount' => $totalDonations,
+                  'classification_id' => [
+                'id' => $campaign->classification_id,
+                 'campaign_classification' => optional($campaign->classification)->classification_name,
+            ],
                   'campaign_status_id' => [
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
@@ -132,6 +140,10 @@ public function getAssociationCompaingsClosed($association_id): array
                   'association_id' => $association_id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
+                  'classification_id' => [
+                'id' => $campaign->classification_id,
+                 'campaign_classification' => optional($campaign->classification)->classification_name,
+            ],
                   'amount_required' => $campaign->amount_required,
                   'donation_amount' => $totalDonations,
                   'campaign_status_id' => [
