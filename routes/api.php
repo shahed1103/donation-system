@@ -394,7 +394,7 @@ Route::middleware('auth:sanctum')->get('getDonationCountsByClassByYear/{owner_id
 
 
 
-Route::middleware('auth:sanctum')->get('AssociationDetails/{owner_id}',
+Route::middleware('auth:sanctum')->get('AssociationDetails/{owner_id}/{year}',
  [AdminController::class, 'AssociationDetails'])->name('Admin.AssociationDetails');
 
 Route::middleware('auth:sanctum')->get('getCampaignsStatus',

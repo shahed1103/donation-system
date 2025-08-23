@@ -55,6 +55,36 @@ public function totalAssociationDonationsByYear(int $owner_id, int $year): array
     ];
 }
 
+public function getDonationCountsByClassByYear(int $owner_id, int $year): array
+{
+    $association = Association::where('association_owner_id', $owner_id)->firstOrFail();
+
+    $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
+    $endOfYear   = Carbon::createFromDate($year, 12, 31)->endOfDay();
+
+    $campaignIds = $association->associationCampaigns()->pluck('association_campaigns.id');
+$counts = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
+    ->whereBetween('donation_association_campaigns.created_at', [$startOfYear, $endOfYear]) // <-- هنا التحديد
+    ->selectRaw('association_campaigns.classification_id, COUNT(*) as total')
+    ->join('association_campaigns', 'donation_association_campaigns.association_campaign_id', '=', 'association_campaigns.id')
+    ->groupBy('association_campaigns.classification_id')
+    ->pluck('total', 'association_campaigns.classification_id');
+
+
+    $data = [
+        'healthy'       => $counts[1] ?? 0,
+        'Educational'   => $counts[2] ?? 0,
+        'cleanliness'   => $counts[3] ?? 0,
+        'environmental' => $counts[4] ?? 0,
+    ];
+
+    $message = "Donation counts by classification for year {$year} retrieved successfully";
+
+    return [
+        'data' => $data,
+        'message' => $message
+    ];
+}
 
 public function getMonthlyDonationsByYear(int $owner_id, int $year): array
 {
@@ -135,39 +165,33 @@ public function getCompleteCampaignsCount(int $owner_id , $year): array
     ];
 }
 
-public function getDonationCountsByClassByYear(int $owner_id, int $year): array
+
+public function getClosedCampaignsCount(int $owner_id , $year): array
 {
-    $association = Association::where('association_owner_id', $owner_id)->firstOrFail();
+
+    $association = Association::where('association_owner_id' , $owner_id ) ->first();
 
     $startOfYear = Carbon::createFromDate($year, 1, 1)->startOfDay();
-    $endOfYear   = Carbon::createFromDate($year, 12, 31)->endOfDay();
-
-    $campaignIds = $association->associationCampaigns()->pluck('association_campaigns.id');
-$counts = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
-    ->whereBetween('donation_association_campaigns.created_at', [$startOfYear, $endOfYear]) // <-- هنا التحديد
-    ->selectRaw('association_campaigns.classification_id, COUNT(*) as total')
-    ->join('association_campaigns', 'donation_association_campaigns.association_campaign_id', '=', 'association_campaigns.id')
-    ->groupBy('association_campaigns.classification_id')
-    ->pluck('total', 'association_campaigns.classification_id');
+    $endOfYear = Carbon::createFromDate($year, 12, 31)->endOfDay();
 
 
-    $data = [
-        'healthy'       => $counts[1] ?? 0,
-        'Educational'   => $counts[2] ?? 0,
-        'cleanliness'   => $counts[3] ?? 0,
-        'environmental' => $counts[4] ?? 0,
-    ];
+    $campaignIds = SharedAssociationCampaign::where('association_id', $association->id)
+        ->pluck('association_campaign_id');
 
-    $message = "Donation counts by classification for year {$year} retrieved successfully";
+    $closedCampaignsCount = AssociationCampaign::whereIn('id', $campaignIds)
+        ->where('campaign_status_id', 2)
+        ->whereBetween('created_at', [$startOfYear, $endOfYear])
+        ->count();
+
+    $message = 'Closed campaigns count retrieved successfully';
 
     return [
-        'data' => $data,
+        'count' => $closedCampaignsCount,
         'message' => $message
     ];
 }
 
-
-public function AssociationDetails($owner_id): array
+public function AssociationDetails($owner_id , $year): array
       {
          $association = Association::where('association_owner_id', $owner_id)->firstOrFail();
          $campaignIds = SharedAssociationCampaign::where('association_id', $association->id)
@@ -177,8 +201,20 @@ public function AssociationDetails($owner_id): array
          $totalDonations = DonationAssociationCampaign::whereIn('association_campaign_id', $campaignIds)
             ->sum('amount');
 
-        //  $completedCampaigns = $this->getAssociationCompaingsComplete($id);
-        //  $activeCampaigns = $this->getAssociationsCampaignsActive($id);
+            $response1 = $this->getClosedCampaignsCount($owner_id , $year);
+    $closedCampaignsCount = $response1['count'];
+
+            $response2 = $this->getCompleteCampaignsCount($owner_id, $year);
+    $completeCampaignsCount = $response2['count'];
+
+            $response3 = $this->getActiveCampaignsCount($owner_id, $year);
+    $activeCampaignsCount = $response3['count'];
+
+            $response4 = $this->totalAssociationDonationsByYear($owner_id, $year);
+    $totalAssociationDonationsByYear = $response4['total'];
+
+
+
          $association_owner = User::find($association->association_owner_id);
          $associationDet = [];
 
@@ -191,8 +227,10 @@ public function AssociationDetails($owner_id): array
             'date_start_working' => $association -> date_start_working,
             'date_end_working' => $association -> date_end_working,
             'total_donations' => $totalDonations,
-            // 'completed_campaigns' => $completedCampaigns,
-            // 'active_campaigns' => $activeCampaigns
+            'closedCampaignsCount' => $closedCampaignsCount,
+            'completeCampaignsCount' => $completeCampaignsCount,
+            'activeCampaignsCount' => $activeCampaignsCount,
+            'totalAssociationDonationsByYear' => $totalAssociationDonationsByYear
             ];
             $message = 'association details are retrived sucessfully';
 
@@ -454,7 +492,7 @@ public function getVoluntingCampigns($campaignStatus) : array{
 
     public function createAssociationCampaign($request): array
     {
-        
+
     if ($request->hasFile('photo')) {
              $photo = $request->file('photo');
              $path = $photo->store('uploads/profilePhoto', 'public');

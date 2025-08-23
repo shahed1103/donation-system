@@ -88,10 +88,10 @@ public function getDonationCountsByClassByYear($owner_id , $year): JsonResponse 
     }
 }
 
-public function AssociationDetails($owner_id ): JsonResponse {
+public function AssociationDetails($owner_id , $year ): JsonResponse {
     $data = [];
     try {
-        $data = $this->adminService->AssociationDetails($owner_id );
+        $data = $this->adminService->AssociationDetails($owner_id , $year );
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
