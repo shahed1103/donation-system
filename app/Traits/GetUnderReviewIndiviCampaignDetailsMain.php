@@ -17,7 +17,7 @@ trait GetUnderReviewIndiviCampaignDetailsMain
         $fullPath = url(Storage::url($photo));
         $targetPath = 'uploads/det/defualtProfilePhoto.png';
         $userPhoto = $compaign->user->photo
-                ? url(Storage::url($compaign->user->photo))
+                ? url(($compaign->user->photo))
                 : url(Storage::url($targetPath)) ;
 
             $compaingDet = [];

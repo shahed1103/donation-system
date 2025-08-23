@@ -193,9 +193,11 @@ public function createIndiviCompa($request): array{
         $lastDonation = $compaign->donations->sortByDesc('created_at')->first();
 
         $targetPath = 'uploads/det/defualtProfilePhoto.png';
+
         $userPhoto = $compaign->user->photo
-                ? url(Storage::url($compaign->user->photo))
+                ? url(($compaign->user->photo))
                 : url(Storage::url($targetPath)) ;
+
 
         $totalDonors = $compaign->donations()
                         ->distinct('user_id')
@@ -252,7 +254,7 @@ public function createIndiviCompa($request): array{
 
         $targetPath = 'uploads/det/defualtProfilePhoto.png';
         $userPhoto = $compaign->user->photo
-                ? url(Storage::url($compaign->user->photo))
+                ? url(($compaign->user->photo))
                 : url(Storage::url($targetPath)) ;
 
             $compaingDet = [];
