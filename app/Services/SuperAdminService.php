@@ -373,6 +373,7 @@ public function getCenters(): array
 {
     $centers = Center::All()->map(function ($center) {
             return [
+                'id' => $center->id,
                 'center_name'     => $center->center_name,
                 'location'    => $center->location,
                 'space'    => $center->space,
