@@ -437,7 +437,7 @@ public function getInkindDonation($id): array
                 'id' => $inkindDonation -> id,
                 'donation_type'     => DonationType::where('id', $inkindDonation->donation_type_id)
                 ->pluck('donation_Type'),
-                'name_of_donation'     => $inkindDonation->center_name,
+                'name_of_donation'     => $inkindDonation->name_of_donation,
                 'amount'    => $inkindDonation->amount,
                 'photo' => url(Storage::url($inkindDonation->photo)),
                 'description'    => $inkindDonation->description,
