@@ -428,10 +428,11 @@ public function deleteCenter($id): array
 
 
 
-public function getInkindDonation(): array
+public function getInkindDonation($id): array
 {
-    $inkindDonations = InkindDonation::All()->map(function ($inkindDonation) {
+    $inkindDonations = InkindDonation::where('center_id' , $id)->map(function ($inkindDonation) {
             return [
+                'id' => $inkindDonations -> id,
                 'donation_type'     => DonationType::where('id', $inkindDonation->donation_type_id)
                 ->pluck('donation_Type'),
                 'name_of_donation'     => $inkindDonation->center_name,
