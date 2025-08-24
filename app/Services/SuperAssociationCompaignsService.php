@@ -74,7 +74,7 @@ public function getAssociationsCampaignsActive($association_id): array
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
@@ -111,7 +111,7 @@ public function getAssociationCompaingsComplete($association_id): array
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ];
          }
             $message = 'Your campaign retrived sucessfully';
@@ -140,6 +140,7 @@ public function getAssociationCompaingsClosed($association_id): array
                   'association_id' => $association_id,
                   'title' => $campaign->title,
                   'photo' => url(Storage::url($campaign->photo)),
+
                   'classification_id' => [
                 'id' => $campaign->classification_id,
                  'campaign_classification' => optional($campaign->classification)->classification_name,
@@ -150,7 +151,7 @@ public function getAssociationCompaingsClosed($association_id): array
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  // 'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
             ];
          }
             $message = 'Your campaign retrived sucessfully';
