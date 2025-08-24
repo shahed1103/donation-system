@@ -306,7 +306,7 @@ Route::post('createCenter' , 'createCenter')
 Route::get('deleteCenter/{id}' , 'deleteCenter')
 ->name('superAdmin.deleteCenter');
 
-Route::get('getInkindDonation' , 'getInkindDonation')
+Route::get('getInkindDonation/{id}' , 'getInkindDonation')
 ->name('superAdmin.getInkindDonation');
 
 

@@ -236,10 +236,10 @@ public function deleteCenter( $id): JsonResponse {
     }
 }
 
-public function getInkindDonation( ): JsonResponse {
+public function getInkindDonation( $id): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAdminService->getInkindDonation();
+        $data = $this->superAdminService->getInkindDonation($id);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
