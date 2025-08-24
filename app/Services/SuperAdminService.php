@@ -460,4 +460,23 @@ public function getInkindDonation($id): array
 
 
 
+public function getCities(): array
+{
+    $cities = City::All()->map(function ($city) {
+            return [
+                'id' => $city->id,
+                'name'     => $city->name,
+            ];
+        });
+
+    $message = 'cities retrieved successfully';
+
+    return [
+        'cities' => $centers,
+        'message' => $message
+    ];
+}
+
+
+
 }

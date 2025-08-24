@@ -248,5 +248,18 @@ public function getInkindDonation( $id): JsonResponse {
     }
 }
 
+public function getCities(): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->getCities();
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+
 
 }

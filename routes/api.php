@@ -309,6 +309,10 @@ Route::get('deleteCenter/{id}' , 'deleteCenter')
 Route::get('getInkindDonation/{id}' , 'getInkindDonation')
 ->name('superAdmin.getInkindDonation');
 
+Route::get('getCities' , 'getCities')
+->name('superAdmin.getCities');
+
+
 
 });
 
