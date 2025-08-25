@@ -48,6 +48,7 @@ public function getAssociationsCampaignsActive($association_id): array
          $campaignIds = SharedAssociationCampaign::where('association_id', $association_id)
             ->pluck('association_campaign_id');
 
+
          $campaigns = AssociationCampaign::with(['classification', 'campaignStatus'])
             ->whereIn('id', $campaignIds)
             ->where('campaign_status_id', 1)
@@ -56,6 +57,7 @@ public function getAssociationsCampaignsActive($association_id): array
          $compaingAll = [];
 
          foreach ($campaigns as $campaign) {
+
             $totalDonations = DonationAssociationCampaign::where('association_campaign_id', $campaign->id)
                   ->sum('amount');
 
@@ -174,6 +176,8 @@ public function getCampaignDetails($campaignId): array
          $totalDonors = $campaign->donationAssociationCampaigns()
                         ->distinct('user_id')
                         ->count('user_id');
+        $donorCounts = DonationAssociationCampaign:: where ('association_campaign_id' ,$campaignId)->count();
+
          $remainingAmount = max($campaign->amount_required - $totalDonations, 0);
 
          $compaingDet = [];
@@ -184,6 +188,7 @@ public function getCampaignDetails($campaignId): array
             'donation_amount' => $totalDonations,
             'remaining_amount' => $remainingAmount,
             'location' => $campaign->location ,
+            'donorCounts' => $donorCounts,
             'photo' => url(Storage::url($campaign->photo)),
             'campaign_status' => [
                   'id' => $campaign->campaign_status_id,

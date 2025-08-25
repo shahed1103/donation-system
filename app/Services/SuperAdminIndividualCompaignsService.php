@@ -228,6 +228,7 @@ public function getActiveCompleteIndiviCampaignDetails($campaignId):array{
 
     $photo = IndCompaigns_photo::find($compaign->photo_id)->photo;
     $fullPath = url(Storage::url($photo));
+    $donorCounts = Donation:: where ('campaign_id' ,$campaignId)->count();
 
     $lastDonation = $compaign->donations->sortByDesc('created_at')->first();
 
@@ -243,6 +244,8 @@ public function getActiveCompleteIndiviCampaignDetails($campaignId):array{
             'amount_required' => $compaign->amount_required,
             'donation_amount' => $totalDonations,
             'remaining_amount' => $remainingAmount,
+
+            'donorCounts' => $donorCounts,
             'campaign_status' => [
                   'id' => $compaign->campaign_status_id,
                   'type' => $compaign->campaignStatus->status_type

@@ -22,6 +22,7 @@ trait GetUnderReviewIndiviCampaignDetailsMain
 
             $compaingDet = [];
             $compaingDet[] = [
+                'campaignId' => $campaignId,
                 'title' => $compaign->title,
                 'amount_required' => $compaign->amount_required,
                 'compaigns_time' => $compaign->compaigns_time,
