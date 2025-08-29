@@ -18,4 +18,14 @@ class DonationAssociationCampaign extends Model
     {
         return $this->belongsTo(AssociationCampaign::class , 'association_campaign_id');
     }
+
+    /**
+     * Get all of the gifts for the DonationAssociationCampaign
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function gifts(): HasMany
+    {
+        return $this->hasMany(GiftDonation::class, 'donation_id' );
+    }
 }

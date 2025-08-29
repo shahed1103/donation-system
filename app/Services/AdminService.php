@@ -563,7 +563,7 @@ public function getVolunteersByTask($taskId) : array
 
     $taskVolunteers = TaskVolunteerProfile::with('volunteerProfile.user')
         ->where('volunteer_task_id', $taskId)
-        -> where ('status_id' , 4)
+        -> where ('status_id' , 3)
         ->get();
 
        $volunteers = $taskVolunteers->map(function ($taskVol) {
@@ -611,5 +611,73 @@ public function updateAcceptanceVolunteerStatus(array $request, int $task_id): a
     ];
 }
 
+public function getAdminCampaignDetails($campaignId): array
+      {
+         $campaign = AssociationCampaign::with(['associations', 'campaignStatus', 'classification', 'donationAssociationCampaigns'])
+                              ->findOrFail($campaignId);
+
+         $totalDonations = $campaign->donationAssociationCampaigns->sum('amount');
+
+         $lastDonation = $campaign->donationAssociationCampaigns->sortByDesc('created_at')->first();
+
+         $totalDonors = $campaign->donationAssociationCampaigns()
+                                 ->distinct('user_id')
+                                 ->count('user_id');
+         $totalDonors = $campaign->donationAssociationCampaigns()
+                        ->distinct('user_id')
+                        ->count('user_id');
+        $donorCounts = DonationAssociationCampaign:: where ('association_campaign_id' ,$campaignId)->count();
+
+         $remainingAmount = max($campaign->amount_required - $totalDonations, 0);
+
+         $compaingDet = [];
+         $compaingDet[] = [
+            'title' => $campaign->title,
+            'description' => $campaign->description,
+            'amount_required' => $campaign->amount_required,
+            'donation_amount' => $totalDonations,
+            'remaining_amount' => $remainingAmount,
+            'location' => $campaign->location ,
+            'donorCounts' => $donorCounts,
+            'photo' => url(Storage::url($campaign->photo)),
+            'campaign_status' => [
+                  'id' => $campaign->campaign_status_id,
+                  'type' => $campaign->campaignStatus->status_type
+            ],
+            'classification' => [
+                  'id' => $campaign->classification_id,
+                  'type' => $campaign->classification->classification_name
+            ],
+            'campaign_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'campaign_start_time' => $campaign->compaigns_start_time,
+            'campaign_end_time' => $campaign->compaigns_end_time,
+            'last_donation_time' => $lastDonation ? $lastDonation->created_at->diffForHumans() : 'no Donations yet',
+            'totalDonors' => $totalDonors,
+            'associations' => $campaign->associations
+               ->unique('id')
+               ->values()
+               ->map(function ($association) {
+                  return [
+                        'id' => $association->id,
+                        'name' => $association->name,
+                  ];
+               }),
+         ];
+
+         $message = 'association campaign details are retrived sucessfully';
+
+         return ['campaign' => $compaingDet , 'message' => $message];
+      }
+
+
+    public function deleteVoluntingRequest($task_id): array
+{
+    $user = VolunteerTask::findOrFail($task_id);
+    $user->delete();
+
+    return [
+        'message' => 'task deleted successfully'
+    ];
+}
 }
 

@@ -235,5 +235,28 @@ public function updateAcceptanceVolunteerStatus(UpdateTaskStatusRequest $request
     }
 }
 
+public function getAdminCampaignDetails( $id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->getAdminCampaignDetails($id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+public function deleteVoluntingRequest( $id): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->adminService->deleteVoluntingRequest($id);
+        return Response::Success($data, $data['message']);
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
 
 }

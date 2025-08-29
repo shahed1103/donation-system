@@ -418,6 +418,9 @@ Route::middleware('auth:sanctum')->get('CleanlinessAssociationsCampaigns/{associ
 Route::middleware('auth:sanctum')->get('EnvironmentalAssociationsCampaigns/{association_id}/{campaignStatus}',
  [AdminController::class, 'EnvironmentalAssociationsCampaigns'])->name('Admin.EnvironmentalAssociationsCampaigns');
 
+Route::middleware('auth:sanctum')->get('getAdminCampaignDetails/{compaign_id}',
+ [AdminController::class, 'getAdminCampaignDetails'])->name('Admin.getAdminCampaignDetails');
+
 
 Route::middleware('auth:sanctum')->get('AssociationAdmin/{owner_id}',
  [AdminController::class, 'AssociationAdmin'])->name('Admin.AssociationAdmin');
@@ -438,6 +441,8 @@ Route::middleware('auth:sanctum')->get('getVolunteersByTask/{task_id}',
 Route::middleware('auth:sanctum')->post('updateAcceptanceVolunteerStatus/{task_id}',
  [AdminController::class, 'updateAcceptanceVolunteerStatus'])->name('Admin.updateAcceptanceVolunteerStatus');
 
+Route::middleware('auth:sanctum')->get('deleteVoluntingRequest/{task_id}',
+ [AdminController::class, 'deleteVoluntingRequest'])->name('Admin.deleteVoluntingRequest');
 
 
 });
