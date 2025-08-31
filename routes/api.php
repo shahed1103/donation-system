@@ -425,7 +425,7 @@ Route::middleware('auth:sanctum')->get('getAdminCampaignDetails/{compaign_id}',
 Route::middleware('auth:sanctum')->get('AssociationAdmin/{owner_id}',
  [AdminController::class, 'AssociationAdmin'])->name('Admin.AssociationAdmin');
 
-Route::middleware('auth:sanctum')->get('getVoluntingCampigns/{status_id}',
+Route::middleware('auth:sanctum')->get('getVoluntingCampigns/{id}/{status_id}',
  [AdminController::class, 'getVoluntingCampigns'])->name('Admin.getVoluntingCampigns');
 
 Route::middleware('auth:sanctum')->get('getVoluntingCompDetails/{compaign_id}',

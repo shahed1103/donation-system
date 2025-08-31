@@ -411,17 +411,19 @@ public function AssociationAdmin ($owner_id) {
 
 
 
-public function getVoluntingCampigns($campaignStatus) : array{
-    $voluntings = VolunteerTask::with('associationCampaigns.classification' , 'associationCampaigns.campaignStatus')->get();
+public function getVoluntingCampigns($id , $campaignStatus) : array{
+    $campaignId = SharedAssociationCampaign::where('association_id' , $id)->pluck('association_campaign_id');
+
+    $voluntings = VolunteerTask::whereIn('association_campaign_id' , $campaignId)->with('associationCampaigns.classification' , 'associationCampaigns.campaignStatus')->get();
     $seenCampaigns = [];
     $det = [];
 
     foreach ($voluntings as $volunting) {
         $campaign = $volunting->associationCampaigns;
         $taskCount = $voluntings->where('associationCampaigns.id', $campaign->id)->count();
-        if ($campaign && !in_array($campaign->id, $seenCampaigns) && $campaign->campaign_status_id == $campaignStatus) {
-             $tasksC = $campaign->volunteerTasks->sum('number_volunter_need');
 
+        if ($campaign && !in_array($campaign->id , $seenCampaigns) && $campaign->campaign_status_id == $campaignStatus) {
+             $tasksC = $campaign->volunteerTasks->sum('number_volunter_need');
              if($tasksC <= 0){
                continue;
              }

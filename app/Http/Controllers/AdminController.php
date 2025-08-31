@@ -173,10 +173,10 @@ public function AssociationAdmin($association_id): JsonResponse {
     }
 }
 
-public function getVoluntingCampigns($status_id): JsonResponse {
+public function getVoluntingCampigns($id , $status_id): JsonResponse {
     $data = [];
     try {
-        $data = $this->adminService->getVoluntingCampigns($status_id);
+        $data = $this->adminService->getVoluntingCampigns($id , $status_id);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
