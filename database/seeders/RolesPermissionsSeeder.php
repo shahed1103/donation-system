@@ -34,7 +34,7 @@ class RolesPermissionsSeeder extends Seeder
             'showCampaignDetails' , 'donateWithPoints' , 'donateWithWallet' , 'quickDonateWithWallet' , 'createIndiviCompa' , 'getEndedCampaignsCountByYearMob',
             'viewMyIndiviCompa' , 'viewIndiviCompa' , 'showIndiviCampaignDetails' , 'searchCampaigns' , 'emergencyCompaings' , 'totalDonationsByYearMob',
             'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' , 'showAllInkindDonations',
-            'editPersonalInfo' , 'createWallet' , 'showWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails' , 'showInkindDonationDetails',
+            'editPersonalInfo' , 'createWallet' , 'showWallet' , 'editWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails' , 'showInkindDonationDetails',
             'searchForNearestInkindDonation' , 'addInkindDonation' , 'reserveInkindDonation' , 'getCenter' , 'getInkindDonationTypes' , 'getStatusOfDonation' , 'totalInkindDonationsByYearMob'
         ];
 
@@ -47,7 +47,7 @@ class RolesPermissionsSeeder extends Seeder
         'showCampaignDetails' , 'donateWithPoints' , 'donateWithWallet' , 'quickDonateWithWallet' , 'createIndiviCompa' , 'getEndedCampaignsCountByYearMob',
         'viewMyIndiviCompa' , 'viewIndiviCompa' , 'showIndiviCampaignDetails' , 'searchCampaigns' , 'emergencyCompaings' , 'totalDonationsByYearMob',
         'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' , 'showAllInkindDonations',
-        'editPersonalInfo' , 'createWallet' , 'showWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails',
+        'editPersonalInfo' , 'createWallet' , 'showWallet' , 'editWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails',
         'myVoluntings' , 'updateVoluntingProfile' , 'showVoluntingProfile' , 'showVoluntingProfileDetails', 'giftAdonation' , 'countAssociationsMob',
         'voluntingRequest' , 'upComingTasks' , 'editTaskStatus' , 'getUnderReviewIndiviCampaignDetailsMob' , 'showRejectedIndiviCampaignDetails' , 'showInkindDonationDetails',
         'searchForNearestInkindDonation' , 'addInkindDonation' , 'reserveInkindDonation' , 'totalInkindDonationsByYearMob'

@@ -390,6 +390,28 @@ class PersonalAccountService
 
         $message = 'Your wallet retrived sucessfully';
 
-        return ['wallet' =>  $wallet , 'message' => $message];     }
+        return ['wallet' =>  $wallet , 'message' => $message];
+    
+    }
+
+    //edit wallet for user
+    public function editWallet($request): array{
+        $user = Auth::user();
+
+        if($user->wallet == null){
+            throw new Exception("You do not have wallet yet create a wallet", 400);
+        }
+        
+      $user->wallet->update([
+          'wallet_value' => $request ['wallet_value'] ??  $user->wallet->wallet_value ,
+        ]);
+
+        //   'wallet_password' => $request ['wallet_password']]);
+
+        $message = 'Your wallet edited sucessfully';
+
+        return ['wallet' =>  $user->wallet , 'message' => $message];
+     }
+
     }
 

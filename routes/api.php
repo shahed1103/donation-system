@@ -162,6 +162,7 @@ Route::controller(PersonalAccountController::class)->group(function(){
     Route::middleware('auth:sanctum')->post('editPersonalInfo', [PersonalAccountController::class, 'editPersonalInfo'])->name('user.editPersonalInfo')->middleware('can:editPersonalInfo');
     Route::middleware('auth:sanctum')->post('createWallet', [PersonalAccountController::class, 'createWallet'])->name('user.createWallet')->middleware('can:createWallet');
     Route::middleware('auth:sanctum')->get('showWallet', [PersonalAccountController::class, 'showWallet'])->name('user.showWallet')->middleware('can:showWallet');
+    Route::middleware('auth:sanctum')->post('editWallet', [PersonalAccountController::class, 'editWallet'])->name('user.editWallet')->middleware('can:editWallet');
 });
 
 Route::middleware('auth:sanctum')->controller(VoluntingController::class)->group(function () {

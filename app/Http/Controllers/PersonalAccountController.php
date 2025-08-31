@@ -13,7 +13,7 @@ use App\Http\Requests\VoluntingProfile\CreateVoluntingProfileRequest;
 use App\Http\Requests\VoluntingProfile\UpdateVoluntingProfileRequest;
 use App\Http\Requests\Auth\UpdatePersonalProfileRequest;
 use App\Http\Requests\Wallet\WalletRequest;
-
+use App\Http\Requests\Wallet\EditWalletRequest;
 
 
 class PersonalAccountController extends Controller
@@ -220,4 +220,19 @@ class PersonalAccountController extends Controller
             $code = $th->getCode();
             return Response::ErrorX($data , $message , $errors , $code );        }
      }
-   }
+
+    //create wallet for user
+    public function editWallet(EditWalletRequest $request): JsonResponse {
+        $data =[];
+        try{
+           $data = $this->personalAccountService->editWallet($request);
+           return Response::Success($data['wallet'] , $data['message']);
+        }
+        catch(Throwable $th){
+           $message = $th->getMessage();
+           $errors [] = $message;
+            // $code = $th->getCode();
+            return Response::ErrorX($data , $message , $errors);
+        }
+     }
+}
