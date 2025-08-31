@@ -141,8 +141,13 @@ class VoluntingService
    //all upcoming tasks for user
    public function upComingTasks() : array{
       $user = Auth::user();
+
+      if($user->volunteerProfile == null){
+        throw new Exception("You do not have any tasks yet , please create a volunting profile and start your volunting journy", 401); 
+      }
+
       $tasks = $user->volunteerProfile->tasks;
-       $det = [] ;
+      $det = [] ;
 
        foreach ($tasks as $task) {
         $TaskIn =  TaskVolunteerProfile::with('status')
