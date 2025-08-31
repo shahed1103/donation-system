@@ -14,46 +14,47 @@ class IndividualCompaignsSeeder extends Seeder
     public function run(): void
     {
         $titles = [
-            'Support for Cancer Treatment',
-            'Books for Orphanage',
-            'Neighborhood Cleanup',
-            'Tree Planting Initiative',
-            'Medical Aid for Refugees',
-            'Educational Kits for Rural Kids',
-            'Waste Collection Campaign',
-            'Air Quality Monitoring',
-            'Emergency Health Support',
-            'Scholarships for Students',
-            'Beach Cleaning Drive'
+            'دعم علاج السرطان',
+            'كتب لدار الأيتام',
+            'تنظيف الحي',
+            'مبادرة زراعة الأشجار',
+            'المساعدات الطبية للاجئين',
+            'أدوات تعليمية للأطفال في المناطق الريفية',
+            'حملة جمع النفايات',
+            'مراقبة جودة الهواء',
+            'الدعم الصحي الطارئ',
+            'المنح الدراسية للطلاب',
+            'حملة تنظيف الشاطئ'
         ];
 
         $descriptions = [
-            'Raising funds to help cancer patients afford chemotherapy.',
-            'Providing educational books to an orphanage.',
-            'Organizing a cleanup in our local neighborhood.',
-            'Aiming to plant 500 trees in urban areas.',
-            'Supplying basic medical needs to displaced families.',
-            'Distributing school kits to children in remote villages.',
-            'Improving sanitation through organized waste collection.',
-            'Installing sensors to track pollution in the city.',
-            'Immediate health support for critical cases.',
-            'Helping students from poor families get access to higher education.',
-            'Cleaning plastic waste and garbage from the beach.'
+            'جمع التبرعات لمساعدة مرضى السرطان في تحمل تكاليف العلاج الكيميائي.',
+            'توفير الكتب التعليمية لدار الأيتام.',
+            'تنظيم حملة تنظيف في حيّنا المحلي.',
+            'الهدف هو زراعة 500 شجرة في المناطق الحضرية.',
+            'توفير الاحتياجات الطبية الأساسية للعائلات النازحة.',
+            'توزيع أدوات مدرسية للأطفال في القرى النائية.',
+            'تحسين sanitation من خلال جمع النفايات المنظم.',
+            'تركيب حساسات لتتبع التلوث في المدينة.',
+            'الدعم الصحي الفوري للحالات الحرجة.',
+            'مساعدة الطلاب من الأسر الفقيرة في الحصول على التعليم العالي.',
+            'تنظيف النفايات البلاستيكية والقمامة من الشاطئ.'
         ];
 
         $locations = [
-            'Amman, Jordan',
-            'Cairo, Egypt',
-            'Riyadh, Saudi Arabia',
-            'Beirut, Lebanon',
-            'Irbid, Jordan',
-            'Tunis, Tunisia',
-            'Khartoum, Sudan',
-            'Muscat, Oman',
-            'Ramallah, Palestine',
-            'Algiers, Algeria',
-            'Jeddah, Saudi Arabia'
+            'عمان، الأردن',
+            'القاهرة، مصر',
+            'الرياض، المملكة العربية السعودية',
+            'بيروت، لبنان',
+            'إربد، الأردن',
+            'تونس، تونس',
+            'الخرطوم، السودان',
+            'مسقط، عمان',
+            'رام الله، فلسطين',
+            'الجزائر، الجزائر',
+            'جدة، المملكة العربية السعودية'
         ];
+
 
         $photoRanges = [
                 1 => [1, 4],

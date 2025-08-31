@@ -15,8 +15,8 @@ class AvailabilityTypeSeeder extends Seeder
     public function run(): void
     {
         $names = [
-            'Daily',
-            'Weakly',
+            'يومي',
+            'أسبوعي',
         ];
 
         for ($i = 0; $i < 2; $i++) {
