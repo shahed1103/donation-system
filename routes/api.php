@@ -439,10 +439,10 @@ Route::middleware('auth:sanctum')->post('createAssociationCampaign',
 Route::middleware('auth:sanctum')->get('getVolunteersByTask/{task_id}',
  [AdminController::class, 'getVolunteersByTask'])->name('Admin.getVolunteersByTask');
 
-Route::middleware('auth:sanctum')->post('updateAcceptanceVolunteerStatus/{task_id}',
+Route::middleware('auth:sanctum')->post('updateAcceptanceVolunteerStatus/{task_id}/{profile_id}',
  [AdminController::class, 'updateAcceptanceVolunteerStatus'])->name('Admin.updateAcceptanceVolunteerStatus');
 
-Route::middleware('auth:sanctum')->get('deleteVoluntingRequest/{task_id}',
+Route::middleware('auth:sanctum')->get('deleteVoluntingRequest/{task_id}/{profile_id}',
  [AdminController::class, 'deleteVoluntingRequest'])->name('Admin.deleteVoluntingRequest');
 
 

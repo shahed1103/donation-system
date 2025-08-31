@@ -126,7 +126,7 @@ public function createIndiviCompa($request): array{
         'donation_amount' => $total,
         'acceptance_status_id'=>  ['id' => $compaign->acceptance_status_id, 'acceptance_status_type' => $acceptance_status_type],
         'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
-        'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%M Months %D Day %H Hours')
+        'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%M Months %d Day %H Hours')
         ];
         }
         }
@@ -168,7 +168,7 @@ public function createIndiviCompa($request): array{
         'donation_amount' => $total,
         'campaign_status_id'=>  ['id' => $compaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
         'photo_id' => ['id' =>$compaign->photo_id , 'photo' =>$fullPath],
-        'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+        'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%d'),
         'type' => 'individual',
         'amount_to_Complete' => $compaign->amount_required - $total,
 
@@ -217,7 +217,7 @@ public function createIndiviCompa($request): array{
                     'photo' => $fullPath
                 ],
                 'totalDonors' => $totalDonors,
-                'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%d'),
                 'description' => $compaign->description,
                 'campaign_start_time' => $compaign->compaigns_start_time,
                 'campaign_end_time' => $compaign->compaigns_end_time,

@@ -19,7 +19,7 @@ class TaskVolunteerProfileSeeder extends Seeder
             return;
         }
 
-        $status_ids = [1, 2, 3 , 1, 2, 3 , 1, 2, 3 , 2];
+        $status_ids = [1, 2, 3 , 4, 1 , 2, 3 , 4, 1, 2];
 
         $count = 10;
 

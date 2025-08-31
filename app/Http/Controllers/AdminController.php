@@ -223,10 +223,10 @@ public function getVolunteersByTask( $id): JsonResponse {
     }
 }
 
-public function updateAcceptanceVolunteerStatus(UpdateTaskStatusRequest $request, $id): JsonResponse {
+public function updateAcceptanceVolunteerStatus(UpdateTaskStatusRequest $request, $id , $profile_id): JsonResponse {
     $data = [];
     try {
-        $data = $this->adminService->updateAcceptanceVolunteerStatus($request->validated() ,$id);
+        $data = $this->adminService->updateAcceptanceVolunteerStatus($request->validated() ,$id , $profile_id);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();
@@ -246,10 +246,10 @@ public function getAdminCampaignDetails( $id): JsonResponse {
         return Response::Error($data, $message, $errors);
     }
 }
-public function deleteVoluntingRequest( $id): JsonResponse {
+public function deleteVoluntingRequest( $id , $profile_id): JsonResponse {
     $data = [];
     try {
-        $data = $this->adminService->deleteVoluntingRequest($id);
+        $data = $this->adminService->deleteVoluntingRequest($id , $profile_id);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();

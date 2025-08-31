@@ -15,19 +15,20 @@ class AssociationCampaignsSeeder extends Seeder
      */
     public function run(): void
     {
-        $titles = [
-            'Health Support Initiative',
-            'Educational Supplies Drive',
-            'Neighborhood Clean-up',
-            'Tree Planting Campaign',
-        ];
+    $titles = [
+        'مبادرة دعم الصحة',
+        'حملة توفير المستلزمات التعليمية',
+        'تنظيف الحي',
+        'حملة زراعة الأشجار',
+    ];
 
-        $descriptions = [
-            'Providing medical aid to underserved communities.',
-            'Supplying books and materials to low-income students.',
-            'Organizing a community-wide cleaning event.',
-            'Planting trees to improve air quality and environment.',
-        ];
+    $descriptions = [
+        'تقديم المساعدة الطبية للمجتمعات المحرومة.',
+        'توفير الكتب والمواد للطلاب ذوي الدخل المنخفض.',
+        'تنظيم حدث تنظيف على مستوى المجتمع.',
+        'زراعة الأشجار لتحسين جودة الهواء والبيئة.',
+    ];
+
 
         $photos = [
                     '1.jpg',
@@ -61,10 +62,13 @@ class AssociationCampaignsSeeder extends Seeder
             }
         }
 
-
         $locations = [
-            'Riyadh', 'Jeddah', 'Dammam', 'Mecca',
+            'الرياض - مركز المدينة',
+            'جدة - الكورنيش',
+            'الدمام - الواجهة البحرية',
+            'مكة - الحرم المكي',
         ];
+
 
         $amounts = [50000, 30000, 20000, 40000];
         $emergency_level = [1,2,2,5];

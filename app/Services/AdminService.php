@@ -565,7 +565,7 @@ public function getVolunteersByTask($taskId) : array
 
     $taskVolunteers = TaskVolunteerProfile::with('volunteerProfile.user')
         ->where('volunteer_task_id', $taskId)
-        -> where ('status_id' , 3)
+        -> where ('status_id' , 4)
         ->get();
 
        $volunteers = $taskVolunteers->map(function ($taskVol) {
@@ -575,7 +575,7 @@ public function getVolunteersByTask($taskId) : array
         return [
             'id' => $profile->id,
             'name' => $profile->user->name ?? 'بدون اسم',
-            'phone' => $profile -> user -> phone,
+            'phone' => $profile -> user -> phone ?? 'لا يوجد رقم',
             'skills' => $profile->skills,
             'availability_hours' => $profile->availability_hours,
             'preferred_tasks' => $profile->preferred_tasks,
@@ -591,9 +591,9 @@ public function getVolunteersByTask($taskId) : array
 }
 
 
-public function updateAcceptanceVolunteerStatus(array $request, int $task_id): array
+public function updateAcceptanceVolunteerStatus(array $request, int $task_id , $profile_id): array
 {
-    $task = TaskVolunteerProfile::firstWhere('volunteer_task_id', $task_id);
+    $task = TaskVolunteerProfile::where('volunteer_task_id', $task_id)->where('volunteer_profile_id' , $profile_id)->first();
     $status = TaskStatus::where('name', $request['status'])->first();
     if (!$status) {
         throw new InvalidArgumentException('Invalid acceptance status type.');
@@ -672,9 +672,10 @@ public function getAdminCampaignDetails($campaignId): array
       }
 
 
-    public function deleteVoluntingRequest($task_id): array
+    public function deleteVoluntingRequest($task_id , $profile_id): array
 {
-    $user = VolunteerTask::findOrFail($task_id);
+    $user = TaskVolunteerProfile::where('volunteer_task_id', $task_id)->where('volunteer_profile_id' , $profile_id)->first();
+
     $user->delete();
 
     return [

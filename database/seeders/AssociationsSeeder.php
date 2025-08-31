@@ -15,22 +15,24 @@ class AssociationsSeeder extends Seeder
     public function run(): void
     {
         $names = [
-            'Goodwill Association',
-            'Education for All',
-            'Health First Foundation',
+            'جمعية الخير',
+            'التعليم للجميع',
+            'مؤسسة الصحة أولاً',
         ];
 
         $locations = [
-            'Riyadh',
-            'Jeddah',
-            'Dammam',
+            'الرياض-الملز',
+            'جدة-التحلية',
+            'الدمام-الراكة',
         ];
 
+
         $descriptions = [
-            'An organization dedicated to supporting underprivileged families and promoting social solidarity.',
-            'Provides free educational opportunities for students from low-income backgrounds.',
-            'Delivers essential healthcare services to the most vulnerable communities.',
+            'منظمة مكرسة لدعم الأسر المحتاجة وتعزيز التضامن الاجتماعي.',
+            'توفر فرص تعليمية مجانية للطلاب من خلفيات ذات دخل منخفض.',
+            'تقدم خدمات الرعاية الصحية الأساسية لأكثر المجتمعات ضعفًا.',
         ];
+
 
          $association_owner_id = [
                     2,

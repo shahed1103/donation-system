@@ -60,7 +60,7 @@ class AssociationCompaignsService
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
                   'type' => 'association',
                   'amount_to_Complete' => $campaign->amount_required - $totalDonations,
             ];
@@ -167,7 +167,7 @@ class AssociationCompaignsService
                   'id' => $campaign->classification_id,
                   'type' => $campaign->classification->classification_name
             ],
-            'campaign_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'campaign_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
             'campaign_start_time' => $campaign->compaigns_start_time,
             'campaign_end_time' => $campaign->compaigns_end_time,
             'last_donation_time' => $lastDonation ? $lastDonation->created_at->diffForHumans() : 'no Donations yet',
@@ -180,6 +180,7 @@ class AssociationCompaignsService
                   return [
                         'id' => $association->id,
                         'name' => $association->name,
+                        'photo' => url(Storage::url($association->photo)),
                   ];
                }),
             //////////////////
