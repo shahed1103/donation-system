@@ -473,7 +473,7 @@ public function getCities(): array
     $message = 'cities retrieved successfully';
 
     return [
-        'cities' => $centers,
+        'cities' => $cities,
         'message' => $message
     ];
 }
