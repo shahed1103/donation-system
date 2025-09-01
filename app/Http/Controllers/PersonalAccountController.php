@@ -221,7 +221,7 @@ class PersonalAccountController extends Controller
             return Response::ErrorX($data , $message , $errors , $code );        }
      }
 
-    //create wallet for user
+    //edit wallet for user
     public function editWallet(EditWalletRequest $request): JsonResponse {
         $data =[];
         try{

@@ -64,6 +64,7 @@ class InkindDonationService
                   'description' => $inkindDonation->description,
                   'status_of_donation_id' => ['id' => $inkindDonation->status_of_donation_id , 'status_of_donation' => $inkindDonation->statusOfDonation->status ],
                   'center_id' => ['id' => $inkindDonation->center_id , 'center_name' => $inkindDonation->center->center_name],
+                  'center_location' => $inkindDonation->center->location,
                   'amount' => $inkindDonation->amount,
                   'reserved_amount' => $reserved_amount,
                   'unreserved_amount' => $inkindDonation->amount - $reserved_amount ,
