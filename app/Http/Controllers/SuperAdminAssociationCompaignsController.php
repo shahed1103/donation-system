@@ -100,7 +100,7 @@ public function getAssociationDetails($Campaign_id): JsonResponse {
 public function addAssociation(AddAssociationRequest $request): JsonResponse {
     $data = [];
     try {
-        $data = $this->superAssociationCompaignsService->addAssociation($request->validated(),$request);
+        $data = $this->superAssociationCompaignsService->addAssociation($request);
         return Response::Success($data, $data['message']);
     } catch (Throwable $th) {
         $message = $th->getMessage();

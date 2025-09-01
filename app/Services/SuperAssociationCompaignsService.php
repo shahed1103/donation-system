@@ -27,6 +27,7 @@ use Illuminate\Http\JsonResponse;
 use Throwable;
 use Storage;
 
+
 class SuperAssociationCompaignsService
 {
 
@@ -272,6 +273,13 @@ public function addAssociation($request): array{
          'role_id' => $adminRole
         ]);
 
+
+    if ($request->hasFile('photo')) {
+        $photo = $request->file('photo');
+        $path = $photo->store('uploads/assocphotos', 'public');
+        $fullPath = url(Storage::url($path));
+    }
+
         $association = Association::create([
                 'name' =>  $request['name'],
                 'description' => $request['description'],
@@ -279,6 +287,8 @@ public function addAssociation($request): array{
                 'date_start_working' =>  $request['date_start_working'],
                 'date_end_working' => $request['date_end_working'],
                 'association_owner_id' => $association_owner -> id ,
+                'photo'          => $path ,
+
 
        ]);
 
@@ -295,7 +305,8 @@ public function addAssociation($request): array{
                 'total_donations' => 0,
                 'closed_campaigns' => 0,
                 'completed_campaigns' => 0,
-                'active_campaigns' => 0
+                'active_campaigns' => 0 ,
+                'photo' => $fullPath 
        ];
         $message = 'Your association created sucessfully';
 
