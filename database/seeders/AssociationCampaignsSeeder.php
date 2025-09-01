@@ -31,10 +31,10 @@ class AssociationCampaignsSeeder extends Seeder
 
 
         $photos = [
-                    '1.jpg',
-                    '2.jpg',
-                    '3.jpg',
-                    '4.jpg',
+            'health (1).jpg',
+            'health (2).jpg',
+            'clean (1).jpg',
+            'envo (1).jpg',
                 ];
 
         $tasks_start_time = ['08:00:00' , '10:30:00', '13:00:00', '15:45:00'];

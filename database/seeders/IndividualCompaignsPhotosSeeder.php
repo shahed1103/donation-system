@@ -16,22 +16,22 @@ class IndividualCompaignsPhotosSeeder extends Seeder
     public function run(): void
     {
         $photos = [
-            '1.jpg',
-            '2.jpg',
-            '3.jpg',
-            '4.jpg',
-            '5.png',
-            '6.png',
-            '7.png',
-            '8.png',
-            'h1.jpg',
-            'h2.jpg',
-            'h3.jpg',
-            'h4.jpg',
-            't1.jpg',
-            't2.jpg',
-            't3.jpg',
-            't4.jpg',
+            'health (1).jpg',
+            'health (2).jpg',
+            'health (3).jpg',
+            'health (4).jpg',
+            'educ1.jpg',
+            'educ2.jpg',
+            'educ3.jpg',
+            'educ4.jpg',
+            'clean (1).jpg',
+            'clean (2).jpg',
+            'clean (3).jpg',
+            'clean (4).jpg',
+            'envo (1).jpg',
+            'envo (2).jpg',
+            'envo (3).jpg',
+            'envo (4).jpg',
         ];
 
         $fullPaths = [];

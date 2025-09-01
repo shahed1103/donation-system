@@ -434,13 +434,22 @@ public function getInkindDonation($id): array
     $inkindDonations = InkindDonation::where('center_id' , $id)
     ->get()
     ->map(function ($inkindDonation) {
+
+        $photos = [];
+            foreach ($inkindDonation->inkindDonationPhotos as $inkindDonationPhoto) {
+                    $photos[] = [
+                     'id' => $inkindDonationPhoto->id ,
+                     'photo' => url(Storage::url($inkindDonationPhoto->photo)), 
+                  ];
+            }
+
             return [
                 'id' => $inkindDonation -> id,
                 'donation_type'     => DonationType::where('id', $inkindDonation->donation_type_id)
                 ->pluck('donation_Type'),
                 'name_of_donation'     => $inkindDonation->name_of_donation,
                 'amount'    => $inkindDonation->amount,
-                'photo' => url(Storage::url($inkindDonation->photo)),
+                'photo' => $photos,
                 'description'    => $inkindDonation->description,
                 'status_of_donation'     => StatusOfDonation::where('id', $inkindDonation->status_of_donation_id)
                 ->pluck('status'),

@@ -44,9 +44,9 @@ class AssociationsSeeder extends Seeder
 
 
         $photos = [
-                    '1.jpg',
-                    '2.jpg',
-                    '3.jpg',
+                    'asso2.jpg',
+                    'asso3.jpg',
+                    'asso4.jpg',
                 ];
 
         $fullPaths = [];
