@@ -27,7 +27,7 @@ class InkindDonationService
             $photos = [];
 
             foreach ($allInkindDonation->inkindDonationPhotos as $inkindDonationPhoto) {
-                    $photos[] = [
+                    $photos = [
                      'id' => $inkindDonationPhoto->id ,
                      'photo' => url(Storage::url($inkindDonationPhoto->photo)), 
                   ];
@@ -79,7 +79,7 @@ class InkindDonationService
     public function searchForNearestInkindDonation($location): array{
       $centers = Center::where('location', 'like', '%' . $location . '%')->pluck('id');
 
-      $inlinkindDonations = InkindDonation::whereIn('center_id' , $centers)->where('inkindDonation_acceptence_id' , 2)->get();
+      $inlinkindDonations = InkindDonation::whereIn('center_id' , $centers)->where('inkindDonation_acceptence_id' , 2)->z();
       $InkindDonationsAll = [];
 
       foreach ($inlinkindDonations as $inlinkindDonation) {
