@@ -313,9 +313,24 @@ Route::get('getInkindDonation/{id}' , 'getInkindDonation')
 Route::get('getCities' , 'getCities')
 ->name('superAdmin.getCities');
 
+Route::get('reciveInkindDonation' , 'reciveInkindDonation')
+->name('superAdmin.reciveInkindDonation');
+
+Route::get('updateInkindDonationAcceptence/{inkindId}' , 'updateInkindDonationAcceptence')
+->name('superAdmin.updateInkindDonationAcceptence');
+
+Route::get('requestToHaveInkindDonation' , 'requestToHaveInkindDonation')
+->name('superAdmin.requestToHaveInkindDonation');
+
+Route::get('updateRequestToHaveInkindDonation/{reserveID}' , 'updateRequestToHaveInkindDonation')
+->name('superAdmin.updateRequestToHaveInkindDonation');
 
 
 });
+
+
+
+
 
 
 Route::controller(SuperAdminAssociationCompaignsController::class)->group(function(){

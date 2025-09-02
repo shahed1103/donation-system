@@ -260,6 +260,54 @@ public function getCities(): JsonResponse {
     }
 }
 
+public function reciveInkindDonation(): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->reciveInkindDonation();
+        return Response::Success($data['in-kind donations'], $data['message']);
 
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 
+public function updateInkindDonationAcceptence($inkindId): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->updateInkindDonationAcceptence($inkindId);
+        return Response::Success($data['in-kind donations'], $data['message']);
+
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+     public function requestToHaveInkindDonation(): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->requestToHaveInkindDonation();
+        return Response::Success($data['in-kind donations'], $data['message']);
+
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+     public function updateRequestToHaveInkindDonation($reserveID): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->superAdminService->updateRequestToHaveInkindDonation($reserveID);
+        return Response::Success($data['in-kind donations'], $data['message']);
+
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 }

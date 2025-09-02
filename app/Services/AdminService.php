@@ -682,5 +682,6 @@ public function getAdminCampaignDetails($campaignId): array
         'message' => 'task deleted successfully'
     ];
 }
+
 }
 
