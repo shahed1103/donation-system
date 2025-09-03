@@ -516,6 +516,7 @@ public function getVoluntingCampigns($id , $campaignStatus) : array{
             'compaigns_end_time' => $request['compaigns_end_time'],
             'compaigns_time' => $request['compaigns_time'],
             'emergency_level' => $request['emergency_level'],
+            // 'tasks_start_time' => $request['tasks_start_time'],
         ]);
 
         SharedAssociationCampaign::create([
@@ -534,8 +535,19 @@ public function getVoluntingCampigns($id , $campaignStatus) : array{
                     'association_campaign_id' => $campaign->id,
                 ]);
             }
-            $campaign->tasks_start_time = $request['tasks_start_time'];
-            $campaign->tasks_end_time = $request['tasks_end_time'] ?? null;
+
+                $validated = $request->validate([
+                'tasks_start_time'      => 'required|string',
+                'tasks_end_time'     => 'required|string',
+            ]);
+
+            $campaign->update([
+           'tasks_start_time' => $validated['tasks_start_time'],
+           'tasks_end_time' => $validated['tasks_end_time']
+            ]);
+
+            $campaign->refresh();
+
         }
 
 
