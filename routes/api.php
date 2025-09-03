@@ -385,79 +385,100 @@ Route::controller(SuperAdminIndividualCompaignsController::class)->group(functio
 
 Route::controller(AdminController::class)->group(function(){
 Route::middleware('auth:sanctum')->get('totalAssociationDonationsByYear/{owner_id}/{year}',
- [AdminController::class, 'totalAssociationDonationsByYear'])->name('Admin.totalAssociationDonationsByYear');
+ [AdminController::class, 'totalAssociationDonationsByYear'])->name('Admin.totalAssociationDonationsByYear')
+  ->middleware('can:totalAssociationDonationsByYear');
+
 
 Route::middleware('auth:sanctum')->get('getMonthlyDonationsByYear/{owner_id}/{year}',
- [AdminController::class, 'getMonthlyDonationsByYear'])->name('Admin.getMonthlyDonationsByYear');
+ [AdminController::class, 'getMonthlyDonationsByYear'])->name('Admin.getMonthlyDonationsByYear')
+  ->middleware('can:getMonthlyDonationsByYear');
 
 Route::middleware('auth:sanctum')->get('getActiveCampaignsCount/{owner_id}/{year}',
- [AdminController::class, 'getActiveCampaignsCount'])->name('Admin.getActiveCampaignsCount');
+ [AdminController::class, 'getActiveCampaignsCount'])->name('Admin.getActiveCampaignsCount')
+   ->middleware('can:getActiveCampaignsCount');
 
 Route::middleware('auth:sanctum')->get('getCompleteCampaignsCount/{owner_id}/{year}',
- [AdminController::class, 'getCompleteCampaignsCount'])->name('Admin.getCompleteCampaignsCount');
+ [AdminController::class, 'getCompleteCampaignsCount'])->name('Admin.getCompleteCampaignsCount')
+   ->middleware('can:getCompleteCampaignsCount');
 
 Route::middleware('auth:sanctum')->get('getDonationCountsByClassByYear/{owner_id}/{year}',
- [AdminController::class, 'getDonationCountsByClassByYear'])->name('Admin.getDonationCountsByClassByYear');
+ [AdminController::class, 'getDonationCountsByClassByYear'])->name('Admin.getDonationCountsByClassByYear')
+   ->middleware('can:getDonationCountsByClassByYear');
 
 
 
 Route::middleware('auth:sanctum')->get('AssociationDetails/{owner_id}/{year}',
- [AdminController::class, 'AssociationDetails'])->name('Admin.AssociationDetails');
+ [AdminController::class, 'AssociationDetails'])->name('Admin.AssociationDetails')
+   ->middleware('can:AssociationDetails');
 
 Route::middleware('auth:sanctum')->get('getCampaignsStatus',
- [AdminController::class, 'getCampaignsStatus'])->name('Admin.getCampaignsStatus');
+ [AdminController::class, 'getCampaignsStatus'])->name('Admin.getCampaignsStatus')
+   ->middleware('can:getCampaignsStatus');
 
 
 
 Route::middleware('auth:sanctum')->get('HealthyAssociationsCampaigns/{association_id}/{campaignStatus}',
-[AdminController::class, 'HealthyAssociationsCampaigns'])->name('Admin.HealthyAssociationsCampaigns');
+[AdminController::class, 'HealthyAssociationsCampaigns'])->name('Admin.HealthyAssociationsCampaigns')
+ ->middleware('can:HealthyAssociationsCampaigns');
 
 Route::middleware('auth:sanctum')->get('EducationalAssociationsCampaigns/{association_id}/{campaignStatus}',
-[AdminController::class, 'EducationalAssociationsCampaigns'])->name('Admin.EducationalAssociationsCampaigns');
+[AdminController::class, 'EducationalAssociationsCampaigns'])->name('Admin.EducationalAssociationsCampaigns')
+ ->middleware('can:EducationalAssociationsCampaigns');
 
 Route::middleware('auth:sanctum')->get('CleanlinessAssociationsCampaigns/{association_id}/{campaignStatus}',
-[AdminController::class, 'CleanlinessAssociationsCampaigns'])->name('Admin.CleanlinessAssociationsCampaigns');
+[AdminController::class, 'CleanlinessAssociationsCampaigns'])->name('Admin.CleanlinessAssociationsCampaigns')
+ ->middleware('can:CleanlinessAssociationsCampaigns');
 
 Route::middleware('auth:sanctum')->get('EnvironmentalAssociationsCampaigns/{association_id}/{campaignStatus}',
- [AdminController::class, 'EnvironmentalAssociationsCampaigns'])->name('Admin.EnvironmentalAssociationsCampaigns');
+ [AdminController::class, 'EnvironmentalAssociationsCampaigns'])->name('Admin.EnvironmentalAssociationsCampaigns')
+   ->middleware('can:EnvironmentalAssociationsCampaigns');
 
 Route::middleware('auth:sanctum')->get('getAdminCampaignDetails/{compaign_id}',
- [AdminController::class, 'getAdminCampaignDetails'])->name('Admin.getAdminCampaignDetails');
+ [AdminController::class, 'getAdminCampaignDetails'])->name('Admin.getAdminCampaignDetails')
+    ->middleware('can:getAdminCampaignDetails');
 
 
 Route::middleware('auth:sanctum')->get('AssociationAdmin/{owner_id}',
- [AdminController::class, 'AssociationAdmin'])->name('Admin.AssociationAdmin');
+ [AdminController::class, 'AssociationAdmin'])->name('Admin.AssociationAdmin')
+     ->middleware('can:AssociationAdmin');
 
 Route::middleware('auth:sanctum')->get('getVoluntingCampigns/{id}/{status_id}',
- [AdminController::class, 'getVoluntingCampigns'])->name('Admin.getVoluntingCampigns');
+ [AdminController::class, 'getVoluntingCampigns'])->name('Admin.getVoluntingCampigns')
+      ->middleware('can:getVoluntingCampigns');
 
 Route::middleware('auth:sanctum')->get('getVoluntingCompDetails/{compaign_id}',
- [AdminController::class, 'getVoluntingCompDetails'])->name('Admin.getVoluntingCompDetails');
+ [AdminController::class, 'getVoluntingCompDetails'])->name('Admin.getVoluntingCompDetails')
+       ->middleware('can:getVoluntingCompDetails');
 
 Route::middleware('auth:sanctum')->post('createAssociationCampaign',
- [AdminController::class, 'createAssociationCampaign'])->name('Admin.createAssociationCampaign');
+ [AdminController::class, 'createAssociationCampaign'])->name('Admin.createAssociationCampaign')
+   ->middleware('can:createAssociationCampaign');
 
 
 Route::middleware('auth:sanctum')->get('getVolunteersByTask/{task_id}',
- [AdminController::class, 'getVolunteersByTask'])->name('Admin.getVolunteersByTask');
+ [AdminController::class, 'getVolunteersByTask'])->name('Admin.getVolunteersByTask')
+   ->middleware('can:getVolunteersByTask');
 
 Route::middleware('auth:sanctum')->post('updateAcceptanceVolunteerStatus/{task_id}/{profile_id}',
- [AdminController::class, 'updateAcceptanceVolunteerStatus'])->name('Admin.updateAcceptanceVolunteerStatus');
+ [AdminController::class, 'updateAcceptanceVolunteerStatus'])->name('Admin.updateAcceptanceVolunteerStatus')
+    ->middleware('can:updateAcceptanceVolunteerStatus');
 
 Route::middleware('auth:sanctum')->get('deleteVoluntingRequest/{task_id}/{profile_id}',
- [AdminController::class, 'deleteVoluntingRequest'])->name('Admin.deleteVoluntingRequest');
+ [AdminController::class, 'deleteVoluntingRequest'])->name('Admin.deleteVoluntingRequest')
+     ->middleware('can:deleteVoluntingRequest');
 
 
 });
 
 
 
-
-// Route::controller(LeaderController::class)->group(function(){
 Route::middleware('auth:sanctum')->controller(LeaderController::class)->group(function () {
 
-Route::middleware('auth:sanctum')->get('UnderReviewIndiviCompaign', [LeaderController::class, 'UnderReviewIndiviCompaign'])->name('superAdmin.UnderReviewIndiviCompaign');
-Route::middleware('auth:sanctum')->post('addLeaderForm/{id}', [LeaderController::class, 'addLeaderForm'])->name('superAdmin.addLeaderForm');
+Route::middleware('auth:sanctum')->get('UnderReviewIndiviCompaign', [LeaderController::class, 'UnderReviewIndiviCompaign'])->name('superAdmin.UnderReviewIndiviCompaign')
+->middleware('can:UnderReviewIndiviCompaign');
+
+Route::middleware('auth:sanctum')->post('addLeaderForm/{id}', [LeaderController::class, 'addLeaderForm'])->name('superAdmin.addLeaderForm')
+->middleware('can:addLeaderForm');
 
 Route::get('reciveInkindDonation' , 'reciveInkindDonation')
 ->name('leader.reciveInkindDonation')->middleware('can:reciveInkindDonation');
@@ -482,7 +503,7 @@ Route::post('/send-notification', [FcmController::class, 'sendFcmNotification'])
 
 
 
-Route::controller(LeaderController::class)->group(function(){
-    Route::post('addLeaderForm/{id}' , 'addLeaderForm')
-          ->name('user.addLeaderForm');
-});
+// Route::controller(LeaderController::class)->group(function(){
+//     Route::post('addLeaderForm/{id}' , 'addLeaderForm')
+//           ->name('user.addLeaderForm');
+// });

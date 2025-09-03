@@ -36,7 +36,16 @@ class RolesPermissionsSeeder extends Seeder
             'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' , 'showAllInkindDonations',
             'editPersonalInfo' , 'createWallet' , 'showWallet' , 'editWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails' , 'showInkindDonationDetails',
             'searchForNearestInkindDonation' , 'addInkindDonation' , 'reserveInkindDonation' , 'getCenter' , 'getInkindDonationTypes' , 'getStatusOfDonation' , 'totalInkindDonationsByYearMob',
-            'reciveInkindDonation' , 'updateInkindDonationAcceptence' , 'requestToHaveInkindDonation' , 'updateRequestToHaveInkindDonation'
+            'reciveInkindDonation' , 'updateInkindDonationAcceptence' , 'requestToHaveInkindDonation' , 'updateRequestToHaveInkindDonation',
+            'editPersonalInfo' , 'createWallet' , 'showWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails' , 'showInkindDonationDetails',
+            'searchForNearestInkindDonation' , 'addInkindDonation' , 'reserveInkindDonation' , 'getCenter' , 'getInkindDonationTypes' , 'getStatusOfDonation' , 'totalInkindDonationsByYearMob',
+            'totalAssociationDonationsByYear' , 'getMonthlyDonationsByYear' , 'getActiveCampaignsCount' ,
+    'getCompleteCampaignsCount' , 'getDonationCountsByClassByYear' , 'AssociationDetails' ,
+'getCampaignsStatus' , 'HealthyAssociationsCampaigns' , 'EducationalAssociationsCampaigns' , 'CleanlinessAssociationsCampaigns'
+, 'EnvironmentalAssociationsCampaigns' , 'getAdminCampaignDetails' , 'AssociationAdmin' ,
+'getVoluntingCampigns' , 'getVoluntingCompDetails' , 'createAssociationCampaign' , 'getVolunteersByTask' ,
+'updateAcceptanceVolunteerStatus' , 'deleteVoluntingRequest' , 'UnderReviewIndiviCompaign' , 'addLeaderForm'
+
         ];
 
         foreach ($permissions as $permissionName) {
@@ -56,8 +65,16 @@ class RolesPermissionsSeeder extends Seeder
 
         // 3. Assign permissions
         $superAdminRole->syncPermissions($permissions);
-        $adminRole->syncPermissions($permissions);
-        $leaderRole->syncPermissions($permissions);
+
+
+        $adminRole->syncPermissions(['totalAssociationDonationsByYear' , 'getMonthlyDonationsByYear' , 'getActiveCampaignsCount' ,
+    'getCompleteCampaignsCount' , 'getDonationCountsByClassByYear' , 'AssociationDetails' ,
+'getCampaignsStatus' , 'HealthyAssociationsCampaigns' , 'EducationalAssociationsCampaigns' , 'CleanlinessAssociationsCampaigns'
+, 'EnvironmentalAssociationsCampaigns' , 'getAdminCampaignDetails' , 'AssociationAdmin' ,
+'getVoluntingCampigns' , 'getVoluntingCompDetails' , 'createAssociationCampaign' , 'getVolunteersByTask' ,
+'updateAcceptanceVolunteerStatus' , 'deleteVoluntingRequest']);
+
+        $leaderRole->syncPermissions(['UnderReviewIndiviCompaign' , 'addLeaderForm' , 'reciveInkindDonation' , 'updateInkindDonationAcceptence' , 'requestToHaveInkindDonation' , 'updateRequestToHaveInkindDonation' ]);
 
          $sourcePath = public_path('uploads/seeder_photos/defualtProfilePhoto.png');
          $targetPath = 'uploads/det/defualtProfilePhoto.png';
