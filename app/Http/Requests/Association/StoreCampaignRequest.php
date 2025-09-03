@@ -38,8 +38,6 @@ class StoreCampaignRequest extends FormRequest
             'compaigns_end_time' => 'required|date|after_or_equal:compaigns_start_time',
             'compaigns_time' => 'required|integer',
             'emergency_level' => 'required|integer|min:1|max:5',
-
-
             'tasks' => 'nullable|array',
             'tasks.*.name' => 'required_with:tasks|string|max:255',
             'tasks.*.description' => 'required_with:tasks|string',

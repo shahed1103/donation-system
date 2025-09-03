@@ -50,8 +50,9 @@ class InkindDonationService
 
         $inkindDonation = InkindDonation::find($id);
         $photos = [];
+
             foreach ($inkindDonation->inkindDonationPhotos as $inkindDonationPhoto) {
-                    $photos[] = [
+                    $photos [] = [
                      'id' => $inkindDonationPhoto->id ,
                      'photo' => url(Storage::url($inkindDonationPhoto->photo)), 
                   ];

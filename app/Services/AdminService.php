@@ -494,10 +494,13 @@ public function getVoluntingCampigns($id , $campaignStatus) : array{
 
     public function createAssociationCampaign($request): array
     {
+        $user_id = Auth::user()->id;
+        $association_id = Association::where('association_owner_id' , $user_id )->value('id');
+
 
     if ($request->hasFile('photo')) {
              $photo = $request->file('photo');
-             $path = $photo->store('uploads/profilePhoto', 'public');
+             $path = $photo->store('uploads/assocCampignsphotos', 'public');
              $fullPath = url(Storage::url($path));
      }
 
@@ -508,13 +511,17 @@ public function getVoluntingCampigns($id , $campaignStatus) : array{
             'classification_id' => $request['classification_id'],
             'amount_required' => $request['amount_required'],
             'campaign_status_id' => 1,
-            'photo' => $request['photo'],
+            'photo' => $path ,
             'compaigns_start_time' => $request['compaigns_start_time'],
             'compaigns_end_time' => $request['compaigns_end_time'],
             'compaigns_time' => $request['compaigns_time'],
             'emergency_level' => $request['emergency_level'],
         ]);
 
+        SharedAssociationCampaign::create([
+            'association_id' => $association_id,
+            'association_campaign_id' => $campaign->id
+        ]);
 
         $campaign->refresh();
         if (!empty($request['tasks'])) {
@@ -527,6 +534,8 @@ public function getVoluntingCampigns($id , $campaignStatus) : array{
                     'association_campaign_id' => $campaign->id,
                 ]);
             }
+            $campaign->tasks_start_time = $request['tasks_start_time'];
+            $campaign->tasks_end_time = $request['tasks_end_time'] ?? null;
         }
 
 

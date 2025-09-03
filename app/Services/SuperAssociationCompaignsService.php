@@ -266,6 +266,7 @@ $activeCampaignsCount = count($response2['campaign']);
 public function addAssociation($request): array{
 
         $adminRole = Role::query()->firstWhere('name', 'Admin')->id;
+        
         $association_owner = User::create([
          'name' =>$request['owner_name'],
          'email' => $request ['email'],
