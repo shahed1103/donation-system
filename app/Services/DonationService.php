@@ -34,7 +34,7 @@ class DonationService
       public function donateWithPoints($request , $campaignType , $campaignId){
          $user = Auth::user();
 
-      $dollarAmount = $request->points / 15;
+      $dollarAmount = ($request->points / 15)*1000;
 
       $user->points -= $request->points;
       $user->points +=5;
