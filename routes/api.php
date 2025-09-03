@@ -313,19 +313,6 @@ Route::get('getInkindDonation/{id}' , 'getInkindDonation')
 Route::get('getCities' , 'getCities')
 ->name('superAdmin.getCities');
 
-Route::get('reciveInkindDonation' , 'reciveInkindDonation')
-->name('superAdmin.reciveInkindDonation');
-
-Route::get('updateInkindDonationAcceptence/{inkindId}' , 'updateInkindDonationAcceptence')
-->name('superAdmin.updateInkindDonationAcceptence');
-
-Route::get('requestToHaveInkindDonation' , 'requestToHaveInkindDonation')
-->name('superAdmin.requestToHaveInkindDonation');
-
-Route::get('updateRequestToHaveInkindDonation/{reserveID}' , 'updateRequestToHaveInkindDonation')
-->name('superAdmin.updateRequestToHaveInkindDonation');
-
-
 });
 
 
@@ -466,9 +453,24 @@ Route::middleware('auth:sanctum')->get('deleteVoluntingRequest/{task_id}/{profil
 
 
 
-Route::controller(LeaderController::class)->group(function(){
+// Route::controller(LeaderController::class)->group(function(){
+Route::middleware('auth:sanctum')->controller(LeaderController::class)->group(function () {
+
 Route::middleware('auth:sanctum')->get('UnderReviewIndiviCompaign', [LeaderController::class, 'UnderReviewIndiviCompaign'])->name('superAdmin.UnderReviewIndiviCompaign');
 Route::middleware('auth:sanctum')->post('addLeaderForm/{id}', [LeaderController::class, 'addLeaderForm'])->name('superAdmin.addLeaderForm');
+
+Route::get('reciveInkindDonation' , 'reciveInkindDonation')
+->name('leader.reciveInkindDonation')->middleware('can:reciveInkindDonation');
+
+
+Route::get('updateInkindDonationAcceptence/{inkindId}' , 'updateInkindDonationAcceptence')
+->name('leader.updateInkindDonationAcceptence')->middleware('can:updateInkindDonationAcceptence');
+
+Route::get('requestToHaveInkindDonation' , 'requestToHaveInkindDonation')
+->name('leader.requestToHaveInkindDonation')->middleware('can:requestToHaveInkindDonation');
+
+Route::get('updateRequestToHaveInkindDonation/{reserveID}' , 'updateRequestToHaveInkindDonation')
+->name('leader.updateRequestToHaveInkindDonation')->middleware('can:updateRequestToHaveInkindDonation');
 
 });
 

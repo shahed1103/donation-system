@@ -51,5 +51,56 @@ public function UnderReviewIndiviCompaign(): JsonResponse {
     }
 }
 
+public function reciveInkindDonation(): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->leaderService->reciveInkindDonation();
+        return Response::Success($data['in-kind donations'], $data['message']);
+
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function updateInkindDonationAcceptence($inkindId): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->leaderService->updateInkindDonationAcceptence($inkindId);
+        return Response::Success($data['in-kind donations'], $data['message']);
+
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function requestToHaveInkindDonation(): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->leaderService->requestToHaveInkindDonation();
+        return Response::Success($data['in-kind donations'], $data['message']);
+
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
+
+public function updateRequestToHaveInkindDonation($reserveID): JsonResponse {
+    $data = [];
+    try {
+        $data = $this->leaderService->updateRequestToHaveInkindDonation($reserveID);
+        return Response::Success($data['in-kind donations'], $data['message']);
+
+    } catch (Throwable $th) {
+        $message = $th->getMessage();
+        $errors[] = $message;
+        return Response::Error($data, $message, $errors);
+    }
+}
 
 }

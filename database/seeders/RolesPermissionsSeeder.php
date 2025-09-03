@@ -35,7 +35,8 @@ class RolesPermissionsSeeder extends Seeder
             'viewMyIndiviCompa' , 'viewIndiviCompa' , 'showIndiviCampaignDetails' , 'searchCampaigns' , 'emergencyCompaings' , 'totalDonationsByYearMob',
             'miniIfo' , 'mySummryAchievements' , 'mydonations' , 'mostDonationFor' , 'createVoluntingProfile' , 'showAllInfo' , 'showAllInkindDonations',
             'editPersonalInfo' , 'createWallet' , 'showWallet' , 'editWallet' , 'getAllVoluntingCampigns' , 'getVoluntingCampigndetails' , 'getTaskDetails' , 'showInkindDonationDetails',
-            'searchForNearestInkindDonation' , 'addInkindDonation' , 'reserveInkindDonation' , 'getCenter' , 'getInkindDonationTypes' , 'getStatusOfDonation' , 'totalInkindDonationsByYearMob'
+            'searchForNearestInkindDonation' , 'addInkindDonation' , 'reserveInkindDonation' , 'getCenter' , 'getInkindDonationTypes' , 'getStatusOfDonation' , 'totalInkindDonationsByYearMob',
+            'reciveInkindDonation' , 'updateInkindDonationAcceptence' , 'requestToHaveInkindDonation' , 'updateRequestToHaveInkindDonation'
         ];
 
         foreach ($permissions as $permissionName) {
