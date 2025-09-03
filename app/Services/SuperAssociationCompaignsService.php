@@ -211,6 +211,7 @@ public function getCampaignDetails($campaignId): array
                   return [
                         'id' => $association->id,
                         'name' => $association->name,
+                        'photo' => url(Storage::url($association->photo)),
                   ];
                }),
          ];
