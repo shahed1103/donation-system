@@ -70,7 +70,7 @@ public function getActiveIndiviCompaign(): array
                 'id' => $campaign->photo_id,
                 'photo' => $photoUrl,
             ],
-            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
         ];
     }
 
@@ -113,7 +113,7 @@ public function getCompleteIndiviCompaign(): array
                 'id' => $campaign->photo_id,
                 'photo' => $photoUrl,
             ],
-            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
         ];
     }
 
@@ -162,7 +162,7 @@ public function getClosedRejectedIndiviCampaigns(): array
                 'id' => $campaign->photo_id,
                 'photo' => $photoUrl,
             ],
-            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
         ];
     }
 
@@ -211,7 +211,7 @@ public function getClosedUnderReviewIndiviCompaign(): array
                 'id' => $campaign->photo_id,
                 'photo' => $photoUrl,
             ],
-            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
         ];
     }
 
@@ -254,7 +254,7 @@ public function getActiveCompleteIndiviCampaignDetails($campaignId):array{
                   'id' =>$compaign->photo_id ,
                   'photo' => $fullPath
             ],
-            'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'compaigns_time_to_end' => Carbon::now()->diff($compaign->compaigns_end_time)->format('%d'),
             'description' => $compaign->description,
             'campaign_start_time' => $compaign->compaigns_start_time,
             'campaign_end_time' => $compaign->compaigns_end_time,

@@ -282,7 +282,7 @@ public function HealthyAssociationsCampaigns($association_id , $campaignStatus):
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
@@ -315,7 +315,7 @@ public function EducationalAssociationsCampaigns($association_id , $campaignStat
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
@@ -348,7 +348,7 @@ public function CleanlinessAssociationsCampaigns($association_id , $campaignStat
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                  'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
@@ -381,7 +381,7 @@ public function EnvironmentalAssociationsCampaigns($association_id , $campaignSt
                      'id' => $campaign->campaign_status_id,
                      'campaign_status_type' => $campaign->campaignStatus->status_type
                   ],
-                'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
             ]; }
             $message = 'Your campaign retrived sucessfully';
          return ['campaign' => $compaingAll, 'message' => $message];
@@ -671,7 +671,7 @@ public function getAdminCampaignDetails($campaignId): array
                   'id' => $campaign->classification_id,
                   'type' => $campaign->classification->classification_name
             ],
-            'campaign_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'campaign_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
             'campaign_start_time' => $campaign->compaigns_start_time,
             'campaign_end_time' => $campaign->compaigns_end_time,
             'last_donation_time' => $lastDonation ? $lastDonation->created_at->diffForHumans() : 'no Donations yet',
