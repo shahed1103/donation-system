@@ -9,14 +9,12 @@ use App\Models\Association;
 use App\Models\User;
 use App\Models\Donation;
 use App\Models\IndCompaign;
-
 use App\Models\Classification;
 use App\Models\AcceptanceStatus;
 use App\Models\CampaignStatus;
 use App\Models\IndCompaigns_photo;
 use App\Models\Leader_form;
-
-
+use App\Http\Controllers\FcmController;
 use App\Models\SharedAssociationCampaign;
 use App\Models\DonationAssociationCampaign;
 
@@ -303,6 +301,22 @@ public function updateAcceptanceStatus(array $request, int $campaignId): array
         'status' => $status->status_type,
         'rejection_reason' => $campaign->rejection_reason,
     ];
+
+
+        $user_id = IndCompaign::where('id' ,  $campaignId)->user_id;
+        $user = User::where('id', $user_id)->first(); 
+
+        if ($user && $user->fcm_token) {
+            $fcmController = new FcmController();
+            $fakeRequest = new Request([
+                'user_id' => $user->id,
+                'title' => ' نتيجة مراجعتنا لطلب اضافة حملة فردية خاصة بك',
+                'body' => "{$campaignDetails}",
+            ]);
+            $fcmController->sendFcmNotification($fakeRequest);
+        }
+
+
     $message = 'done';
     return [
         'campaign' => $campaignDetails,

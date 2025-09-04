@@ -9,7 +9,8 @@ use App\Models\InkindDonationPhoto;
 use App\Models\InkindDonationReservation;
 use App\Models\StatusOfDonation;
 use App\Models\DonationType;
-
+use App\Http\Controllers\FcmController;
+use App\Models\User;
 use App\Models\Center;
 
 use Storage;
@@ -135,8 +136,27 @@ class InkindDonationService
                 $photo_paths [] = $fullPath;
             }
          $inlinkindDonationDet ['photos'] = $photo_paths;
+      }
 
+      $admins = User::where('role_id', 4)
+         ->orderBy('id', 'desc') 
+         ->take(5)
+         ->get();
+
+      ///send notification
+       foreach ($admins as $admin) {
+            if ($admin->fcm_token) {
+                $fcmController = new FcmController();
+                $fakeRequest = new Request([
+                    'user_id' => $admin->id,
+                    'title' => 'تم تقديم طلب اضافة تبرع عيني جديد',
+                    'body' => "{$inlinkindDonationDet}",
+                ]);
+                $fcmController->sendFcmNotification($fakeRequest);
+            }
         }
+
+
          $message = 'in-kind donation added successfully';
          return ['Inkind Donation' => $inlinkindDonationDet  , 'message' => $message];
       }
@@ -151,6 +171,24 @@ class InkindDonationService
          'amount' => $request->amount,
          'status_id' => 1,
       ]);
+
+            $admins = User::where('role_id', 4)
+         ->orderBy('id', 'desc') 
+         ->take(5)
+         ->get();
+
+      ///send notification
+       foreach ($admins as $admin) {
+            if ($admin->fcm_token) {
+                $fcmController = new FcmController();
+                $fakeRequest = new Request([
+                    'user_id' => $admin->id,
+                    'title' => 'تم تقديم طلب سحب تبرع عيني ',
+                    'body' => "{$reserveInkinfDonation}",
+                ]);
+                $fcmController->sendFcmNotification($fakeRequest);
+            }
+        }
 
       $message = 'in-kind donation reserved successfully';
       return ['Inkind Donation' => $reserveInkinfDonation  , 'message' => $message];

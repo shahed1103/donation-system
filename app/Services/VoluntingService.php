@@ -7,6 +7,8 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Models\DonationAssociationCampaign;
+use App\Models\SharedAssociationCampaign;
+use App\Http\Controllers\FcmController;
 use Illuminate\Support\Facades\Session;
 use App\Models\TaskVolunteerProfile;
 use Illuminate\Support\Facades\Auth;
@@ -132,6 +134,22 @@ class VoluntingService
          'volunteer_task_id' => $taskId,
          'status_id' => 4
       ]);
+
+      $association_campaign_id = VolunteerTask::where('id' ,  $taskId)->association_campaign_id;
+      $association = SharedAssociationCampaign::where('association_campaign_id' , $association_campaign_id )->association_id;
+      $owner = Association::where('id' , $association )->association_owner_id;
+
+        $admin = User::where('id', $owner)->first(); 
+
+        if ($admin && $admin->fcm_token) {
+            $fcmController = new FcmController();
+            $fakeRequest = new Request([
+                'user_id' => $admin->id,
+                'title' => 'طلب تطوع',
+                'body' => "{$voluntingRequest}",
+            ]);
+            $fcmController->sendFcmNotification($fakeRequest);
+        }
 
       $message = 'Your request to volunteer has been sent for review';
 

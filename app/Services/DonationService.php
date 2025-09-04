@@ -27,6 +27,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 use Carbon\Carbon;
+use App\Http\Controllers\FcmController;
 
 class DonationService
 {
@@ -48,6 +49,19 @@ class DonationService
             'campaign_id' => $campaignId,
             'amount' => $dollarAmount
             ]);
+
+               $owner = IndCompaign::where('id' , $campaignId)->user_id;
+               $admin = User::where('id', $owner)->first(); 
+
+               if ($admin && $admin->fcm_token) {
+                     $fcmController = new FcmController();
+                     $fakeRequest = new Request([
+                        'user_id' => $admin->id,
+                        'title' => "{$campaign->title} :تم التبرع لحملتك",
+                        'body' => "{$campaign}",
+                     ]);
+                     $fcmController->sendFcmNotification($fakeRequest);
+               }
          }
 
          else{
@@ -58,9 +72,27 @@ class DonationService
             'association_campaign_id' => $campaignId,
             'amount' => $dollarAmount
             ]);
+
+               $association = SharedAssociationCampaign::where('association_campaign_id' , $campaignId )->association_id;
+               $owner = Association::where('id' , $association)->association_owner_id;
+
+               $admin = User::where('id', $owner)->first(); 
+
+               if ($admin && $admin->fcm_token) {
+                     $fcmController = new FcmController();
+                     $fakeRequest = new Request([
+                        'user_id' => $admin->id,
+                        'title' => "{$campaign->title} :تم التبرع لحملتك",
+                        'body' => "{$campaign}",
+                     ]);
+                     $fcmController->sendFcmNotification($fakeRequest);
+               }
+
          }
 
       $campaign->updateStatus($campaignType);
+
+      
 
       $message = 'donation for this campaign are done sucessfully';
 
@@ -93,6 +125,19 @@ class DonationService
       'campaign_id' => $campaignId,
       'amount' => $request->amount
       ]);
+
+               $owner = IndCompaign::where('id' , $campaignId)->user_id;
+               $admin = User::where('id', $owner)->first(); 
+
+               if ($admin && $admin->fcm_token) {
+                     $fcmController = new FcmController();
+                     $fakeRequest = new Request([
+                        'user_id' => $admin->id,
+                        'title' => "{$campaign->title} :تم التبرع لحملتك",
+                        'body' => "{$campaign}",
+                     ]);
+                     $fcmController->sendFcmNotification($fakeRequest);
+               }
    }
 
 
@@ -105,6 +150,22 @@ class DonationService
       'amount' => $request->amount
       ]);  
       
+      
+            $association = SharedAssociationCampaign::where('association_campaign_id' , $campaignId )->association_id;
+            $owner = Association::where('id' , $association)->association_owner_id;
+
+            $admin = User::where('id', $owner)->first(); 
+
+            if ($admin && $admin->fcm_token) {
+                  $fcmController = new FcmController();
+                  $fakeRequest = new Request([
+                     'user_id' => $admin->id,
+                     'title' => "{$campaign->title} :تم التبرع لحملتك",
+                     'body' => "{$campaign}",
+                  ]);
+                  $fcmController->sendFcmNotification($fakeRequest);
+            }
+
       if (!empty($request['gift_token'])) {
         $gift = GiftDonation::where('token', $request['gift_token'])->first();
          if ($gift) {
@@ -161,6 +222,19 @@ class DonationService
       'campaign_id' => $request->campaign_id,
       'amount' => $request->amount
       ]);
+
+               $owner = IndCompaign::where('id' , $campaignId)->user_id;
+               $admin = User::where('id', $owner)->first(); 
+
+               if ($admin && $admin->fcm_token) {
+                     $fcmController = new FcmController();
+                     $fakeRequest = new Request([
+                        'user_id' => $admin->id,
+                        'title' => "{$campaign->title} :تم التبرع لحملتك",
+                        'body' => "{$campaign}",
+                     ]);
+                     $fcmController->sendFcmNotification($fakeRequest);
+               }
    }
 
    else{
@@ -171,6 +245,22 @@ class DonationService
       'association_campaign_id' =>  $request->campaign_id,
       'amount' => $request->amount
       ]);
+
+      
+               $association = SharedAssociationCampaign::where('association_campaign_id' , $campaignId)->association_id;
+               $owner = Association::where('id' , $association)->association_owner_id;
+
+               $admin = User::where('id', $owner)->first(); 
+
+               if ($admin && $admin->fcm_token) {
+                     $fcmController = new FcmController();
+                     $fakeRequest = new Request([
+                        'user_id' => $admin->id,
+                        'title' => "{$campaign->title} :تم التبرع لحملتك",
+                        'body' => "{$campaign}",
+                     ]);
+                     $fcmController->sendFcmNotification($fakeRequest);
+               }
       }
 
       $campaign->updateStatus($request->campaign_type);
@@ -192,5 +282,6 @@ class DonationService
     ]);
       $message = 'gift details are done sucessfully';
 
-      return ['gift' => $gift , 'message' => $message];    }
+      return ['gift' => $gift , 'message' => $message];
+       }
 }

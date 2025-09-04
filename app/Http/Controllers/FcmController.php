@@ -23,6 +23,13 @@ class FcmController extends Controller
     //     return response()->json(['message' => 'Device token updated successfully']);
     // }
 
+    
+    // public function index()
+    // {
+    //     return auth()->user()->notifications;
+    // }
+
+
     public function updateDeviceToken(Request $request)
 {
     $request->validate([
@@ -30,20 +37,17 @@ class FcmController extends Controller
         'fcm_token' => 'required|string',
     ]);
 
-    // ابحث عن المستخدم حسب user_id المرسل
     $user = User::find($request->user_id);
 
     if (!$user) {
         return response()->json(['error' => 'User not found'], 404);
     }
 
-    // حدث الـ fcm_token الخاص بالمستخدم
     $user->fcm_token = $request->fcm_token;
     $user->save();
 
     return response()->json(['message' => 'Device token updated successfully']);
 }
-
 
     public function sendFcmNotification(Request $request)
     {
@@ -62,11 +66,8 @@ class FcmController extends Controller
 
         $title = $request->title;
         $description = $request->body;
-        // $projectId = config('donation-system-b18e0'); # INSERT COPIED PROJECT ID
         $projectId = env('FCM_PROJECT_ID');
 
-
-        // $credentialsFilePath = Storage::path('app/json/file.json');
         $credentialsFilePath = storage_path('app/json/donation-system-b18e0-firebase-adminsdk-fbsvc-b4698c6644.json');
         $client = new GoogleClient();
         $client->setAuthConfig($credentialsFilePath);

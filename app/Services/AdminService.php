@@ -14,7 +14,7 @@ use App\Models\VolunteerTask;
 use App\Models\TaskStatus;
 use App\Models\VolunteerProfile;
 use App\Models\TaskVolunteerProfile;
-
+use App\Http\Controllers\FcmController;
 use App\Models\SharedAssociationCampaign;
 use App\Models\AssociationCampaign;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -626,6 +626,19 @@ public function updateAcceptanceVolunteerStatus(array $request, int $task_id , $
         'id' => $task->id,
         'status' => $status->name,
     ];
+
+        $user_id = VolunteerProfile::where('id' ,  $profile_id)->user_id;
+        $user = User::where('id', $user_id)->first(); 
+
+        if ($user && $user->fcm_token) {
+            $fcmController = new FcmController();
+            $fakeRequest = new Request([
+                'user_id' => $user->id,
+                'title' => 'مراجعة طلب التطوع',
+                'body' => "{$task}",
+            ]);
+            $fcmController->sendFcmNotification($fakeRequest);
+        }
 
     $message = 'done';
     return [

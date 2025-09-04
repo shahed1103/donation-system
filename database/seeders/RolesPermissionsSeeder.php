@@ -169,6 +169,13 @@ class RolesPermissionsSeeder extends Seeder
                       '123456789rania', '123456789lana', '123456789rayan', '123456789mohammed',
                       '123456789marwa', '123456789sawsan'];
 
+        $emailsAdmin = ['shahedAA@gmail.com', 'danaAA@gmail.com', 'ramaAA@gmail.com', 'yumnaAA@gmail.com', 'raniaAA@gmail.com',
+        'lanaAA@gmail.com', 'rayanAA@gmail.com', 'mohammedAA@gmail.com', 'marwaAA@gmail.com', 'sawsanAA@gmail.com'];
+
+
+        $emailsLeader = ['shahedLL@gmail.com', 'danaLL@gmail.com', 'ramaLL@gmail.com', 'yumnaLL@gmail.com', 'raniaLL@gmail.com',
+        'lanaLL@gmail.com', 'rayanLL@gmail.com', 'mohammedLL@gmail.com', 'marwaLL@gmail.com', 'sawsanLL@gmail.com'];
+
         for ($i = 0; $i < 10; $i++) {
             $user = User::create([
                 'role_id' => $clientRole->id,
@@ -195,6 +202,40 @@ class RolesPermissionsSeeder extends Seeder
             //assign permissions with the role to the user
             $permissions = $clientRole->permissions()->pluck('name')->toArray();
             $user->givePermissionTo ($permissions);
+        }
+
+         for ($i = 0; $i < 10; $i++) {
+                $admin = User::create([
+                'role_id' => $adminRole->id,
+                'name' => $names[$i],
+                'email' => $emailsAdmin[$i],
+                'phone' => $phones[$i],
+                'password' => Hash::make($passwords[$i])
+
+            ]);
+
+            $admin->assignRole($adminRole);
+            $permissions = $adminRole->permissions()->pluck('name')->toArray();
+            $admin->givePermissionTo ($permissions);
+
+        }
+
+        for ($i = 0; $i < 10; $i++) {
+                $leader = User::create([
+                'role_id' => $leaderRole->id,
+                'name' => $names[$i],
+                'email' => $emailsLeader[$i],
+                'phone' => $phones[$i],
+                'city_id' => $nationalities[$i],
+                'phone' => $phones[$i],
+                'gender_id' => $genders[$i],
+                'password' => Hash::make($passwords[$i])
+
+            ]);
+
+            $leader->assignRole($leaderRole);
+            $permissions = $leaderRole->permissions()->pluck('name')->toArray();
+            $leader->givePermissionTo ($permissions);
         }
     }
 }

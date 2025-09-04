@@ -8,6 +8,10 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Models\Association;
 use App\Models\User;
+use App\Models\AcceptanceStatus;
+
+use App\Models\CampaignStatus;
+use App\Http\Controllers\FcmController;
 use App\Models\Donation;
 use App\Models\Leader_form;
 use App\Models\IndCompaign;
@@ -39,7 +43,6 @@ class LeaderService
             'number_of_beneficiaries' => $request['number_of_beneficiaries'],
             'beneficiary_type' => $request['beneficiary_type'],
             'need_type' => $request['need_type'],
-            'is_need_real' => $request['is_need_real'],
             'has_other_support' => $request['has_other_support'],
             'marks_from_5' => $request['marks_from_5'],
             'notes' => $request['notes'] ?? null,
@@ -57,12 +60,23 @@ class LeaderService
             'number_of_beneficiaries' => $leaderForm->number_of_beneficiaries,
             'beneficiary_type' => $leaderForm->beneficiary_type,
             'need_type' => $leaderForm->need_type,
-            'is_need_real' => $leaderForm->is_need_real,
             'has_other_support' => $leaderForm->has_other_support,
             'marks_from_5' => $leaderForm->marks_from_5,
             'notes' => $leaderForm->notes,
             'recommendation' => $leaderForm->recommendation,
         ];
+
+        $superAdmin = User::where('role_id', 1)->first(); 
+
+        if ($superAdmin && $superAdmin->fcm_token) {
+            $fcmController = new FcmController();
+            $fakeRequest = new Request([
+                'user_id' => $superAdmin->id,
+                'title' => 'الفورم الخاص بالكشف عن الحملة الفردية',
+                'body' => "تم انشاء فورم الكشف يمكنك مراجعته: {$details}",
+            ]);
+            $fcmController->sendFcmNotification($fakeRequest);
+        }
 
         $message = 'Leader form has been created successfully.';
 
@@ -107,7 +121,7 @@ public function UnderReviewIndiviCompaign(): array
                 'id' => $campaign->photo_id,
                 'photo' => $photoUrl,
             ],
-            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+            'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
         ];
     }
 

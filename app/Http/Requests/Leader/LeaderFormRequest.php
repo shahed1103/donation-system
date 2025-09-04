@@ -18,7 +18,7 @@ class LeaderFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'campaign_id' => 'required|exists:ind_compaigns,id',
+            // 'campaign_id' => 'required|exists:ind_compaigns,id',
             'visit_date' => 'required|date',
             'leader_name' => 'required|string|max:255',
             'location_type' => 'required|string|max:255',
@@ -26,7 +26,6 @@ class LeaderFormRequest extends FormRequest
             'number_of_beneficiaries' => 'required|integer|min:1',
             'beneficiary_type' => 'required|string|max:255',
             'need_type' => 'required|string|max:255',
-            'is_need_real' => 'required|boolean',
             'has_other_support' => 'required|boolean',
             'marks_from_5' => 'required|integer|min:1|max:5',
             'notes' => 'nullable|string|max:1000',
@@ -54,7 +53,6 @@ class LeaderFormRequest extends FormRequest
             'beneficiary_type.required' => 'beneficiary type is required',
             'need_type.required' => 'need type is required',
 
-            'is_need_real.required' => 'please specify if the need is real',
             'has_other_support.required' => 'please specify if other support exists',
 
             'marks_from_5.required' => 'you must provide a rating',

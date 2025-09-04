@@ -18,7 +18,6 @@ class Leader_form extends Model
         'number_of_beneficiaries',
         'beneficiary_type',
         'need_type',
-        'is_need_real',
         'has_other_support',
         'marks_from_5',
         'notes',

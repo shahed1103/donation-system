@@ -24,6 +24,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 use Carbon\Carbon;
+use App\Http\Controllers\FcmController;
 use App\Traits\GetUnderReviewIndiviCampaignDetailsMain;
 
 
@@ -70,6 +71,34 @@ public function createIndiviCompa($request): array{
         'campaign_status_id'=>  ['id' => $campaign->campaign_status_id, 'campaign_status_type' => $campaign_status_type],
         'compaigns_time' =>  $request['compaigns_time'],
        ];
+
+       $admins = User::where('role_id', 4)->take(5)->get();
+
+///send notification
+       foreach ($admins as $admin) {
+            if ($admin->fcm_token) {
+                $fcmController = new FcmController();
+                $fakeRequest = new Request([
+                    'user_id' => $admin->id,
+                    'title' => 'تم إنشاء حملة جديدة',
+                    'body' => "تم إنشاء حملة فردية جديدة: {$campaign_dett}",
+                ]);
+                $fcmController->sendFcmNotification($fakeRequest);
+            }
+        }
+
+        $superAdmin = User::where('role_id', 1)->first(); 
+
+        if ($superAdmin && $superAdmin->fcm_token) {
+            $fcmController = new FcmController();
+            $fakeRequest = new Request([
+                'user_id' => $superAdmin->id,
+                'title' => 'تم إنشاء حملة جديدة',
+                'body' => "تم إنشاء حملة فردية جديدة: {$campaign_dett}",
+            ]);
+            $fcmController->sendFcmNotification($fakeRequest);
+        }
+
 
         $message = 'Your campaign created sucessfully';
 
