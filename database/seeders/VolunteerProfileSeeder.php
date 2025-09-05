@@ -12,7 +12,7 @@ class VolunteerProfileSeeder extends Seeder
     {
         for ($i = 0; $i < 10; $i++) {
             VolunteerProfile::create([
-                'user_id' => rand(4, 15), 
+                'user_id' => rand(5, 14), 
                 'skills' => 'Programming, Design, Leadership',
                 'availability_type_id' => rand(1, 2), 
                 'availability_hours' => rand(1, 5),

@@ -82,6 +82,25 @@ class RolesPermissionsSeeder extends Seeder
     Storage::disk('public')->put($targetPath, File::get($sourcePath));
 
         // 4. Create users for each role
+
+        $superAdmin = User::factory()->create([
+            'role_id' => $superAdminRole->id,
+            'gender_id' => 1,
+            'phone' => '0954411753',
+            'city_id' => 1,
+            'age' => '20',
+            'name' => 'Super Admin',
+            'email' => 'SuperAdmin@example.com',
+            'password' => bcrypt('password') ,
+            'photo' => url(Storage::url($targetPath))
+        ]);
+
+        $superAdmin->assignRole($superAdminRole);
+
+        //assign permissions with the role to the user
+        $permissions = $superAdminRole->permissions()->pluck('name')->toArray();
+        $superAdmin->givePermissionTo($permissions);
+        
         $clientUser = User::factory()->create([
             'role_id' => $clientRole->id,
             'gender_id' => 1,
@@ -210,9 +229,14 @@ class RolesPermissionsSeeder extends Seeder
                 'name' => $names[$i],
                 'email' => $emailsAdmin[$i],
                 'phone' => $phones[$i],
-                'password' => Hash::make($passwords[$i])
+                'gender_id' => $genders[$i],
+                'age' => $ages[$i],
+                'city_id' => $nationalities[$i],
+                'password' => Hash::make($passwords[$i]),
+                'photo' => url(Storage::url($targetPath))
 
             ]);
+
 
             $admin->assignRole($adminRole);
             $permissions = $adminRole->permissions()->pluck('name')->toArray();
@@ -229,7 +253,8 @@ class RolesPermissionsSeeder extends Seeder
                 'city_id' => $nationalities[$i],
                 'phone' => $phones[$i],
                 'gender_id' => $genders[$i],
-                'password' => Hash::make($passwords[$i])
+                'password' => Hash::make($passwords[$i]),
+                'photo' => url(Storage::url($targetPath))
 
             ]);
 

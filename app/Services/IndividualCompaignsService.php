@@ -94,7 +94,8 @@ public function createIndiviCompa($request): array{
             $fakeRequest = new Request([
                 'user_id' => $superAdmin->id,
                 'title' => 'تم إنشاء حملة جديدة',
-                'body' => "تم إنشاء حملة فردية جديدة: {$campaign_dett}",
+                // 'body' => "تم إنشاء حملة فردية جديدة: {$campaign_dett}",
+                'body' => "تم إنشاء حملة فردية جديدة: " . json_encode($campaign_dett),
             ]);
             $fcmController->sendFcmNotification($fakeRequest);
         }
