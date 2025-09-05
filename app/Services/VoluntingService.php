@@ -135,9 +135,9 @@ class VoluntingService
          'status_id' => 4
       ]);
 
-      $association_campaign_id = VolunteerTask::where('id' ,  $taskId)->association_campaign_id;
-      $association = SharedAssociationCampaign::where('association_campaign_id' , $association_campaign_id )->association_id;
-      $owner = Association::where('id' , $association )->association_owner_id;
+      $association_campaign_id = VolunteerTask::where('id' ,  $taskId)->value('association_campaign_id');
+      $association = SharedAssociationCampaign::where('association_campaign_id' , $association_campaign_id )->value('association_id');
+      $owner = Association::where('id' , $association )->value('association_owner_id');
 
         $admin = User::where('id', $owner)->first(); 
 

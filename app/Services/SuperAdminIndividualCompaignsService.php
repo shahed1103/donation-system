@@ -303,7 +303,7 @@ public function updateAcceptanceStatus(array $request, int $campaignId): array
     ];
 
 
-        $user_id = IndCompaign::where('id' ,  $campaignId)->user_id;
+        $user_id = IndCompaign::where('id' ,  $campaignId)->value('user_id');
         $user = User::where('id', $user_id)->first(); 
 
         if ($user && $user->fcm_token) {

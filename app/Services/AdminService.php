@@ -504,6 +504,7 @@ public function getVoluntingCampigns($id , $campaignStatus) : array{
              $fullPath = url(Storage::url($path));
      }
 
+
         $campaign = AssociationCampaign::create([
             'title' => $request['title'],
             'description' => $request['description'],
@@ -627,7 +628,7 @@ public function updateAcceptanceVolunteerStatus(array $request, int $task_id , $
         'status' => $status->name,
     ];
 
-        $user_id = VolunteerProfile::where('id' ,  $profile_id)->user_id;
+        $user_id = VolunteerProfile::where('id' ,  $profile_id)->value('user_id');
         $user = User::where('id', $user_id)->first(); 
 
         if ($user && $user->fcm_token) {
