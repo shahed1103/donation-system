@@ -251,6 +251,7 @@ $activeCampaignsCount = count($response2['campaign']);
             'association_name' => $association->name,
             'association_description' => $association->description,
             'location' => $association->location,
+            'photo' => url(Storage::url($association->photo)),
             'association_owner' => $association_owner->name,
             'date_start_working' => $association -> date_start_working,
             'date_end_working' => $association -> date_end_working,

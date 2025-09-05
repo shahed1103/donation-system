@@ -73,7 +73,7 @@ class LeaderService
             $fakeRequest = new Request([
                 'user_id' => $superAdmin->id,
                 'title' => 'الفورم الخاص بالكشف عن الحملة الفردية',
-                'body' => "تم انشاء فورم الكشف يمكنك مراجعته: {$details}",
+                'body' => "تم انشاء فورم الكشف يمكنك مراجعته: " . json_encode($details),
             ]);
             $fcmController->sendFcmNotification($fakeRequest);
         }
