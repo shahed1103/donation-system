@@ -500,6 +500,9 @@ Route::get('updateRequestToHaveInkindDonation/{reserveID}' , 'updateRequestToHav
 
 Route::put('/update-device-token', [FcmController::class, 'updateDeviceToken']);
 Route::post('/send-notification', [FcmController::class, 'sendFcmNotification']);
+Route::get('/get-notifications/{userId}', [FcmController::class, 'getUserNotifications']);
+Route::get('/get-unread-notifications-count/{userId}', [FcmController::class, 'getUnreadCount']);
+
 
 
 

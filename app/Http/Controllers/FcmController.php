@@ -5,30 +5,46 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Google\Client as GoogleClient;
 use Illuminate\Support\Facades\Storage;
+use App\Services\NotificationService;
 use App\Models\User;
+use App\Http\Responses\response;
+use Illuminate\Http\JsonResponse;
+
 
 use Illuminate\Support\Facades\Http;
 
 class FcmController extends Controller
 {
-    // public function updateDeviceToken(Request $request)
-    // {
-    //     $request->validate([
-    //         'user_id' => 'required|exists:users,id',
-    //         'fcm_token' => 'required|string',
-    //     ]);
 
-    //     $request->user()->update(['fcm_token' => $request->fcm_token]);
+    public function __construct(NotificationService $notificationService = null){
+        $this->notificationService = $notificationService ?? new NotificationService();
+    }
 
-    //     return response()->json(['message' => 'Device token updated successfully']);
-    // }
+    public function getUserNotifications($userId): JsonResponse {
+      $data = [] ;
+        try{
+            $data = $this->notificationService->getUserNotifications($userId);
+           return Response::Success($data['notifications'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
 
-    
-    // public function index()
-    // {
-    //     return auth()->user()->notifications;
-    // }
-
+    public function getUnreadCount($userId): JsonResponse {
+      $data = [] ;
+        try{
+            $data = $this->notificationService->getUnreadCount($userId);
+           return Response::Success($data['unread_notifications_count'], $data['message']);
+        }
+        catch(Throwable $th){
+            $message = $th->getMessage();
+            $errors [] = $message;
+            return Response::Error($data , $message , $errors);
+        }
+    }
 
     public function updateDeviceToken(Request $request)
 {

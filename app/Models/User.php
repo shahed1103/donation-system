@@ -59,6 +59,12 @@ use HasApiTokens, HasFactory, Notifiable , HasRoles;
         return $this->belongsTo(Role::class);
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+
     public function indCampaigns()
     {
         return $this->hasMany(IndCompaign::class);

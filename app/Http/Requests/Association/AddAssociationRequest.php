@@ -19,7 +19,7 @@ class AddAssociationRequest extends FormRequest
         return [
             'name' => 'required|string|min:3|max:255',
             'description' => 'required|string|min:10',
-            'location' => 'required|string|min:5',
+            'location' => 'required|exists:cities.id',
             'date_start_working' => 'required|date',
             'date_end_working' => 'required|date|after:date_start_working',
             'owner_name' => 'required|string|min:3',
