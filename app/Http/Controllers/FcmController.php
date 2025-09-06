@@ -70,7 +70,7 @@ public function sendFcmNotification(Request $request)
     $request->validate([
         'user_id' => 'required|exists:users,id',
         'title' => 'required|string',
-        'body' => 'required|string',
+        // 'body' => 'required|string',
     ]);
 
     $user = \App\Models\User::find($request->user_id);
