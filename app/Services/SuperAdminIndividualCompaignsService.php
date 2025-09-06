@@ -144,6 +144,7 @@ public function getClosedRejectedIndiviCampaigns(): array
             'title' => $campaign->title,
             'amount_required' => $campaign->amount_required,
             'donation_amount' => $totalDonations,
+            'rejection_reason' =>  $campaign->rejection_reason,
             'classification_id' => [
                 'id' => $campaign->classification_id,
                  'campaign_classification' => optional($campaign->classification)->classification_name,
