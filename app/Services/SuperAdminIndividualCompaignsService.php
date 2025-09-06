@@ -40,8 +40,9 @@ public function getActiveIndiviCompaign(): array
 {
     $activeCampaignIds = CampaignStatus::where('status_type', 'Active')
         ->pluck('id');
+
     $campaigns = IndCompaign::with(['classification', 'campaignStatus', 'photo'])
-        ->whereIn('campaign_status_id', $activeCampaignIds)
+        ->where('campaign_status_id', $activeCampaignIds)
         ->get();
 
     $campaignAll = [];
@@ -84,7 +85,7 @@ public function getCompleteIndiviCompaign(): array
     $completeCampaignIds = CampaignStatus::where('status_type', 'Complete')
         ->pluck('id');
     $campaigns = IndCompaign::with(['classification', 'campaignStatus', 'photo'])
-        ->whereIn('campaign_status_id', $completeCampaignIds)
+        ->where('campaign_status_id', $completeCampaignIds)
         ->get();
 
     $campaignAll = [];
@@ -128,8 +129,8 @@ public function getClosedRejectedIndiviCampaigns(): array
     $rejectedStatusId = AcceptanceStatus::where('status_type', 'Rejected')->pluck('id');
 
     $campaigns = IndCompaign::with(['classification', 'campaignStatus', 'acceptanceStatus', 'photo'])
-        ->whereIn('campaign_status_id', $closedStatusId)
-        ->whereIn('acceptance_status_id', $rejectedStatusId)
+        ->where('campaign_status_id', 2)
+        ->where('acceptance_status_id', 3)
         ->get();
 
     $campaignAll = [];
@@ -144,7 +145,7 @@ public function getClosedRejectedIndiviCampaigns(): array
             'title' => $campaign->title,
             'amount_required' => $campaign->amount_required,
             'donation_amount' => $totalDonations,
-            'rejection_reason' =>  $campaign->rejection_reason,
+            'rejection_reason' => $campaign -> rejection_reason,
             'classification_id' => [
                 'id' => $campaign->classification_id,
                  'campaign_classification' => optional($campaign->classification)->classification_name,
@@ -174,14 +175,14 @@ public function getClosedRejectedIndiviCampaigns(): array
 
 public function getClosedUnderReviewIndiviCompaign(): array
 {
-    $closedStatusId = CampaignStatus::where('status_type', 'Closed')->pluck('id');
-    $underReviewStatusId = AcceptanceStatus::where('status_type', 'Under review')->pluck('id');
+    $closedStatusId = 2;
+    $underReviewStatusId = 1;
 
     $campaigns = IndCompaign::with(['classification', 'campaignStatus', 'acceptanceStatus', 'photo'])
-        ->whereIn('campaign_status_id', $closedStatusId)
-        ->whereIn('acceptance_status_id', $underReviewStatusId)
+        ->where('campaign_status_id', 2)
+        ->where('acceptance_status_id', 1)
         ->get();
-
+    
     $campaignAll = [];
 
     foreach ($campaigns as $campaign) {
@@ -278,9 +279,61 @@ public function getUnderReviewIndiviCampaignDetails($campaignId):array{
         return $this->getUnderReviewIndiviCampaignDetailsMain($campaignId);
 }
 
-public function updateAcceptanceStatus(array $request, int $campaignId): array
+public function updateAcceptanceStatus($request): array
 {
-    $campaign = IndCompaign::findOrFail($campaignId);
+    $campaign = IndCompaign::findOrFail($request['id']);
+    $status = AcceptanceStatus::where('status_type', $request['status'])->first();
+
+
+    if (!$status) {
+        throw new InvalidArgumentException('Invalid acceptance status type.');
+    }
+
+    if ($request['status'] === 'Rejected') {
+        $campaign->rejection_reason = $request['rejection_reason'];
+         $campaign->acceptance_status_id = $status->id;
+          $campaign->campaign_status_id = 2;
+
+    } else {
+          $campaign->acceptance_status_id = $status->id;
+           $campaign->campaign_status_id = 1;
+        $campaign->rejection_reason = null;
+    }
+
+    $campaign->save();
+    // $campaign->refresh();
+    $campaignDetails = [
+        'id' => $campaign->id,
+        'title' => $campaign->title,
+        'status' => $status->status_type,
+        'rejection_reason' => $campaign->rejection_reason,
+    ];
+
+
+        $user_id = IndCompaign::where('id' ,   $campaign->id)->value('user_id');
+        $user = User::where('id', $user_id)->first(); 
+
+        if ($user && $user->fcm_token) {
+            $fcmController = new FcmController();
+            $fakeRequest = new Request([
+                'user_id' => $user->id,
+                'title' => ' نتيجة مراجعتنا لطلب اضافة حملة فردية خاصة بك',
+                // 'body' => "{$campaignDetails}",
+            ]);
+            $fcmController->sendFcmNotification($fakeRequest);
+        }
+
+
+    $message = 'done';
+    return [
+        'campaign' => $campaignDetails,
+        'message' => $message,
+    ];
+}
+
+public function dddd(){
+    
+    $campaign = IndCompaign::findOrFail( $request['id']);
     $status = AcceptanceStatus::where('status_type', $request['status'])->first();
 
     if (!$status) {
@@ -295,32 +348,16 @@ public function updateAcceptanceStatus(array $request, int $campaignId): array
     }
 
     $campaign->save();
-    $campaign->refresh();
+    // $campaign->refresh();
     $campaignDetails = [
         'id' => $campaign->id,
         'title' => $campaign->title,
         'status' => $status->status_type,
         'rejection_reason' => $campaign->rejection_reason,
     ];
-
-
-        $user_id = IndCompaign::where('id' ,  $campaignId)->value('user_id');
-        $user = User::where('id', $user_id)->first(); 
-
-        if ($user && $user->fcm_token) {
-            $fcmController = new FcmController();
-            $fakeRequest = new Request([
-                'user_id' => $user->id,
-                'title' => ' نتيجة مراجعتنا لطلب اضافة حملة فردية خاصة بك',
-                'body' => "{$campaignDetails}",
-            ]);
-            $fcmController->sendFcmNotification($fakeRequest);
-        }
-
-
     $message = 'done';
     return [
-        'campaign' => $campaignDetails,
+        'campaign' => "yesssss",
         'message' => $message,
     ];
 }

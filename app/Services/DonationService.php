@@ -58,7 +58,7 @@ class DonationService
                      $fakeRequest = new Request([
                         'user_id' => $admin->id,
                         'title' => "{$campaign->title} :تم التبرع لحملتك",
-                        'body' => "{$campaign}",
+                        // 'body' => "{$campaign}",
                      ]);
                      $fcmController->sendFcmNotification($fakeRequest);
                }
@@ -83,7 +83,7 @@ class DonationService
                      $fakeRequest = new Request([
                         'user_id' => $admin->id,
                         'title' => "{$campaign->title} :تم التبرع لحملتك",
-                        'body' => "{$campaign}",
+                        // 'body' => "{$campaign}",
                      ]);
                      $fcmController->sendFcmNotification($fakeRequest);
                }
@@ -134,7 +134,7 @@ class DonationService
                      $fakeRequest = new Request([
                         'user_id' => $admin->id,
                         'title' => "{$campaign->title} :تم التبرع لحملتك",
-                        'body' => "{$campaign}",
+                        // 'body' => "{$campaign}",
                      ]);
                      $fcmController->sendFcmNotification($fakeRequest);
                }
@@ -161,7 +161,7 @@ class DonationService
                   $fakeRequest = new Request([
                      'user_id' => $admin->id,
                      'title' => "{$campaign->title} :تم التبرع لحملتك",
-                     'body' => "{$campaign}",
+                     // 'body' => "{$campaign}",
                   ]);
                   $fcmController->sendFcmNotification($fakeRequest);
             }
@@ -231,7 +231,7 @@ class DonationService
                      $fakeRequest = new Request([
                         'user_id' => $admin->id,
                         'title' => "{$campaign->title} :تم التبرع لحملتك",
-                        'body' => "{$campaign}",
+                        // 'body' => "{$campaign}",
                      ]);
                      $fcmController->sendFcmNotification($fakeRequest);
                }
@@ -257,7 +257,7 @@ class DonationService
                      $fakeRequest = new Request([
                         'user_id' => $admin->id,
                         'title' => "{$campaign->title} :تم التبرع لحملتك",
-                        'body' => "{$campaign}",
+                        // 'body' => "{$campaign}",
                      ]);
                      $fcmController->sendFcmNotification($fakeRequest);
                }

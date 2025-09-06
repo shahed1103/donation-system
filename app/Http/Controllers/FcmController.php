@@ -81,14 +81,14 @@ public function sendFcmNotification(Request $request)
     }
 
     $title = $request->title;
-    $description = $request->body;
+    // $description = $request->body;
 
     // -----------------------------
     // حفظ الإشعار في قاعدة البيانات
     \App\Models\Notification::create([
         'user_id' => $user->id,
         'title' => $title,
-        'body' => $description,
+        // 'body' => $description,
     ]);
     // -----------------------------
 
@@ -113,7 +113,7 @@ public function sendFcmNotification(Request $request)
             "token" => $fcm,
             "notification" => [
                 "title" => $title,
-                "body" => $description,
+                // "body" => $description,
             ],
         ]
     ];

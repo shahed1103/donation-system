@@ -185,8 +185,8 @@ class IndividualCompaignsSeeder extends Seeder
                 'photo_id' => rand(...$photoRanges[$classification_ids[$i]]),
                 'acceptance_status_id' => $acceptance_status_ids[$i],
                 'campaign_status_id' => $campaign_status_ids[$i],
-                'compaigns_start_time' => $startTime,
-                'compaigns_end_time' => $endTime,
+                'compaigns_start_time' => Carbon::now()->subDays(rand(1, 10)),
+                'compaigns_end_time' => Carbon::now()->addDays(rand(10, 30)),
                 'compaigns_time' => rand(7, 30),
                 'emergency_level' => $emergency_level[$i],
 

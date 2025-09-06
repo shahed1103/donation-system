@@ -146,7 +146,7 @@ class VoluntingService
             $fakeRequest = new Request([
                 'user_id' => $admin->id,
                 'title' => 'طلب تطوع',
-                'body' => "{$voluntingRequest}",
+                // 'body' => "{$voluntingRequest}",
             ]);
             $fcmController->sendFcmNotification($fakeRequest);
         }

@@ -13,10 +13,10 @@ class LeaderFormSeeder extends Seeder
         $locationTypes = ['منزل', 'مخيم', 'مدرسة', 'شارع', 'مركز صحي'];
         $beneficiaryTypes = ['أسر فقيرة', 'أطفال', 'مرضى', 'لاجئين'];
         $needTypes = ['بيئة', 'صحة', 'ملابس', 'تعليم'];
-        $campaign_id = [1,5,9,12,16,20,23,27,31];
+        $campaign_id = [1,5,9,12,16,20,23];
 
 
-        for ($i = 0; $i < 9; $i++) {
+        for ($i = 0; $i < 7; $i++) {
             Leader_form::create([
                 'campaign_id' => $campaign_id[$i],
                 'visit_date' => Carbon::now()->subDays(rand(1, 30)),

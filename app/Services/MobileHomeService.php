@@ -66,7 +66,7 @@ class MobileHomeService
                         'id' => $activeCampaign->campaign_status_id,
                         'campaign_status_type' => $activeCampaign->campaignStatus->status_type
                     ],
-                    'compaigns_time_to_end' => Carbon::now()->diff($activeCampaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                    'compaigns_time_to_end' => Carbon::now()->diff($activeCampaign->compaigns_end_time)->format('%d'),
                     'type' => 'association',
                     'amount_to_Complete' => $activeCampaign->amount_required - $totalDonations,
 
@@ -105,7 +105,7 @@ class MobileHomeService
                         'id' => $assocCampaignsByClas->campaign_status_id,
                         'campaign_status_type' => $assocCampaignsByClas->campaignStatus->status_type
                     ],
-                    'compaigns_time_to_end' => Carbon::now()->diff($assocCampaignsByClas->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                    'compaigns_time_to_end' => Carbon::now()->diff($assocCampaignsByClas->compaigns_end_time)->format('%d'),
                     'type' => 'association',
                     'amount_to_Complete' => $assocCampaignsByClas->amount_required -  $totalDonations,
 
@@ -141,7 +141,7 @@ class MobileHomeService
                         'id' =>$individualCampaign->photo_id ,
                         'photo' => $fullPath
                     ],
-                    'compaigns_time_to_end' => Carbon::now()->diff($individualCampaign->compaigns_end_time)->format('%m Months %d Days %h Hours'),
+                    'compaigns_time_to_end' => Carbon::now()->diff($individualCampaign->compaigns_end_time)->format('%d'),
                     'type' => 'individual',
                      'amount_to_Complete' => $individualCampaign->amount_required -  $totalDonations,
 

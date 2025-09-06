@@ -636,7 +636,7 @@ public function updateAcceptanceVolunteerStatus(array $request, int $task_id , $
             $fakeRequest = new Request([
                 'user_id' => $user->id,
                 'title' => 'مراجعة طلب التطوع',
-                'body' => "{$task}",
+                // 'body' => "{$task}",
             ]);
             $fcmController->sendFcmNotification($fakeRequest);
         }

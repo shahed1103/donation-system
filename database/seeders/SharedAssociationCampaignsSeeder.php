@@ -20,15 +20,12 @@ class SharedAssociationCampaignsSeeder extends Seeder
         $campaignIds = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,
                         20,21,22,23,24,25,26,27,28,29,30,31,32,33];
 
-        if (empty($associationIds) || empty($campaignIds)) {
-            return;
-        }
 
         for ($i = 0; $i < 33; $i++) {
             DB::table('shared_association_campaigns')->insert([
 
-                'association_id' => $associationIds[array_rand($associationIds)],
-                'association_campaign_id' => $campaignIds[array_rand($campaignIds)],
+                'association_id' => $associationIds[$i],
+                'association_campaign_id' => $campaignIds[$i],
             ]);
         }
     }

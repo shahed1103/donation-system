@@ -150,7 +150,7 @@ class InkindDonationService
                 $fakeRequest = new Request([
                     'user_id' => $admin->id,
                     'title' => 'تم تقديم طلب اضافة تبرع عيني جديد',
-                    'body' => "{$inlinkindDonationDet}",
+                  //   'body' => "{$inlinkindDonationDet}",
                 ]);
                 $fcmController->sendFcmNotification($fakeRequest);
             }
@@ -184,7 +184,7 @@ class InkindDonationService
                 $fakeRequest = new Request([
                     'user_id' => $admin->id,
                     'title' => 'تم تقديم طلب سحب تبرع عيني ',
-                    'body' => "{$reserveInkinfDonation}",
+                  //   'body' => "{$reserveInkinfDonation}",
                 ]);
                 $fcmController->sendFcmNotification($fakeRequest);
             }

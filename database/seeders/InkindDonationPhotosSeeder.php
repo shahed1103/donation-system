@@ -76,7 +76,7 @@ class InkindDonationPhotosSeeder extends Seeder
             20,  //   قرطاسية كاملة 10
         ];
 
-        for ($i = 0; $i < count($photos); $i++) {
+        for ($i = 0; $i < count($inkind_donation_ids); $i++) {
             $photoIndex = $i % count($photos);
 
             InkindDonationPhoto::create([
