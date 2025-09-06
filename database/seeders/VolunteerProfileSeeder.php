@@ -10,9 +10,10 @@ class VolunteerProfileSeeder extends Seeder
 {
     public function run(): void
     {
-        for ($i = 0; $i < 10; $i++) {
+
+        for ($i = 5; $i <= 14; $i++) {
             VolunteerProfile::create([
-                'user_id' => rand(5, 14), 
+                'user_id' => $i, 
                 'skills' => 'Programming, Design, Leadership',
                 'availability_type_id' => rand(1, 2), 
                 'availability_hours' => rand(1, 5),

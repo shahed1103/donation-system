@@ -100,6 +100,7 @@ public function UnderReviewIndiviCompaign(): array
     $campaignAll = [];
 
     foreach ($campaigns as $campaign) {
+        if(!Leader_form::where('campaign_id' , $campaign->id)->exists()){
         $totalDonations = Donation::where('campaign_id', $campaign->id)->sum('amount');
 
         $photoUrl = $campaign->photo ? url(Storage::url($campaign->photo->photo)) : null;
@@ -124,6 +125,7 @@ public function UnderReviewIndiviCompaign(): array
             'compaigns_time_to_end' => Carbon::now()->diff($campaign->compaigns_end_time)->format('%d'),
         ];
     }
+}
 
     return [
         'campaign' => $campaignAll,
