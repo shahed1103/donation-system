@@ -28,7 +28,7 @@ class InkindDonationService
             $photos = [];
 
             foreach ($allInkindDonation->inkindDonationPhotos as $inkindDonationPhoto) {
-                    $photos = [
+                    $photos  = [
                      'id' => $inkindDonationPhoto->id ,
                      'photo' => url(Storage::url($inkindDonationPhoto->photo)), 
                   ];
@@ -38,7 +38,7 @@ class InkindDonationService
                   'donation_type_id' => ['id' => $allInkindDonation->donation_type_id, 'donation_type' => $allInkindDonation->donationType->donation_Type ],
                   'name_of_donation' => $allInkindDonation->name_of_donation,
                   'amount' => $allInkindDonation->amount,
-                  'photo' => $photos
+                  'photo' => [$photos]
                ];        
       }
          $message = 'all inkind donations retrieved successfully';
@@ -81,14 +81,14 @@ class InkindDonationService
     public function searchForNearestInkindDonation($location): array{
       $centers = Center::where('location', 'like', '%' . $location . '%')->pluck('id');
 
-      $inlinkindDonations = InkindDonation::whereIn('center_id' , $centers)->where('inkindDonation_acceptence_id' , 2)->z();
+      $inlinkindDonations = InkindDonation::whereIn('center_id' , $centers)->where('inkindDonation_acceptence_id' , 2)->get();
       $InkindDonationsAll = [];
 
       foreach ($inlinkindDonations as $inlinkindDonation) {
             $photos = [];
 
             foreach ($inlinkindDonation->inkindDonationPhotos as $inkindDonationPhoto) {
-                    $photos[] = [
+                    $photos = [
                      'id' => $inkindDonationPhoto->id ,
                      'photo' => url(Storage::url($inkindDonationPhoto->photo)), 
                   ];
@@ -98,7 +98,7 @@ class InkindDonationService
                   'donation_type_id' => ['id' => $inlinkindDonation->donation_type_id, 'donation_type' => $inlinkindDonation->donationType->donation_Type ],
                   'name_of_donation' => $inlinkindDonation->name_of_donation,
                   'amount' => $inlinkindDonation->amount,
-                  'photo' => $photos
+                  'photo' => [$photos]
                ];        
       }
          $message = 'all inkind donations in this location retrieved successfully';
