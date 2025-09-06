@@ -88,11 +88,11 @@ $counts = DonationAssociationCampaign::whereIn('association_campaign_id', $campa
 
 public function getMonthlyDonationsByYear(int $owner_id, int $year): array
 {
-    $association = Association::where('association_owner_id' , $owner_id ) ->first();
-    $sharedAssociation = SharedAssociationCampaign:: where('association_id' ,$association->id ) ->first();
+    $association = Association::where('association_owner_id' , $owner_id ) ->pluck('id');
+    $sharedAssociation = SharedAssociationCampaign:: whereIn('association_id' ,$association)->pluck('association_campaign_id');
 
-    $donationsByMonth = DonationAssociationCampaign::where('association_campaign_id',
-     $sharedAssociation->association_campaign_id)
+    $donationsByMonth = DonationAssociationCampaign::whereIn('association_campaign_id',
+     $sharedAssociation)
         ->whereYear('created_at', $year)
         ->selectRaw('MONTH(created_at) as month, SUM(amount) as total')
         ->groupBy('month')
