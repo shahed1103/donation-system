@@ -223,7 +223,7 @@ class DonationService
       'amount' => $request->amount
       ]);
 
-               $owner = IndCompaign::where('id' , $campaignId)->value('user_id');
+               $owner = IndCompaign::where('id' , $request->campaign_id)->value('user_id');
                $admin = User::where('id', $owner)->first(); 
 
                if ($admin && $admin->fcm_token) {
@@ -247,7 +247,7 @@ class DonationService
       ]);
 
       
-               $association = SharedAssociationCampaign::where('association_campaign_id' , $campaignId)->value('association_id');
+               $association = SharedAssociationCampaign::where('association_campaign_id' , $request->campaign_id)->value('association_id');
                $owner = Association::where('id' , $association)->value('association_owner_id');
 
                $admin = User::where('id', $owner)->first(); 
